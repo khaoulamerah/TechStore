@@ -1,122 +1,131 @@
-
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import time
 import logging
 import re
-from urllib.parse import urljoin
 import os
+from urllib.parse import urljoin
 
-# Configuration du logging
+# Configure logging with UTF-8 encoding
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('scraping.log'),
+        logging.FileHandler('scraping.log', encoding='utf-8'),
         logging.StreamHandler()
     ]
 )
 
 class CompetitorScraper:
-    """Classe pour scraper les prix des concurrents"""
+    """Scraper class for extracting competitor product prices"""
     
     def __init__(self, base_url):
         """
-        Initialisation du scraper
+        Initialize the scraper with base URL and headers
         
         Args:
-            base_url (str): URL de base du site concurrent
+            base_url (str): Base URL of the competitor website
         """
         self.base_url = base_url
         self.headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
         }
         self.products = []
         
     def fetch_page(self, url):
         """
-        Récupérer le contenu HTML d'une page
+        Retrieve the HTML content of a page
         
         Args:
-            url (str): URL de la page à récupérer
+            url (str): URL of the page to fetch
             
         Returns:
-            BeautifulSoup: Objet soup ou None si erreur
+            BeautifulSoup: Parsed HTML object or None if error occurs
         """
         try:
-            logging.info(f"📡 Récupération de: {url}")
+            logging.info(f"Fetching page: {url}")
             response = requests.get(url, headers=self.headers, timeout=10)
             response.raise_for_status()
             
             soup = BeautifulSoup(response.content, 'html.parser')
-            logging.info(f"✅ Page récupérée avec succès")
+            logging.info("Page successfully retrieved")
             
             return soup
             
         except requests.exceptions.RequestException as e:
-            logging.error(f"❌ Erreur lors de la récupération: {e}")
+            logging.error(f"Error fetching page: {e}")
             return None
     
     def extract_product_info(self, product_element):
         """
-        Extraire les informations d'un produit depuis un élément HTML
+        Extract product information from an HTML element
+        Based on the actual website structure with blue titles and red prices
         
         Args:
-            product_element: Élément BeautifulSoup contenant un produit
+            product_element: BeautifulSoup element containing product data
             
         Returns:
-            dict: Informations du produit ou None
+            dict: Product information dictionary or None if extraction fails
         """
         try:
-            # Extraire le nom du produit
-            # NOTE: Adapter les sélecteurs selon la structure réelle du site
-            name_element = product_element.find('h3', class_='product-title')
+            # Look for the product name (blue heading)
+            # Try different possible selectors
+            name_element = product_element.find('a', href=True, string=re.compile(r'\S+'))
             if not name_element:
-                name_element = product_element.find('a', class_='product-link')
+                name_element = product_element.find(['h2', 'h3', 'h4', 'h5'])
+            if not name_element:
+                # Find any prominent link
+                name_element = product_element.find('a', class_=re.compile(r'.*'))
             
-            product_name = name_element.text.strip() if name_element else None
+            product_name = name_element.get_text(strip=True) if name_element else None
             
-            # Extraire le prix
-            price_element = product_element.find('span', class_='price')
-            if not price_element:
-                price_element = product_element.find('div', class_='product-price')
+            # Clean product name (remove "Promo: " if present)
+            if product_name:
+                product_name = product_name.replace('Promo: ', '').replace('Best Deal: ', '').strip()
             
-            if price_element:
-                price_text = price_element.text.strip()
-                # Nettoyer le prix (enlever DZD, espaces, virgules)
-                price_clean = re.sub(r'[^\d.]', '', price_text)
-                product_price = float(price_clean) if price_clean else None
+            # Extract reference (like "Ref: P-3677")
+            ref_text = product_element.find(string=re.compile(r'Ref:\s*P-\d+'))
+            product_ref = ref_text.strip() if ref_text else None
+            
+            # Extract price (red text with DZD)
+            # Look for price pattern: numbers followed by DZD
+            price_text = ''.join(product_element.find_all(string=re.compile(r'\d+\s*DZD')))
+            
+            if price_text:
+                # Extract all prices
+                price_matches = re.findall(r'(\d+)\s*DZD', price_text)
+                if price_matches:
+                    product_price = float(price_matches[-1])  # Take the last price (discounted if present)
+                else:
+                    product_price = None
             else:
                 product_price = None
             
-            # Extraire la catégorie si disponible
-            category_element = product_element.find('span', class_='category')
-            category = category_element.text.strip() if category_element else None
-            
+            # Only return if we have both name and price
             if product_name and product_price:
                 return {
                     'Competitor_Product_Name': product_name,
                     'Competitor_Price': product_price,
-                    'Category': category,
+                    'Product_Reference': product_ref,
                     'Currency': 'DZD'
                 }
             
             return None
             
         except Exception as e:
-            logging.warning(f"⚠️ Erreur lors de l'extraction d'un produit: {e}")
+            logging.debug(f"Error extracting product info: {e}")
             return None
     
     def scrape_page(self, url):
         """
-        Scraper tous les produits d'une page
+        Scrape all products from a single page
         
         Args:
-            url (str): URL de la page à scraper
+            url (str): URL of the page to scrape
             
         Returns:
-            list: Liste des produits extraits
+            list: List of extracted product dictionaries
         """
         soup = self.fetch_page(url)
         if not soup:
@@ -124,181 +133,225 @@ class CompetitorScraper:
         
         page_products = []
         
-        # Trouver tous les conteneurs de produits
-        # NOTE: Adapter le sélecteur selon la structure HTML réelle
-        product_containers = soup.find_all('div', class_='product-item')
+        # Improved container selection: Look for divs with class containing 'col-' (Bootstrap grid)
+        product_containers = soup.find_all('div', class_=re.compile(r'col-'))
         
         if not product_containers:
-            # Essayer d'autres sélecteurs possibles
-            product_containers = soup.find_all('div', class_='product')
+            # Fallback: try 'card' class
+            product_containers = soup.find_all('div', class_='card')
         
         if not product_containers:
-            product_containers = soup.find_all('article', class_='product')
+            # Fallback: divs with 'product' in class
+            product_containers = soup.find_all('div', class_=re.compile(r'product'))
         
-        logging.info(f"🔍 {len(product_containers)} produits trouvés sur la page")
+        if not product_containers:
+            # Last resort: find divs containing both Ref and DZD
+            all_divs = soup.find_all('div')
+            product_containers = [div for div in all_divs 
+                                  if div.find(string=re.compile(r'Ref:')) and 
+                                     div.find(string=re.compile(r'DZD'))]
         
+        logging.info(f"Found {len(product_containers)} potential product containers")
+        
+        # Extract from each container
         for container in product_containers:
             product_info = self.extract_product_info(container)
             if product_info:
                 page_products.append(product_info)
-                logging.info(f"   ✅ {product_info['Competitor_Product_Name']}: {product_info['Competitor_Price']} DZD")
+                logging.info(f"Extracted: {product_info['Competitor_Product_Name']}: {product_info['Competitor_Price']} DZD")
         
         return page_products
     
-    def scrape_all_pages(self, max_pages=10):
+    def get_page_urls(self, soup):
         """
-        Scraper plusieurs pages du site
+        Extract all page URLs from pagination
         
         Args:
-            max_pages (int): Nombre maximum de pages à scraper
+            soup (BeautifulSoup): Parsed HTML of the first page
             
         Returns:
-            list: Liste complète des produits
+            list: List of full page URLs
         """
-        logging.info("\n" + "="*60)
-        logging.info("🚀 DÉBUT DU SCRAPING")
-        logging.info("="*60 + "\n")
+        page_urls = [self.base_url]
+        
+        try:
+            # Find pagination container
+            pagination = soup.find('div', class_=re.compile(r'pagination')) or soup.find('ul', class_='pagination')
+            if not pagination:
+                # Look for any container with 'Previous' and 'Next'
+                pagination = soup.find(string=re.compile(r'Previous|Next'))
+                if pagination:
+                    pagination = pagination.find_parent(['div', 'ul', 'nav'])
+            
+            if pagination:
+                links = pagination.find_all('a')
+                seen_pages = set()
+                for link in links:
+                    text = link.get_text(strip=True)
+                    href = link.get('href')
+                    if text.isdigit() and href and int(text) > 1 and href not in seen_pages:
+                        full_url = urljoin(self.base_url, href)
+                        page_urls.append(full_url)
+                        seen_pages.add(href)
+                logging.info(f"Found additional pages: {len(page_urls) - 1}")
+            
+            return page_urls
+        except Exception as e:
+            logging.error(f"Error extracting page URLs: {e}")
+            return [self.base_url]
+    
+    def scrape_all_pages(self):
+        """
+        Scrape all pages of the competitor website by detecting pagination hrefs
+        
+        Returns:
+            list: Complete list of all extracted products
+        """
+        logging.info("="*60)
+        logging.info("Starting web scraping process")
+        logging.info("="*60)
+        
+        # Fetch first page
+        soup = self.fetch_page(self.base_url)
+        if not soup:
+            return []
+        
+        # Get all page URLs
+        page_urls = self.get_page_urls(soup)
         
         all_products = []
         
-        for page_num in range(1, max_pages + 1):
-            # Construire l'URL de la page
-            if page_num == 1:
-                page_url = self.base_url
-            else:
-                page_url = f"{self.base_url}?page={page_num}"
-            
-            logging.info(f"\n📄 Page {page_num}/{max_pages}")
+        for idx, url in enumerate(page_urls, 1):
+            logging.info(f"\nPage {idx}/{len(page_urls)}: {url}")
             logging.info("-" * 60)
             
-            # Scraper la page
-            page_products = self.scrape_page(page_url)
+            page_products = self.scrape_page(url)
             
             if not page_products:
-                logging.info("⚠️ Aucun produit trouvé, fin du scraping")
-                break
+                logging.info("No products found on this page")
+                continue
             
             all_products.extend(page_products)
             
-            # Respecter le serveur (pause entre les requêtes)
-            if page_num < max_pages:
+            # Delay between requests
+            if idx < len(page_urls):
                 time.sleep(2)
         
-        logging.info("\n" + "="*60)
-        logging.info(f"✅ SCRAPING TERMINÉ: {len(all_products)} produits extraits")
-        logging.info("="*60 + "\n")
+        logging.info("="*60)
+        logging.info(f"Scraping completed: {len(all_products)} total products")
+        logging.info("="*60)
         
         return all_products
     
     def save_to_csv(self, products, output_file='data/extracted/competitor_prices.csv'):
         """
-        Sauvegarder les produits dans un fichier CSV
+        Save extracted products to CSV file
         
         Args:
-            products (list): Liste des produits
-            output_file (str): Chemin du fichier de sortie
+            products (list): List of product dictionaries
+            output_file (str): Path to output CSV file
         """
         if not products:
-            logging.warning("⚠️ Aucun produit à sauvegarder")
-            return
+            logging.warning("No products to save")
+            return None
         
-        # Créer le DataFrame
+        # Create DataFrame
         df = pd.DataFrame(products)
         
-        # Créer le répertoire si nécessaire
+        # Create output directory
         os.makedirs(os.path.dirname(output_file), exist_ok=True)
         
-        # Sauvegarder
+        # Save to CSV
         df.to_csv(output_file, index=False, encoding='utf-8')
         
-        logging.info(f"💾 Données sauvegardées dans: {output_file}")
-        logging.info(f"📊 Statistiques:")
-        logging.info(f"   - Nombre de produits: {len(df)}")
-        logging.info(f"   - Prix moyen: {df['Competitor_Price'].mean():.2f} DZD")
-        logging.info(f"   - Prix min: {df['Competitor_Price'].min():.2f} DZD")
-        logging.info(f"   - Prix max: {df['Competitor_Price'].max():.2f} DZD")
+        # Log statistics
+        logging.info(f"\nData saved to: {output_file}")
+        logging.info(f"Statistics:")
+        logging.info(f"  Total products: {len(df)}")
+        logging.info(f"  Average price: {df['Competitor_Price'].mean():.2f} DZD")
+        logging.info(f"  Price range: {df['Competitor_Price'].min():.0f} - {df['Competitor_Price'].max():.0f} DZD")
         
         return df
     
-    def scrape_and_save(self, max_pages=10):
+    def scrape_and_save(self):
         """
-        Méthode complète: scraper et sauvegarder
-        
-        Args:
-            max_pages (int): Nombre de pages à scraper
+        Complete workflow: scrape and save
         """
-        products = self.scrape_all_pages(max_pages)
+        products = self.scrape_all_pages()
         df = self.save_to_csv(products)
         return df
 
 
 def scrape_with_fallback():
     """
-    Fonction avec méthode de secours si le site principal échoue
+    Execute scraping with fallback to mock data if needed
     """
     base_url = "https://boughida.com/competitor/"
     
     scraper = CompetitorScraper(base_url)
     
     try:
-        # Essayer de scraper
-        df = scraper.scrape_and_save(max_pages=5)
+        # Attempt scraping
+        df = scraper.scrape_and_save()
         
         if df is not None and len(df) > 0:
             return df
         else:
-            logging.warning("⚠️ Scraping échoué, création de données de test")
+            logging.warning("Scraping returned no data, using mock data")
             return create_mock_data()
             
     except Exception as e:
-        logging.error(f"❌ Erreur critique: {e}")
-        logging.info("📝 Création de données de test à la place")
+        logging.error(f"Critical error: {e}")
+        logging.info("Using mock data instead")
         return create_mock_data()
 
 
 def create_mock_data():
     """
-    Créer des données de test si le scraping échoue
-    Utile pour tester le reste du pipeline
+    Create mock competitor data based on typical Algerian electronics prices
     """
     mock_products = [
-        {'Competitor_Product_Name': 'Laptop HP ProBook', 'Competitor_Price': 95000, 'Category': 'Laptops'},
-        {'Competitor_Product_Name': 'Dell XPS 13', 'Competitor_Price': 125000, 'Category': 'Laptops'},
-        {'Competitor_Product_Name': 'iPhone 14 Pro', 'Competitor_Price': 180000, 'Category': 'Smartphones'},
-        {'Competitor_Product_Name': 'Samsung Galaxy S23', 'Competitor_Price': 140000, 'Category': 'Smartphones'},
-        {'Competitor_Product_Name': 'Sony WH-1000XM5', 'Competitor_Price': 45000, 'Category': 'Audio'},
-        {'Competitor_Product_Name': 'AirPods Pro', 'Competitor_Price': 38000, 'Category': 'Audio'},
-        {'Competitor_Product_Name': 'LG OLED TV 55"', 'Competitor_Price': 220000, 'Category': 'TVs'},
-        {'Competitor_Product_Name': 'Samsung QLED 65"', 'Competitor_Price': 280000, 'Category': 'TVs'},
-        {'Competitor_Product_Name': 'Canon EOS R6', 'Competitor_Price': 195000, 'Category': 'Cameras'},
-        {'Competitor_Product_Name': 'PlayStation 5', 'Competitor_Price': 75000, 'Category': 'Gaming'}
+        {'Competitor_Product_Name': 'iPhone 14 Pro', 'Competitor_Price': 180000, 'Product_Reference': 'P-1001', 'Currency': 'DZD'},
+        {'Competitor_Product_Name': 'Samsung Galaxy S23', 'Competitor_Price': 140000, 'Product_Reference': 'P-1002', 'Currency': 'DZD'},
+        {'Competitor_Product_Name': 'Dell XPS 13', 'Competitor_Price': 125000, 'Product_Reference': 'P-2001', 'Currency': 'DZD'},
+        {'Competitor_Product_Name': 'HP ProBook 450', 'Competitor_Price': 95000, 'Product_Reference': 'P-2002', 'Currency': 'DZD'},
+        {'Competitor_Product_Name': 'Sony WH-1000XM5', 'Competitor_Price': 45000, 'Product_Reference': 'P-3001', 'Currency': 'DZD'},
+        {'Competitor_Product_Name': 'AirPods Pro 2', 'Competitor_Price': 38000, 'Product_Reference': 'P-3002', 'Currency': 'DZD'},
+        {'Competitor_Product_Name': 'LG OLED TV 55"', 'Competitor_Price': 220000, 'Product_Reference': 'P-4001', 'Currency': 'DZD'},
+        {'Competitor_Product_Name': 'Samsung QLED 65"', 'Competitor_Price': 280000, 'Product_Reference': 'P-4002', 'Currency': 'DZD'},
+        {'Competitor_Product_Name': 'Canon EOS R6', 'Competitor_Price': 195000, 'Product_Reference': 'P-5001', 'Currency': 'DZD'},
+        {'Competitor_Product_Name': 'PlayStation 5', 'Competitor_Price': 75000, 'Product_Reference': 'P-6001', 'Currency': 'DZD'},
+        {'Competitor_Product_Name': 'ASUS ROG Laptop', 'Competitor_Price': 290000, 'Product_Reference': 'P-2003', 'Currency': 'DZD'},
+        {'Competitor_Product_Name': 'DJI Mini 3 Drone', 'Competitor_Price': 126900, 'Product_Reference': 'P-7001', 'Currency': 'DZD'},
     ]
     
     df = pd.DataFrame(mock_products)
     
-    # Sauvegarder
+    # Save to file
     os.makedirs('data/extracted', exist_ok=True)
     df.to_csv('data/extracted/competitor_prices.csv', index=False, encoding='utf-8')
     
-    logging.info("✅ Données de test créées avec succès")
+    logging.info("Mock data created successfully")
     return df
 
 
 def main():
-    """Fonction principale"""
+    """Main execution function"""
     
     logging.info("\n" + "="*70)
-    logging.info("🕷️  WEB SCRAPING - PRIX CONCURRENTS")
+    logging.info("WEB SCRAPING - COMPETITOR PRICES")
     logging.info("="*70 + "\n")
     
-    # Lancer le scraping avec fallback
+    # Execute scraping
     df = scrape_with_fallback()
     
     if df is not None:
-        logging.info("\n✅ EXTRACTION DES PRIX CONCURRENTS TERMINÉE")
-        logging.info(f"📊 {len(df)} produits disponibles pour l'analyse")
+        logging.info("\n" + "="*70)
+        logging.info("COMPETITOR PRICE EXTRACTION COMPLETED")
+        logging.info(f"{len(df)} products available for analysis")
+        logging.info("="*70)
     else:
-        logging.error("\n❌ ÉCHEC DE L'EXTRACTION")
+        logging.error("\nEXTRACTION FAILED")
 
 
 if __name__ == "__main__":

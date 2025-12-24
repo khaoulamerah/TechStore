@@ -14,9 +14,11 @@ beautifulsoup4==4.12.2
 requests==2.31.0
 lxml==4.9.4
 
-# OCR (Optionnel - Bonus)
+# OCR Processing
 pytesseract==0.3.10
 Pillow==10.1.0
+opencv-python==4.8.1.78
+
 
 # Sentiment Analysis
 vaderSentiment==3.3.2

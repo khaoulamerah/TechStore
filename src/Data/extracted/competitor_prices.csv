@@ -1,11 +1,39 @@
-Competitor_Product_Name,Competitor_Price,Category
-Laptop HP ProBook,95000,Laptops
-Dell XPS 13,125000,Laptops
-iPhone 14 Pro,180000,Smartphones
-Samsung Galaxy S23,140000,Smartphones
-Sony WH-1000XM5,45000,Audio
-AirPods Pro,38000,Audio
-"LG OLED TV 55""",220000,TVs
-"Samsung QLED 65""",280000,TVs
-Canon EOS R6,195000,Cameras
-PlayStation 5,75000,Gaming
+Competitor_Product_Name,Competitor_Price,Product_Reference,Currency
+Samsung S23 Ultra,174800.0,Ref: P-5333,DZD
+HP LaserJet Pro,46000.0,Ref: P-7201,DZD
+Dell 24 Monitor,24200.0,Ref: P-1750,DZD
+Canon i-Sensys,39000.0,Ref: P-4814,DZD
+Epson EcoTank,27700.0,Ref: P-6977,DZD
+Nikon D3500,69200.0,Ref: P-2169,DZD
+Xiaomi Redmi Note 12,36800.0,Ref: P-3677,DZD
+HP Pavilion Desktop,83000.0,Ref: P-4598,DZD
+Redmi Buds 4,5300.0,Ref: P-4752,DZD
+DJI Mini 3,126900.0,Ref: P-2084,DZD
+Sony SRS-XB13,11100.0,Ref: P-8517,DZD
+ASUS ROG STRIX,290600.0,Ref: P-5304,DZD
+LG UltraGear,41700.0,Ref: P-6930,DZD
+IPHONE CABLE,3200.0,Ref: P-1771,DZD
+Lenovo ThinkPad,94600.0,Ref: P-7916,DZD
+AirPods Pro,47400.0,Ref: P-8668,DZD
+Phone Case Silicon,1800.0,Ref: P-1188,DZD
+Sony WH-1000XM5,65400.0,Ref: P-5371,DZD
+iPhone 13,136900.0,Ref: P-3591,DZD
+Canon 445 Black,2600.0,Ref: P-5315,DZD
+DJI Mavic 3,350400.0,Ref: P-2743,DZD
+JBL Flip 6,23500.0,Ref: P-4258,DZD
+HP VICTUS 15,119700.0,Ref: P-9689,DZD
+HP 650 Black,2900.0,Ref: P-2832,DZD
+Oppo Reno 8,60200.0,Ref: P-6038,DZD
+SAMSUNG CHARGER 25W,4200.0,Ref: P-2403,DZD
+MacBook Air M2,190500.0,Ref: P-9727,DZD
+Canon Pixma,11600.0,Ref: P-3705,DZD
+Canon EOS 4000D,60200.0,Ref: P-4470,DZD
+JBL Tune 510BT,11200.0,Ref: P-6107,DZD
+Screen Protector,930.0,Ref: P-9479,DZD
+Custom Gaming PC,300000.0,Ref: P-1344,DZD
+Samsung Odyssey G5,46700.0,Ref: P-2163,DZD
+Realme GT3,71700.0,Ref: P-1514,DZD
+iPhone 14 Pro,212700.0,Ref: P-8953,DZD
+IPHONE 15 PRO MAX,281500.0,Ref: P-8744,DZD
+Dell XPS 13 5G,242700.0,Ref: P-8062,DZD
+Dell OptiPlex,64400.0,Ref: P-1887,DZD
