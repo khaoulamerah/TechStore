@@ -1,0 +1,34 @@
+# ====================================================================
+# DÉPENDANCES PYTHON - PROJET TECHSTORE BI
+# ====================================================================
+
+# Data manipulation et analyse
+pandas==2.1.4
+numpy==1.26.2
+
+# Connexion bases de données
+mysql-connector-python==8.2.0
+
+# Web scraping
+beautifulsoup4==4.12.2
+requests==2.31.0
+lxml==4.9.4
+
+# OCR (Optionnel - Bonus)
+pytesseract==0.3.10
+Pillow==10.1.0
+
+# Sentiment Analysis
+vaderSentiment==3.3.2
+
+# Dashboard et visualisation
+streamlit==1.29.0
+plotly==5.18.0
+
+# Utilitaires
+openpyxl==3.1.2
+python-dateutil==2.8.2
+
+# Développement et debugging (optionnel)
+jupyter==1.0.0
+ipykernel==6.27.1

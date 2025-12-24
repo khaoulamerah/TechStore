@@ -1,0 +1,9 @@
+Table,Lignes,Colonnes,Statut
+table_sales,25000,7,Succès
+table_products,38,5,Succès
+table_reviews,3000,5,Succès
+table_customers,1200,3,Succès
+table_stores,12,3,Succès
+table_cities,12,3,Succès
+table_categories,5,2,Succès
+table_subcategories,15,3,Succès

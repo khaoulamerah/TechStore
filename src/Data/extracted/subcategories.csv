@@ -1,0 +1,16 @@
+SubCat_ID,SubCat_Name,Category_ID
+1,Laptops,1
+2,Desktops,1
+3,Monitors,1
+4,Android Phones,2
+5,iPhones,2
+6,Phone Accessories,2
+7,Headphones,3
+8,Speakers,3
+9,Microphones,3
+10,DSLR Cameras,4
+11,Action Cams,4
+12,Drones,4
+13,Laser Printers,5
+14,Inkjet Printers,5
+15,Ink Cartridges,5
