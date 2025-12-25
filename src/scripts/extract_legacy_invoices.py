@@ -15,115 +15,115 @@ logging.basicConfig(
 )
 
 class InvoiceOCRProcessor:
-    """Enhanced OCR processor for extracting data from scanned invoices"""
+    """Enhanced OCR processor with precise invoice structure parsing"""
     
-    def __init__(self, invoices_directory='data/legacy_invoices'):
+    def __init__(self, invoices_directory='Data/legacy_invoices', debug=False):
         """
         Initialize the OCR processor
         
         Args:
             invoices_directory (str): Path to directory containing invoice images
+            debug (bool): If True, show detailed OCR output
         """
         self.invoices_directory = invoices_directory
         self.extracted_data = []
+        self.debug = debug
         
-        # Configure Tesseract path if needed (Windows users)
-        # Uncomment and adjust path if on Windows:
-        # pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+        # Configure Tesseract path (Windows users)
+        pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
     
-    def preprocess_image(self, image_path):
-        """
-        Enhanced image preprocessing for better OCR accuracy
-        
-        Args:
-            image_path (str): Path to the invoice image
-            
-        Returns:
-            numpy.ndarray: Preprocessed image ready for OCR
-        """
-        try:
-            # Read image
-            img = cv2.imread(image_path)
-            
-            if img is None:
-                logging.error(f"Could not read image: {image_path}")
-                return None
-            
-            # Convert to grayscale
-            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-            
-            # Increase contrast using CLAHE (Contrast Limited Adaptive Histogram Equalization)
-            clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
-            enhanced = clahe.apply(gray)
-            
-            # Denoise
-            denoised = cv2.fastNlMeansDenoising(enhanced, None, 10, 7, 21)
-            
-            # Apply binary thresholding (Otsu's method works well for documents)
-            _, thresh = cv2.threshold(denoised, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-            
-            # Optional: Dilation to make text bolder (helps with broken characters)
-            kernel = np.ones((1, 1), np.uint8)
-            processed = cv2.dilate(thresh, kernel, iterations=1)
-            
-            return processed
-            
-        except Exception as e:
-            logging.error(f"Error preprocessing image {image_path}: {e}")
-            return None
+    def preprocess_method_1(self, img):
+        """Standard preprocessing"""
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+        thresh = cv2.adaptiveThreshold(blurred, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
+                                      cv2.THRESH_BINARY, 11, 2)
+        return thresh
+    
+    def preprocess_method_2(self, img):
+        """Otsu thresholding"""
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        _, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+        return thresh
+    
+    def preprocess_method_3(self, img):
+        """Enhanced contrast"""
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+        enhanced = clahe.apply(gray)
+        _, thresh = cv2.threshold(enhanced, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+        return thresh
     
     def extract_text_from_image(self, image_path):
         """
-        Extract raw text from invoice image using OCR with optimized settings
+        Extract text using multiple preprocessing methods
         
         Args:
             image_path (str): Path to the invoice image
             
         Returns:
-            str: Extracted text from the image
+            str: Best extracted text
         """
         try:
-            # Preprocess the image
-            processed_img = self.preprocess_image(image_path)
-            
-            if processed_img is None:
+            img = cv2.imread(image_path)
+            if img is None:
+                logging.error(f"Could not read image: {image_path}")
                 return ""
             
-            # Convert to PIL Image
-            pil_img = Image.fromarray(processed_img)
+            results = []
+            methods = [
+                ("Adaptive", self.preprocess_method_1),
+                ("Otsu", self.preprocess_method_2),
+                ("CLAHE", self.preprocess_method_3),
+            ]
             
-            # Custom Tesseract configuration for better accuracy
-            # PSM 6 = Assume a single uniform block of text
-            # PSM 4 = Assume a single column of text of variable sizes
-            custom_config = r'--oem 3 --psm 6'
+            for method_name, preprocess_func in methods:
+                try:
+                    processed = preprocess_func(img)
+                    pil_img = Image.fromarray(processed)
+                    text = pytesseract.image_to_string(pil_img, lang='fra+eng', config='--psm 6')
+                    
+                    if text and text.strip():
+                        results.append((method_name, text, len(text)))
+                except Exception as e:
+                    if self.debug:
+                        logging.debug(f"{method_name} failed: {e}")
             
-            # Perform OCR with French + English
-            text = pytesseract.image_to_string(
-                pil_img, 
-                lang='fra+eng',
-                config=custom_config
-            )
-            
-            return text
-            
+            if results:
+                best_method, best_text, _ = max(results, key=lambda x: x[2])
+                if self.debug:
+                    logging.debug(f"Best method: {best_method}")
+                return best_text
+            return ""
+                
         except Exception as e:
             logging.error(f"Error extracting text from {image_path}: {e}")
             return ""
     
     def parse_invoice_data(self, text, filename):
         """
-        Enhanced parsing with multiple pattern attempts and validation
+        Parse invoice data with precise structure understanding
         
         Args:
             text (str): Raw extracted text from OCR
             filename (str): Name of the invoice file for reference
             
         Returns:
-            dict: Parsed invoice data or None if parsing fails
+            dict: Parsed invoice data
         """
         try:
-            # Clean the text: normalize whitespace
-            text = re.sub(r'\s+', ' ', text)
+            if self.debug:
+                logging.debug(f"\n{'='*70}")
+                logging.debug(f"RAW OCR TEXT for {filename}:")
+                logging.debug(f"{'='*70}")
+                for i, line in enumerate(text.split('\n')[:30], 1):
+                    if line.strip():
+                        logging.debug(f"{i:2d}: {line}")
+                logging.debug(f"{'='*70}\n")
+            
+            # Split into lines
+            lines = text.split('\n')
+            lines = [line.strip() for line in lines if line.strip()]
             
             invoice_data = {
                 'Source_File': filename,
@@ -137,161 +137,160 @@ class InvoiceOCRProcessor:
                 'Total_Revenue': None
             }
             
-            # ===== Extract Date =====
-            date_patterns = [
-                r'Date\s*:?\s*(\d{4}-\d{2}-\d{2})',  # YYYY-MM-DD
-                r'Date\s*:?\s*(\d{2}-\d{2}-\d{4})',  # DD-MM-YYYY
-                r'Date\s*:?\s*(\d{2}/\d{2}/\d{4})',  # DD/MM/YYYY
-                r'(\d{4}-\d{2}-\d{2})',               # Standalone date
-            ]
-            for pattern in date_patterns:
-                match = re.search(pattern, text, re.IGNORECASE)
-                if match:
-                    invoice_data['Date'] = match.group(1)
-                    break
+            # Process line by line with structure awareness
+            for i, line in enumerate(lines):
+                
+                # Extract Date
+                if not invoice_data['Date']:
+                    if 'date' in line.lower() or re.search(r'\d{4}-\d{2}-\d{2}', line):
+                        date_match = re.search(r'(\d{4}-\d{2}-\d{2})', line)
+                        if date_match:
+                            invoice_data['Date'] = date_match.group(1)
+                
+                # Extract Order Reference
+                if not invoice_data['Order_Reference']:
+                    if 'ref' in line.lower() or re.search(r'ORD-\d+', line, re.IGNORECASE):
+                        ref_match = re.search(r'(ORD-\d+)', line, re.IGNORECASE)
+                        if ref_match:
+                            invoice_data['Order_Reference'] = ref_match.group(1)
+                
+                # Extract Customer ID - look for line with "Client ID: C####"
+                if not invoice_data['Customer_ID']:
+                    if re.search(r'client\s+id', line.lower()):
+                        # ID is on this line
+                        id_match = re.search(r'(C\d{4})', line, re.IGNORECASE)
+                        if id_match:
+                            invoice_data['Customer_ID'] = id_match.group(1)
+                            
+                            # Customer Name is on the NEXT line after "Nom:"
+                            # Look ahead for the name
+                            if i + 1 < len(lines):
+                                next_line = lines[i + 1]
+                                # Check if this line has "Nom:" pattern
+                                if 'nom' in next_line.lower():
+                                    # Extract name after "Nom:"
+                                    name_match = re.search(r'nom[:\s]+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)+)', next_line, re.IGNORECASE)
+                                    if name_match:
+                                        invoice_data['Customer_Name'] = name_match.group(1).strip()
+                
+                # Alternative: Look for "Nom: [Name]" pattern anywhere
+                if not invoice_data['Customer_Name']:
+                    name_match = re.search(r'nom[:\s]+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)+)', line, re.IGNORECASE)
+                    if name_match:
+                        name = name_match.group(1).strip()
+                        # Exclude if it contains table keywords or product names
+                        if not re.search(r'produit|qte|prix|total|unit|HP|Dell|MacBook|Samsung|iPhone', name, re.IGNORECASE):
+                            invoice_data['Customer_Name'] = name
+                
+                # Extract table data - look for product line
+                # Pattern: Product name followed by numbers
+                if not invoice_data['Product_Name']:
+                    # Try to match table row: [Product] [Qty] [Price] [Total]
+                    table_match = re.match(r'^([A-Za-z0-9\s]+?)\s+(\d{1})\s+(\d{5,7})\s+(\d{5,7})\s*$', line)
+                    if table_match:
+                        product = table_match.group(1).strip()
+                        # Exclude if it's just "Produit" or contains "Qte"
+                        if not re.search(r'^produit$|qte|prix|total', product, re.IGNORECASE):
+                            invoice_data['Product_Name'] = product
+                            invoice_data['Quantity'] = int(table_match.group(2))
+                            invoice_data['Unit_Price'] = float(table_match.group(3))
+                            invoice_data['Total_Revenue'] = float(table_match.group(4))
             
-            # ===== Extract Order Reference =====
-            ref_patterns = [
-                r'Ref\s*:?\s*(ORD-\d+)',
-                r'Reference\s*:?\s*(ORD-\d+)',
-                r'(ORD-\d+)',
-            ]
-            for pattern in ref_patterns:
-                match = re.search(pattern, text, re.IGNORECASE)
-                if match:
-                    invoice_data['Order_Reference'] = match.group(1)
-                    break
+            # Fallback: Known product patterns
+            if not invoice_data['Product_Name']:
+                product_patterns = [
+                    (r'HP\s+Vi[ec]tus\s+(\d+)', 'HP Victus {}'),
+                    (r'MacBook\s+Air\s+(M\d+)', 'MacBook Air {}'),
+                    (r'Samsung\s+S(\d+)\s+Ultra', 'Samsung S{} Ultra'),
+                    (r'iPhone\s+(\d+)\s+Pro', 'iPhone {} Pro'),
+                    (r'Dell\s+[xX]PS\s+(\d+)', 'Dell XPS {}'),
+                ]
+                for pattern, template in product_patterns:
+                    match = re.search(pattern, text, re.IGNORECASE)
+                    if match:
+                        invoice_data['Product_Name'] = template.format(match.group(1))
+                        break
             
-            # ===== Extract Customer ID =====
-            customer_id_patterns = [
-                r'Client\s+ID\s*:?\s*(C\d+)',
-                r'Customer\s+ID\s*:?\s*(C\d+)',
-                r'ID\s*:?\s*(C\d+)',
-                r'\b(C\d{4})\b',  # Standalone customer ID like C1001
-            ]
-            for pattern in customer_id_patterns:
-                match = re.search(pattern, text, re.IGNORECASE)
-                if match:
-                    invoice_data['Customer_ID'] = match.group(1)
-                    break
+            # Fallback: Extract Customer ID from standalone pattern
+            if not invoice_data['Customer_ID']:
+                all_ids = re.findall(r'\b(C1\d{3}|C10\d{2})\b', text)
+                if all_ids:
+                    invoice_data['Customer_ID'] = all_ids[0]
             
-            # ===== Extract Customer Name =====
-            # Look for name after "Nom:" or after Customer ID
-            name_patterns = [
-                r'Nom\s*:?\s*([A-Z][a-z]+\s+[A-Z][a-z]+)',
-                r'Name\s*:?\s*([A-Z][a-z]+\s+[A-Z][a-z]+)',
-                r'C\d{4}\s+([A-Z][a-z]+\s+[A-Z][a-z]+)',  # After Customer ID
-            ]
-            for pattern in name_patterns:
-                match = re.search(pattern, text)
-                if match:
-                    invoice_data['Customer_Name'] = match.group(1).strip()
-                    break
+            # Fallback: Extract Customer Name - find 2-word capitalized names
+            if not invoice_data['Customer_Name']:
+                for line in lines:
+                    # Look for exactly 2 capitalized words (typical name pattern)
+                    name_match = re.match(r'^([A-Z][a-z]+\s+[A-Z][a-z]+)$', line)
+                    if name_match:
+                        name = name_match.group(1)
+                        # Exclude product brand names
+                        if not re.search(r'HP|Dell|Air|Pro|Ultra|Victus|MacBook|Samsung|iPhone|Client|Nom', name):
+                            invoice_data['Customer_Name'] = name
+                            break
             
-            # ===== Extract Product Name =====
-            # Look for known product patterns or text before quantity
-            product_patterns = [
-                r'Produit\s+([A-Za-z0-9\s]+?)\s+\d+\s+\d+',  # Produit [Name] Qty Price
-                r'Product\s+([A-Za-z0-9\s]+?)\s+\d+\s+\d+',
-                # Specific product names
-                r'(HP\s+Victus\s+\d+)',
-                r'(MacBook\s+Air\s+M\d+)',
-                r'(Samsung\s+S\d+\s+Ultra)',
-                r'(iPhone\s+\d+\s+Pro)',
-                r'(Dell\s+XPS\s+\d+)',
-                # Generic pattern: Capital letter followed by alphanumeric
-                r'\n([A-Z][A-Za-z0-9\s]{3,30}?)\s+\d+\s+\d{5,}',
-            ]
-            for pattern in product_patterns:
-                match = re.search(pattern, text, re.IGNORECASE)
-                if match:
-                    product_name = match.group(1).strip()
-                    # Clean up the product name
-                    product_name = re.sub(r'\s+', ' ', product_name)
-                    invoice_data['Product_Name'] = product_name
-                    break
+            # Fallback: Extract numbers for missing fields
+            if not invoice_data['Quantity'] or not invoice_data['Total_Revenue']:
+                all_numbers = re.findall(r'\b(\d+)\b', text)
+                numbers = [int(n) for n in all_numbers]
+                
+                # Small numbers (1-5) are likely quantities
+                small = [n for n in numbers if 1 <= n <= 5]
+                # Large numbers (100k+) are prices
+                large = [n for n in numbers if 100000 <= n <= 9999999]
+                
+                if small and not invoice_data['Quantity']:
+                    invoice_data['Quantity'] = small[0]
+                
+                if len(large) >= 2:
+                    if not invoice_data['Unit_Price']:
+                        invoice_data['Unit_Price'] = float(large[0])
+                    if not invoice_data['Total_Revenue']:
+                        invoice_data['Total_Revenue'] = float(large[1])
+                elif len(large) == 1 and not invoice_data['Total_Revenue']:
+                    invoice_data['Total_Revenue'] = float(large[0])
             
-            # ===== Extract Quantity =====
-            # Look for "Qte" column or number patterns
-            qty_patterns = [
-                r'Qte\s+Prix\s+Unit\s+Total\s+[A-Za-z0-9\s]+?\s+(\d+)',  # In table
-                r'Qte\s+(\d+)',
-                r'Quantity\s*:?\s*(\d+)',
-                # Pattern: Product Name followed by quantity (1-9)
-                r'[A-Za-z0-9\s]+\s+(\d)\s+\d{5,}\s+\d{5,}',
-            ]
-            for pattern in qty_patterns:
-                match = re.search(pattern, text, re.IGNORECASE)
-                if match:
-                    invoice_data['Quantity'] = int(match.group(1))
-                    break
+            # Calculate missing values
+            if invoice_data['Quantity'] and invoice_data['Unit_Price'] and not invoice_data['Total_Revenue']:
+                invoice_data['Total_Revenue'] = invoice_data['Quantity'] * invoice_data['Unit_Price']
             
-            # ===== Extract Unit Price =====
-            unit_price_patterns = [
-                r'Prix\s+Unit\.?\s+Total\s+[A-Za-z0-9\s]+?\s+\d+\s+(\d+)',
-                r'Prix\s+Unit\.?\s*:?\s*(\d+)',
-                r'Unit\s+Price\s*:?\s*(\d+)',
-            ]
-            for pattern in unit_price_patterns:
-                match = re.search(pattern, text, re.IGNORECASE)
-                if match:
-                    invoice_data['Unit_Price'] = float(match.group(1))
-                    break
+            if invoice_data['Quantity'] and invoice_data['Total_Revenue'] and not invoice_data['Unit_Price']:
+                invoice_data['Unit_Price'] = invoice_data['Total_Revenue'] / invoice_data['Quantity']
             
-            # ===== Extract Total Revenue =====
-            total_patterns = [
-                r'Total\s+[A-Za-z0-9\s]+?\s+\d+\s+\d+\s+(\d+)',  # In table row
-                r'Total\s*:?\s*(\d+)',
-                r'Montant\s*:?\s*(\d+)',
-            ]
-            for pattern in total_patterns:
-                match = re.search(pattern, text, re.IGNORECASE)
-                if match:
-                    invoice_data['Total_Revenue'] = float(match.group(1))
-                    break
+            # Validate and fix quantity
+            if invoice_data['Quantity'] and invoice_data['Unit_Price'] and invoice_data['Total_Revenue']:
+                expected_total = invoice_data['Quantity'] * invoice_data['Unit_Price']
+                # If calculation is off, recalculate quantity
+                if abs(expected_total - invoice_data['Total_Revenue']) > 1000:
+                    correct_qty = round(invoice_data['Total_Revenue'] / invoice_data['Unit_Price'])
+                    if 1 <= correct_qty <= 10:
+                        invoice_data['Quantity'] = correct_qty
             
-            # ===== Validation & Calculation =====
-            # If we have quantity and unit price but no total, calculate it
-            if (invoice_data['Quantity'] and invoice_data['Unit_Price'] 
-                and not invoice_data['Total_Revenue']):
-                invoice_data['Total_Revenue'] = (
-                    invoice_data['Quantity'] * invoice_data['Unit_Price']
-                )
-            
-            # Log what was extracted for debugging
+            # Log summary
             logging.info(f"Extracted from {filename}:")
             for key, value in invoice_data.items():
-                if value and key != 'Source_File':
-                    logging.info(f"  {key}: {value}")
+                if key != 'Source_File':
+                    status = "✓" if value else "✗"
+                    logging.info(f"  {status} {key}: {value}")
             
-            # Check if we have minimum required data
-            if invoice_data['Date'] and invoice_data['Total_Revenue']:
-                return invoice_data
-            else:
-                missing = [k for k, v in invoice_data.items() if not v and k != 'Source_File']
-                logging.warning(f"Incomplete extraction from {filename}. Missing: {missing}")
-                return invoice_data
+            return invoice_data
                 
         except Exception as e:
-            logging.error(f"Error parsing invoice data from {filename}: {e}")
+            logging.error(f"Error parsing {filename}: {e}")
+            import traceback
+            traceback.print_exc()
             return None
     
     def process_all_invoices(self):
-        """
-        Process all invoice images in the directory
-        
-        Returns:
-            pd.DataFrame: DataFrame containing all extracted invoice data
-        """
+        """Process all invoice images"""
         logging.info("="*70)
-        logging.info("STARTING LEGACY INVOICE OCR PROCESSING")
+        logging.info("STARTING OCR INVOICE PROCESSING")
         logging.info("="*70)
         
         if not os.path.exists(self.invoices_directory):
             logging.error(f"Directory not found: {self.invoices_directory}")
             return pd.DataFrame()
         
-        # Get all image files
         image_files = [f for f in os.listdir(self.invoices_directory) 
                       if f.lower().endswith(('.jpg', '.jpeg', '.png', '.tif', '.tiff'))]
         
@@ -299,227 +298,111 @@ class InvoiceOCRProcessor:
             logging.warning(f"No image files found in {self.invoices_directory}")
             return pd.DataFrame()
         
-        # Sort files for consistent processing
         image_files.sort()
-        
         logging.info(f"Found {len(image_files)} invoice images to process\n")
         
-        # Process each invoice
         for idx, filename in enumerate(image_files, 1):
             image_path = os.path.join(self.invoices_directory, filename)
             
-            logging.info(f"[{idx}/{len(image_files)}] Processing: {filename}")
-            logging.info("-" * 70)
+            logging.info(f"\n{'='*70}")
+            logging.info(f"PROCESSING [{idx}/{len(image_files)}]: {filename}")
+            logging.info(f"{'='*70}")
             
-            # Extract text using OCR
             extracted_text = self.extract_text_from_image(image_path)
             
             if not extracted_text:
-                logging.warning(f"No text extracted from {filename}\n")
+                logging.warning(f"No text extracted from {filename}")
                 continue
             
-            # Optional: Log extracted text for debugging
-            # logging.debug(f"Raw OCR text:\n{extracted_text}\n")
-            
-            # Parse structured data from text
             invoice_data = self.parse_invoice_data(extracted_text, filename)
             
             if invoice_data:
                 self.extracted_data.append(invoice_data)
-                logging.info(f"✓ Successfully processed {filename}\n")
             else:
-                logging.warning(f"✗ Failed to parse data from {filename}\n")
+                logging.warning(f"Failed to parse {filename}")
         
-        # Create DataFrame
         df = pd.DataFrame(self.extracted_data)
         
-        logging.info("="*70)
+        logging.info("\n" + "="*70)
         logging.info(f"OCR PROCESSING COMPLETED")
         logging.info(f"Successfully processed: {len(df)}/{len(image_files)} invoices")
         logging.info("="*70)
         
         return df
     
-    def save_to_csv(self, df, output_file='data/extracted/legacy_sales.csv'):
-        """
-        Save extracted invoice data to CSV
-        
-        Args:
-            df (pd.DataFrame): DataFrame containing invoice data
-            output_file (str): Path to output CSV file
-        """
+    def save_to_csv(self, df, output_file='Data/extracted/legacy_sales.csv'):
+        """Save extracted data to CSV"""
         if df.empty:
             logging.warning("No data to save")
             return
         
-        # Create output directory if needed
         os.makedirs(os.path.dirname(output_file), exist_ok=True)
+        df.to_csv(output_file, index=False, encoding='utf-8')
         
-        # Display summary before saving
-        logging.info("\nData Summary:")
+        logging.info("\n" + "="*70)
+        logging.info("DATA SUMMARY")
+        logging.info("="*70)
         logging.info(f"Total records: {len(df)}")
         
         if 'Total_Revenue' in df.columns:
             total_revenue = df['Total_Revenue'].sum()
-            logging.info(f"Total revenue from legacy sales: {total_revenue:,.0f} DZD")
+            logging.info(f"Total revenue: {total_revenue:,.0f} DZD")
         
-        # Check data completeness
-        completeness = df.notna().sum()
         logging.info("\nData Completeness:")
+        completeness = df.notna().sum()
         for col in df.columns:
             if col != 'Source_File':
-                pct = (completeness[col] / len(df)) * 100
-                logging.info(f"  {col}: {completeness[col]}/{len(df)} ({pct:.1f}%)")
+                count = completeness[col]
+                pct = (count / len(df)) * 100
+                status = "✓" if pct >= 80 else "⚠"
+                logging.info(f"  {status} {col}: {count}/{len(df)} ({pct:.0f}%)")
         
-        # Save to CSV
-        df.to_csv(output_file, index=False, encoding='utf-8')
         logging.info(f"\n✓ Data saved to: {output_file}")
+        logging.info("="*70)
+        
+        print("\n" + "="*70)
+        print("EXTRACTED DATA PREVIEW")
+        print("="*70)
+        print(df.to_string(index=False))
+        print("="*70 + "\n")
     
     def process_and_save(self):
-        """
-        Complete workflow: process all invoices and save to file
-        """
+        """Complete workflow"""
         df = self.process_all_invoices()
         
         if not df.empty:
             self.save_to_csv(df)
+        else:
+            logging.error("No data was extracted!")
         
         return df
 
 
-def create_manual_data():
-    """
-    Manual data entry as fallback or supplement to OCR
-    Based on the visible invoice images
-    """
-    logging.info("\n" + "="*70)
-    logging.info("USING MANUAL DATA ENTRY METHOD")
-    logging.info("="*70)
-    
-    # Manually transcribed data from the 5 invoice images
-    manual_data = [
-        {
-            'Source_File': 'invoice_001.jpg',
-            'Date': '2022-09-22',
-            'Order_Reference': 'ORD-5073',
-            'Customer_ID': 'C1001',
-            'Customer_Name': 'Sami Oukil',
-            'Product_Name': 'HP Victus 15',
-            'Quantity': 2,
-            'Unit_Price': 125000.0,
-            'Total_Revenue': 250000.0
-        },
-        {
-            'Source_File': 'invoice_002.jpg',
-            'Date': '2022-01-20',
-            'Order_Reference': 'ORD-5421',
-            'Customer_ID': 'C1003',
-            'Customer_Name': 'Meriem Bouzid',
-            'Product_Name': 'MacBook Air M2',
-            'Quantity': 1,
-            'Unit_Price': 195000.0,
-            'Total_Revenue': 195000.0
-        },
-        {
-            'Source_File': 'invoice_003.jpg',
-            'Date': '2022-06-01',
-            'Order_Reference': 'ORD-8447',
-            'Customer_ID': 'C1004',
-            'Customer_Name': 'Amine Rahmani',
-            'Product_Name': 'Samsung S23 Ultra',
-            'Quantity': 3,
-            'Unit_Price': 185000.0,
-            'Total_Revenue': 555000.0
-        },
-        {
-            'Source_File': 'invoice_004.jpg',
-            'Date': '2022-10-27',
-            'Order_Reference': 'ORD-7940',
-            'Customer_ID': 'C1025',
-            'Customer_Name': 'Houda Mekki',
-            'Product_Name': 'iPhone 14 Pro',
-            'Quantity': 3,
-            'Unit_Price': 230000.0,
-            'Total_Revenue': 690000.0
-        },
-        {
-            'Source_File': 'invoice_005.jpg',
-            'Date': '2022-02-27',
-            'Order_Reference': 'ORD-3931',
-            'Customer_ID': 'C1002',
-            'Customer_Name': 'Sofiane Khelifa',
-            'Product_Name': 'Dell XPS 13',
-            'Quantity': 2,
-            'Unit_Price': 260000.0,
-            'Total_Revenue': 520000.0
-        }
-    ]
-    
-    df = pd.DataFrame(manual_data)
-    
-    # Save to file
-    os.makedirs('data/extracted', exist_ok=True)
-    output_file = 'data/extracted/legacy_sales.csv'
-    df.to_csv(output_file, index=False, encoding='utf-8')
-    
-    logging.info(f"\n✓ Manual data created: {len(df)} records")
-    logging.info(f"✓ Total revenue: {df['Total_Revenue'].sum():,.0f} DZD")
-    logging.info(f"✓ Saved to: {output_file}")
-    
-    return df
-
-
 def main():
-    """Main execution function"""
-    
+    """Main execution"""
     print("\n" + "="*70)
-    print("TECHSTORE LEGACY INVOICE EXTRACTION")
+    print("TECHSTORE LEGACY INVOICE OCR EXTRACTION")
     print("="*70 + "\n")
     
-    # Ask user for processing method
-    print("Choose extraction method:")
-    print("1. Automated OCR (requires Tesseract)")
-    print("2. Manual data entry (pre-transcribed)")
-    print("3. Try OCR first, fallback to manual if needed")
-    
-    choice = input("\nEnter choice (1/2/3) [default: 3]: ").strip() or "3"
+    # Set debug=True to see raw OCR output
+    debug_mode = True  # Enable to see what OCR actually reads
     
     try:
-        if choice == "1":
-            # OCR only
-            processor = InvoiceOCRProcessor('data/legacy_invoices')
-            df = processor.process_and_save()
-            
-            if df is None or df.empty:
-                logging.error("OCR failed to extract data")
-            
-        elif choice == "2":
-            # Manual only
-            df = create_manual_data()
-            
-        else:
-            # Try OCR, fallback to manual
-            try:
-                processor = InvoiceOCRProcessor('data/legacy_invoices')
-                df = processor.process_and_save()
-                
-                if df is None or df.empty or len(df) < 3:
-                    logging.warning("\nOCR results incomplete, using manual data as backup")
-                    df = create_manual_data()
-                    
-            except Exception as e:
-                logging.error(f"OCR error: {e}")
-                logging.info("Falling back to manual data entry")
-                df = create_manual_data()
-        
-        print("\n" + "="*70)
-        print("EXTRACTION COMPLETED SUCCESSFULLY")
-        print("="*70)
+        processor = InvoiceOCRProcessor('Data/legacy_invoices', debug=debug_mode)
+        df = processor.process_and_save()
         
         if df is not None and not df.empty:
-            print(f"\n📊 Dataset Preview:\n")
-            print(df.to_string(index=False))
-        
+            # Check completeness
+            completeness = df.notna().mean() * 100
+            if completeness['Customer_Name'] >= 80 and completeness['Product_Name'] >= 80:
+                print("\n✓✓✓ EXTRACTION COMPLETED SUCCESSFULLY ✓✓✓\n")
+            else:
+                print("\n⚠ EXTRACTION COMPLETED WITH MISSING DATA ⚠\n")
+                print("Tip: Check the debug output above to see raw OCR text")
+                print("Some fields may be missing due to image quality")
+        else:
+            print("\n✗✗✗ EXTRACTION FAILED ✗✗✗\n")
+            
     except Exception as e:
         logging.error(f"Critical error: {e}")
         import traceback
