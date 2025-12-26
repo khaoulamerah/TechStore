@@ -1,4 +1,3 @@
-
 import pandas as pd
 import os
 import subprocess
@@ -9,23 +8,41 @@ from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 # ========================================================
 # CONFIGURATION DES CHEMINS
 # ========================================================
-script_dir = Path(__file__).parent
-project_root = script_dir.parent
+try:
+    script_dir = Path(__file__).parent
+except NameError:
+    cwd = Path.cwd()
+    if (cwd / 'src').exists():
+        script_dir = cwd / 'src'
+    else:
+        script_dir = cwd
 
+project_root = script_dir.parent
 extracted_dir = project_root / 'data' / 'extracted'
 flat_files_dir = project_root / 'data' / 'flat_files'
 transformed_dir = project_root / 'data' / 'transformed'
 
-# Vérifications
 if not extracted_dir.exists():
-    raise FileNotFoundError(f"❌ Le dossier {extracted_dir} n'existe pas. Exécutez d'abord extract_mysql.py (Membre 1)")
+    print(f"⚠️ Le dossier {extracted_dir} n'existe pas. Création du dossier vide.")
+    extracted_dir.mkdir(parents=True, exist_ok=True)
 
 transformed_dir.mkdir(parents=True, exist_ok=True)
 
+def load_csv_safe(path, cols=None):
+    if path.exists():
+        try:
+            return pd.read_csv(path)
+        except Exception as e:
+            print(f"⚠️ Erreur lecture {path}: {e}")
+            return pd.DataFrame(columns=list(cols) if cols else [])
+    else:
+        print(f"⚠️ Fichier manquant: {path}. Création d'un DataFrame vide.")
+        return pd.DataFrame(columns=list(cols) if cols else [])
+
 print("=" * 70)
-print("PARTIE 2 – TRANSFORMATION (MEMBRE 2) + BONUS OCR")
+print("PARTIE 2 – TRANSFORMATION (MEMBRE 2) + CRÉATION DIM TABLES")
 print("=" * 70)
-print(f"📁 Projet racine   : {project_root}")
+print(f"📂 Projet racine   : {project_root}")
 print(f"📥 Lecture depuis  : {extracted_dir}")
 print(f"📤 Écriture dans   : {transformed_dir}")
 print("-" * 70)
@@ -45,39 +62,58 @@ if ocr_script.exists() and not legacy_file.exists():
             [sys.executable, str(ocr_script)],
             capture_output=True,
             text=True,
-            timeout=300  # 5 minutes max
+            timeout=300
         )
-        print(result.stdout)
-        if result.returncode != 0:
-            print(f"   ⚠️  Erreur OCR : {result.stderr}")
+        print("   ✔️ OCR script terminé")
+        if result.stdout:
+            print("   STDOUT:", result.stdout.strip())
+        if result.stderr:
+            print("   STDERR:", result.stderr.strip())
+    except subprocess.TimeoutExpired:
+        print("   ❌ Le script OCR a expiré (timeout)")
     except Exception as e:
-        print(f"   ⚠️  Impossible d'exécuter OCR : {e}")
-elif legacy_file.exists():
-    print("   ✅ Fichier legacy_sales_2022.csv déjà existant")
-else:
-    print("   ⚠️  Script ocr_invoices.py introuvable - BONUS ignoré")
+        print(f"   ❌ Erreur lors de l'exécution du script OCR: {e}")
 
 # ========================================================
 # 1. CHARGEMENT DES DONNÉES
 # ========================================================
 print("\n📄 CHARGEMENT DES DONNÉES...")
 
-# Données ERP (Membre 1)
-sales_df = pd.read_csv(extracted_dir / 'sales.csv')
-products_df = pd.read_csv(extracted_dir / 'products.csv')
-reviews_df = pd.read_csv(extracted_dir / 'reviews.csv')
-customers_df = pd.read_csv(extracted_dir / 'customers.csv')
-stores_df = pd.read_csv(extracted_dir / 'stores.csv')
-cities_df = pd.read_csv(extracted_dir / 'cities.csv')
-categories_df = pd.read_csv(extracted_dir / 'categories.csv')
-subcategories_df = pd.read_csv(extracted_dir / 'subcategories.csv')
+sales_df = load_csv_safe(extracted_dir / 'sales.csv',
+                         ['trans_id','date','store_id','product_id','customer_id','quantity','total_revenue'])
+products_df = load_csv_safe(extracted_dir / 'products.csv',
+                            ['product_id','product_name','subcat_id','unit_price','unit_cost'])
+reviews_df = load_csv_safe(extracted_dir / 'reviews.csv',
+                           ['review_id','product_id','customer_id','rating','review_text'])
+customers_df = load_csv_safe(extracted_dir / 'customers.csv',
+                             ['customer_id','full_name','city_id'])
+stores_df = load_csv_safe(extracted_dir / 'stores.csv',
+                          ['store_id','store_name','city_id'])
+cities_df = load_csv_safe(extracted_dir / 'cities.csv',
+                          ['city_id','city_name','region'])
+categories_df = load_csv_safe(extracted_dir / 'categories.csv',
+                              ['category_id','category_name'])
+subcategories_df = load_csv_safe(extracted_dir / 'subcategories.csv',
+                                 ['subcat_id','subcat_name','category_id'])
 
-# Fichiers Excel
-marketing_df = pd.read_excel(flat_files_dir / 'marketing_expenses.xlsx')
-targets_df = pd.read_excel(flat_files_dir / 'monthly_targets.xlsx')
-shipping_df = pd.read_excel(flat_files_dir / 'shipping_rates.xlsx')
+try:
+    marketing_df = pd.read_excel(flat_files_dir / 'marketing_expenses.xlsx')
+except Exception as e:
+    print(f"⚠️ Impossible de charger marketing_expenses.xlsx: {e}")
+    marketing_df = pd.DataFrame(columns=['Date','Category','Campaign_Type','Marketing_Cost_USD'])
 
-# Prix concurrents
+try:
+    targets_df = pd.read_excel(flat_files_dir / 'monthly_targets.xlsx')
+except Exception as e:
+    print(f"⚠️ Impossible de charger monthly_targets.xlsx: {e}")
+    targets_df = pd.DataFrame(columns=['Store_ID','Month','Target_Revenue','Manager_Name'])
+
+try:
+    shipping_df = pd.read_excel(flat_files_dir / 'shipping_rates.xlsx')
+except Exception as e:
+    print(f"⚠️ Impossible de charger shipping_rates.xlsx: {e}")
+    shipping_df = pd.DataFrame(columns=['region_name','provider','shipping_cost','average_delivery_days'])
+
 competitor_file = extracted_dir / 'competitor_prices.csv'
 if competitor_file.exists() and os.path.getsize(competitor_file) > 100:
     competitor_df = pd.read_csv(competitor_file)
@@ -88,11 +124,15 @@ else:
     has_competitor = False
     print("⚠️  Pas de données concurrentes")
 
-# BONUS : Données legacy OCR
 if legacy_file.exists():
-    legacy_df = pd.read_csv(legacy_file)
-    has_legacy = len(legacy_df) > 0
-    print(f"🎯 BONUS - Factures 2022 : {len(legacy_df)} lignes")
+    try:
+        legacy_df = pd.read_csv(legacy_file)
+        has_legacy = len(legacy_df) > 0
+        print(f"🎯 BONUS - Factures 2022 : {len(legacy_df)} lignes")
+    except Exception as e:
+        print(f"⚠️ Erreur lecture legacy file: {e}")
+        legacy_df = pd.DataFrame()
+        has_legacy = False
 else:
     legacy_df = pd.DataFrame()
     has_legacy = False
@@ -109,7 +149,6 @@ def clean_column_names(df):
     df.columns = [c.strip().lower().replace(' ', '_') for c in df.columns]
     return df
 
-# Copie
 sales = sales_df.copy()
 products = products_df.copy()
 reviews = reviews_df.copy()
@@ -123,13 +162,11 @@ targets = targets_df.copy()
 shipping = shipping_df.copy()
 competitor = competitor_df.copy()
 
-# Nettoyage
 for df in [sales, products, reviews, customers, stores, cities, 
            categories, subcategories, marketing, targets, shipping, competitor]:
     clean_column_names(df)
     df.drop_duplicates(inplace=True)
 
-# Conversions
 sales['date'] = pd.to_datetime(sales['date'], errors='coerce')
 sales['quantity'] = pd.to_numeric(sales['quantity'], errors='coerce').fillna(1).astype(int)
 sales['total_revenue'] = pd.to_numeric(sales['total_revenue'], errors='coerce').fillna(0)
@@ -148,20 +185,16 @@ targets['target_revenue'] = pd.to_numeric(
     errors='coerce'
 ).fillna(0)
 
-# BONUS : Nettoyage données legacy
 if has_legacy:
     legacy = legacy_df.copy()
     clean_column_names(legacy)
     legacy['date'] = pd.to_datetime(legacy['date'], errors='coerce')
     legacy['quantity'] = pd.to_numeric(legacy['quantity'], errors='coerce').fillna(1).astype(int)
     legacy['total_revenue'] = pd.to_numeric(legacy['total_revenue'], errors='coerce').fillna(0)
-    
-    # Attribuer des IDs fictifs pour les données legacy
     legacy['trans_id'] = range(100001, 100001 + len(legacy))
-    legacy['store_id'] = 1  # Magasin principal par défaut
-    legacy['product_id'] = 'P100'  # Produit par défaut
+    legacy['store_id'] = 1
+    legacy['product_id'] = 'P100'
     
-    # Fusionner avec sales
     legacy_subset = legacy[['trans_id', 'date', 'store_id', 'product_id', 'customer_id', 'quantity', 'total_revenue']]
     sales = pd.concat([sales, legacy_subset], ignore_index=True)
     print(f"   🎯 {len(legacy)} lignes legacy 2022 fusionnées")
@@ -192,8 +225,6 @@ product_sentiment.columns = ['product_id', 'avg_sentiment', 'avg_rating', 'revie
 
 print(f"✅ {len(product_sentiment)} produits analysés")
 print(f"   📊 Score sentiment moyen : {product_sentiment['avg_sentiment'].mean():.3f}")
-
-product_sentiment.to_csv(transformed_dir / 'product_sentiment.csv', index=False)
 
 # ========================================================
 # 4. INTÉGRATION PRIX CONCURRENTS
@@ -231,139 +262,212 @@ products = products.merge(
 )
 
 # ========================================================
-# 5. ENRICHISSEMENT → sales_enriched
+# 5. CRÉATION DES TABLES DE DIMENSION
 # ========================================================
-print("\n💰 ENRICHISSEMENT DES VENTES...")
+print("\n🏗️ CRÉATION DES TABLES DE DIMENSION...")
 
-sales_enriched = sales.merge(
-    products[[
-        'product_id', 'product_name', 'unit_price', 'unit_cost', 'subcat_id',
-        'competitor_price', 'price_difference_pct', 
-        'avg_sentiment', 'avg_rating'
-    ]], 
-    on='product_id', 
-    how='left'
-)
-
-# Calculs financiers
-sales_enriched['cost'] = sales_enriched['quantity'] * sales_enriched['unit_cost'].fillna(0)
-sales_enriched['gross_profit'] = sales_enriched['total_revenue'] - sales_enriched['cost']
-
-# Hiérarchie produit
-sales_enriched = sales_enriched.merge(
+# --- DIM_PRODUCT ---
+dim_product = products.merge(
     subcategories[['subcat_id', 'subcat_name', 'category_id']], 
     on='subcat_id', 
     how='left'
-)
-sales_enriched = sales_enriched.merge(
+).merge(
     categories[['category_id', 'category_name']], 
     on='category_id', 
     how='left'
 )
 
-# Localisation
-sales_enriched = sales_enriched.merge(
-    stores[['store_id', 'store_name', 'city_id']], 
-    on='store_id', 
-    how='left'
-)
-sales_enriched = sales_enriched.merge(
+dim_product = dim_product[[
+    'product_id', 'product_name', 
+    'subcat_id', 'subcat_name',
+    'category_id', 'category_name',
+    'unit_price', 'unit_cost',
+    'competitor_price', 'price_difference', 'price_difference_pct',
+    'avg_sentiment', 'avg_rating', 'review_count'
+]]
+
+# --- DIM_STORE ---
+dim_store = stores.merge(
     cities[['city_id', 'city_name', 'region']], 
     on='city_id', 
     how='left'
 )
 
-# Client
-sales_enriched = sales_enriched.merge(
-    customers[['customer_id', 'full_name']], 
-    on='customer_id', 
+# Ajouter les targets mensuels
+store_targets = targets.groupby('store_id').agg({
+    'target_revenue': 'sum',
+    'manager_name': 'first'
+}).reset_index()
+
+dim_store = dim_store.merge(
+    store_targets, 
+    on='store_id', 
     how='left'
 )
 
+dim_store = dim_store[[
+    'store_id', 'store_name',
+    'city_id', 'city_name', 'region',
+    'target_revenue', 'manager_name'
+]]
+
+# --- DIM_CUSTOMER ---
+dim_customer = customers.merge(
+    cities[['city_id', 'city_name', 'region']], 
+    on='city_id', 
+    how='left',
+    suffixes=('', '_customer')
+)
+
+dim_customer = dim_customer[[
+    'customer_id', 'full_name',
+    'city_id', 'city_name', 'region'
+]]
+
+# --- DIM_DATE ---
+all_dates = pd.to_datetime(sales['date'].dropna().unique())
+dim_date = pd.DataFrame({
+    'date': all_dates
+})
+
+dim_date['year'] = dim_date['date'].dt.year
+dim_date['quarter'] = dim_date['date'].dt.quarter
+dim_date['month'] = dim_date['date'].dt.month
+dim_date['month_name'] = dim_date['date'].dt.strftime('%B')
+dim_date['day'] = dim_date['date'].dt.day
+dim_date['day_of_week'] = dim_date['date'].dt.dayofweek
+dim_date['day_name'] = dim_date['date'].dt.strftime('%A')
+dim_date['week_of_year'] = dim_date['date'].dt.isocalendar().week
+
+dim_date = dim_date.sort_values('date').reset_index(drop=True)
+
+print(f"✅ Dim_Product : {len(dim_product)} lignes")
+print(f"✅ Dim_Store : {len(dim_store)} lignes")
+print(f"✅ Dim_Customer : {len(dim_customer)} lignes")
+print(f"✅ Dim_Date : {len(dim_date)} lignes")
+
+# ========================================================
+# 6. CRÉATION DE LA TABLE DE FAITS
+# ========================================================
+print("\n💰 CRÉATION DE LA TABLE DE FAITS...")
+
+fact_sales = sales.copy()
+
+# Calculs financiers
+fact_sales = fact_sales.merge(
+    products[['product_id', 'unit_cost', 'subcat_id']], 
+    on='product_id', 
+    how='left'
+)
+
+fact_sales['cost'] = fact_sales['quantity'] * fact_sales['unit_cost'].fillna(0)
+fact_sales['gross_profit'] = fact_sales['total_revenue'] - fact_sales['cost']
+
 # Coût livraison
+fact_sales = fact_sales.merge(
+    stores[['store_id', 'city_id']], 
+    on='store_id', 
+    how='left'
+).merge(
+    cities[['city_id', 'region']], 
+    on='city_id', 
+    how='left'
+)
+
 shipping_avg = shipping.groupby('region_name')['shipping_cost'].mean().reset_index()
 shipping_avg.rename(columns={'region_name': 'region'}, inplace=True)
-sales_enriched = sales_enriched.merge(shipping_avg, on='region', how='left')
-sales_enriched['shipping_cost_total'] = sales_enriched['shipping_cost'].fillna(0) * sales_enriched['quantity']
+fact_sales = fact_sales.merge(shipping_avg, on='region', how='left')
+fact_sales['shipping_cost_total'] = fact_sales['shipping_cost'].fillna(0) * fact_sales['quantity']
 
 # Allocation marketing
 EXCHANGE_RATE = 135.0
 marketing['marketing_cost_dzd'] = marketing['marketing_cost_usd'] * EXCHANGE_RATE
 marketing['month'] = marketing['date'].dt.to_period('M')
-sales_enriched['month'] = sales_enriched['date'].dt.to_period('M')
+fact_sales['month'] = fact_sales['date'].dt.to_period('M')
+
+# Récupérer la catégorie
+fact_sales = fact_sales.merge(
+    subcategories[['subcat_id', 'category_id']], 
+    on='subcat_id', 
+    how='left'
+).merge(
+    categories[['category_id', 'category_name']], 
+    on='category_id', 
+    how='left'
+)
 
 marketing_monthly = marketing.groupby(['category', 'month'])['marketing_cost_dzd'].sum().reset_index()
-revenue_monthly = sales_enriched.groupby(['category_name', 'month'])['total_revenue'].sum().reset_index()
+revenue_monthly = fact_sales.groupby(['category_name', 'month'])['total_revenue'].sum().reset_index()
 revenue_monthly.rename(columns={'category_name': 'category'}, inplace=True)
 
 alloc = revenue_monthly.merge(marketing_monthly, on=['category', 'month'], how='left').fillna(0)
 alloc['ratio'] = alloc['total_revenue'] / alloc.groupby('month')['total_revenue'].transform('sum')
 alloc['allocated_marketing_dzd'] = alloc['ratio'] * alloc['marketing_cost_dzd']
 
-sales_enriched = sales_enriched.merge(
+fact_sales = fact_sales.merge(
     alloc[['category', 'month', 'allocated_marketing_dzd']], 
     left_on=['category_name', 'month'],
     right_on=['category', 'month'],
     how='left'
 )
-sales_enriched.drop('category', axis=1, inplace=True, errors='ignore')
-sales_enriched['allocated_marketing_dzd'] = sales_enriched['allocated_marketing_dzd'].fillna(0)
+fact_sales.drop('category', axis=1, inplace=True, errors='ignore')
+fact_sales['allocated_marketing_dzd'] = fact_sales['allocated_marketing_dzd'].fillna(0)
 
 # Profit net (FORMULE DU PDF)
-sales_enriched['net_profit'] = (
-    sales_enriched['gross_profit'] - 
-    sales_enriched['shipping_cost_total'] - 
-    sales_enriched['allocated_marketing_dzd']
+fact_sales['net_profit'] = (
+    fact_sales['gross_profit'] - 
+    fact_sales['shipping_cost_total'] - 
+    fact_sales['allocated_marketing_dzd']
 )
 
-# Cibles mensuelles
-sales_enriched = sales_enriched.merge(
-    targets[['store_id', 'month', 'target_revenue']], 
-    on=['store_id', 'month'], 
-    how='left'
-)
-sales_enriched['target_revenue'] = sales_enriched['target_revenue'].fillna(0)
+# Sélectionner uniquement les colonnes nécessaires
+fact_sales = fact_sales[[
+    'trans_id', 'date', 'store_id', 'product_id', 'customer_id',
+    'quantity', 'total_revenue', 'cost', 
+    'gross_profit', 'shipping_cost_total', 
+    'allocated_marketing_dzd', 'net_profit'
+]]
 
-# Colonnes temporelles
-sales_enriched['year'] = sales_enriched['date'].dt.year
-sales_enriched['quarter'] = sales_enriched['date'].dt.quarter
-sales_enriched['month_num'] = sales_enriched['date'].dt.month
+print(f"✅ Fact_Sales : {len(fact_sales)} lignes")
 
 # ========================================================
-# 6. SAUVEGARDE
+# 7. SAUVEGARDE DES FICHIERS
 # ========================================================
-sales_enriched.to_csv(transformed_dir / 'sales_enriched.csv', index=False)
+print("\n💾 SAUVEGARDE DES FICHIERS...")
 
-print(f"\n✅ FICHIER PRINCIPAL : sales_enriched.csv")
-print(f"   📊 {len(sales_enriched):,} lignes × {len(sales_enriched.columns)} colonnes")
+dim_product.to_csv(transformed_dir / 'Dim_Product.csv', index=False)
+dim_store.to_csv(transformed_dir / 'Dim_Store.csv', index=False)
+dim_customer.to_csv(transformed_dir / 'Dim_Customer.csv', index=False)
+dim_date.to_csv(transformed_dir / 'Dim_Date.csv', index=False)
+fact_sales.to_csv(transformed_dir / 'Fact_Sales.csv', index=False)
+
+print("✅ Tous les fichiers sauvegardés")
 
 # ========================================================
-# 7. RÉSUMÉ FINAL
+# 8. RÉSUMÉ FINAL
 # ========================================================
 print("\n" + "=" * 70)
-print("📋 FICHIERS CRÉÉS")
+print("📋 FICHIERS CRÉÉS DANS data/transformed/")
 print("=" * 70)
 
 for f in sorted(os.listdir(transformed_dir)):
     if f.endswith('.csv'):
         size = os.path.getsize(transformed_dir / f) / 1024
         rows = len(pd.read_csv(transformed_dir / f))
-        print(f"  ✓ {f:30} {size:8.1f} KB | {rows:,} lignes")
+        print(f"  ✔ {f:30} {size:8.1f} KB | {rows:,} lignes")
 
 print("\n" + "=" * 70)
 print("✅ TRANSFORMATION TERMINÉE")
 print("=" * 70)
 print("\n📌 TÂCHES EFFECTUÉES :")
 print("   1. ✅ Nettoyage données (duplicates, types, formats)")
-print("   2. ✅ Analyse sentiment VADER sur 3000 reviews")
+print("   2. ✅ Analyse sentiment VADER sur reviews")
 print("   3. ✅ Intégration prix concurrents (price_difference_pct)")
 print("   4. ✅ Calcul Net Profit = Revenue - Cost - Shipping - Marketing")
 print("   5. ✅ Harmonisation devise USD→DZD (taux: 135)")
-print("   6. ✅ Enrichissement : catégories, régions, clients, sentiment")
+print("   6. ✅ Création des 4 tables de dimension + 1 table de faits")
 print("   7. ✅ Allocation marketing par catégorie/mois")
-print("   8. ✅ Intégration cibles mensuelles")
 
 if has_legacy:
-    print("   9.OCR")
-
+    print("   8. BONUS :(OCR)")
 print("=" * 70)

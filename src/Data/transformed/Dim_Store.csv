@@ -1,0 +1,13 @@
+store_id,store_name,city_id,city_name,region,target_revenue,manager_name
+1,TechStore Alger Centre,1,Alger,North,204900745,Billel Rahmani
+2,TechStore Oran Bahia,2,Oran,West,272012884,Khadidja Talbi
+3,TechStore Constantine Cirta,3,Constantine,East,159931987,Ryad Guellil
+4,TechStore Annaba Coast,4,Annaba,East,124344167,Walid Diaf
+5,TechStore Setif Park,6,Setif,East,123309927,Ryad Benali
+6,TechStore Bejaia Port,7,Bejaia,North,105611125,Karim Saidi
+7,TechStore Tlemcen Ville,8,Tlemcen,West,88315800,Nour Brahami
+8,TechStore Skikda Centre,12,Skikda,East,65115584,Khadidja Mebarki
+9,TechStore Guelma 8 Mai,11,Guelma,East,50905315,Nour Saidi
+10,TechStore Biskra Ziban,9,Biskra,South,43080047,Mehdi Boukhalfa
+11,TechStore Ouargla Sud,5,Ouargla,South,33894718,Amel Oukil
+12,TechStore Ghardaia Oasis,10,Ghardaia,South,27334103,Amel Rahmani
