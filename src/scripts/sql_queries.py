@@ -291,3 +291,4 @@ SELECT
 FROM Customer_Stats
 ORDER BY Total_Spent DESC
 LIMIT 50
+"""
