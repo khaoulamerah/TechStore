@@ -639,3 +639,28 @@ Data saved to: data/extracted/competitor_prices.csv
 2025-12-24 17:01:08,960 - INFO - COMPETITOR PRICE EXTRACTION COMPLETED
 2025-12-24 17:01:08,960 - INFO - 38 products available for analysis
 2025-12-24 17:01:08,960 - INFO - ======================================================================
+2025-12-29 14:05:45,250 - INFO - ============================================================
+2025-12-29 14:05:45,251 - INFO - Starting web scraping process
+2025-12-29 14:05:45,252 - INFO - ============================================================
+2025-12-29 14:05:45,252 - INFO - Fetching page: https://boughida.com/competitor/
+2025-12-29 14:05:45,901 - INFO - Page successfully retrieved
+2025-12-29 14:05:45,904 - INFO - Found additional pages: 2
+2025-12-29 14:05:45,905 - INFO - 
+Page 1/3: https://boughida.com/competitor/
+2025-12-29 14:05:45,907 - INFO - ------------------------------------------------------------
+2025-12-29 14:05:45,909 - INFO - Fetching page: https://boughida.com/competitor/
+2025-12-29 14:05:46,899 - INFO - Page successfully retrieved
+2025-12-29 14:05:46,903 - INFO - Found 13 potential product containers
+2025-12-29 14:05:46,906 - INFO - Extracted: Samsung S23 Ultra: 174800.0 DZD
+2025-12-29 14:05:46,907 - INFO - Extracted: HP LaserJet Pro: 46000.0 DZD
+2025-12-29 14:05:46,907 - INFO - Extracted: Dell 24 Monitor: 24200.0 DZD
+2025-12-29 14:05:46,908 - INFO - Extracted: Canon i-Sensys: 39000.0 DZD
+2025-12-29 14:05:46,909 - INFO - Extracted: Epson EcoTank: 27700.0 DZD
+2025-12-29 14:05:46,910 - INFO - Extracted: Nikon D3500: 69200.0 DZD
+2025-12-29 14:05:46,911 - INFO - Extracted: Xiaomi Redmi Note 12: 36800.0 DZD
+2025-12-29 14:05:46,911 - INFO - Extracted: HP Pavilion Desktop: 83000.0 DZD
+2025-12-29 14:05:46,912 - INFO - Extracted: Redmi Buds 4: 5300.0 DZD
+2025-12-29 14:05:46,914 - INFO - Extracted: DJI Mini 3: 126900.0 DZD
+2025-12-29 14:05:46,915 - INFO - Extracted: Sony SRS-XB13: 11100.0 DZD
+2025-12-29 14:05:46,916 - INFO - Extracted: ASUS ROG STRIX: 290600.0 DZD
+2025-12-29 14:05:46,916 - INFO - Extracted: LG UltraGear: 41700.0 DZD
