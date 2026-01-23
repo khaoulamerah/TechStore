@@ -1,0 +1,67 @@
+{
+  "extraction_date": "2025-12-29 20:46:28",
+  "total_tables": 9,
+  "total_records": 29320,
+  "files_created": [
+    {
+      "filename": "categories.csv",
+      "size_kb": 0.08,
+      "records": 5
+    },
+    {
+      "filename": "cities.csv",
+      "size_kb": 0.21,
+      "records": 12
+    },
+    {
+      "filename": "competitor_prices.csv",
+      "size_kb": 1.55,
+      "records": 38
+    },
+    {
+      "filename": "customers.csv",
+      "size_kb": 26.93,
+      "records": 1200
+    },
+    {
+      "filename": "extraction_summary.csv",
+      "size_kb": 0.26,
+      "records": 8
+    },
+    {
+      "filename": "extraction_summary.json",
+      "size_kb": 1.28,
+      "records": 66
+    },
+    {
+      "filename": "legacy_sales.csv",
+      "size_kb": 0.54,
+      "records": 5
+    },
+    {
+      "filename": "products.csv",
+      "size_kb": 1.5,
+      "records": 38
+    },
+    {
+      "filename": "reviews.csv",
+      "size_kb": 179.47,
+      "records": 3000
+    },
+    {
+      "filename": "sales.csv",
+      "size_kb": 1199.69,
+      "records": 25000
+    },
+    {
+      "filename": "stores.csv",
+      "size_kb": 0.37,
+      "records": 12
+    },
+    {
+      "filename": "subcategories.csv",
+      "size_kb": 0.29,
+      "records": 15
+    }
+  ]
+}
