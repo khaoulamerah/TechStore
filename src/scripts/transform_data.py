@@ -335,9 +335,8 @@ def create_dim_product(sentiment_df):
     
     return dim_product
 
-
 # ===============================================================
-# 7. CREATE DIM_STORE
+# 7. CREATE DIM_STORE - AVEC ANNUAL_TARGET
 # ===============================================================
 def create_dim_store(targets_df):
     """
@@ -347,8 +346,11 @@ def create_dim_store(targets_df):
     - city_id (INT)
     - city_name (VARCHAR)
     - region (VARCHAR)
-    - target_revenue (DECIMAL)
+    - monthly_target (DECIMAL) - Average monthly target
+    - annual_target (DECIMAL) - monthly_target × 12
     - manager_name (VARCHAR)
+    
+    FIX: Added annual_target calculation
     """
     base_dir = os.path.dirname(os.path.abspath(__file__))
     extracted_dir = os.path.join(base_dir, '../data/extracted')
@@ -374,12 +376,15 @@ def create_dim_store(targets_df):
         how='left'
     )
     
-    # Add targets (aggregate monthly targets to annual)
+    # Calculate AVERAGE monthly target per store
     targets_df['month'] = pd.to_datetime(targets_df['month'], errors='coerce')
     store_targets = targets_df.groupby('store_id').agg({
-        'target_revenue': 'sum',
+        'target_revenue': 'mean',  # Average monthly target
         'manager_name': 'first'
     }).reset_index()
+    
+    # Rename to monthly_target for clarity
+    store_targets = store_targets.rename(columns={'target_revenue': 'monthly_target'})
     
     dim_store = dim_store.merge(
         store_targets, 
@@ -388,10 +393,13 @@ def create_dim_store(targets_df):
     )
     
     # Fill missing values
-    dim_store['target_revenue'] = dim_store['target_revenue'].fillna(0).round(2)
+    dim_store['monthly_target'] = dim_store['monthly_target'].fillna(0).round(2)
     dim_store['manager_name'] = dim_store['manager_name'].fillna('Unknown')
     dim_store['city_name'] = dim_store['city_name'].fillna('Unknown')
     dim_store['region'] = dim_store['region'].fillna('Unknown')
+    
+    # FIX: Calculate annual_target = monthly_target × 12
+    dim_store['annual_target'] = (dim_store['monthly_target'] * 12).round(2)
     
     # Clean IDs
     dim_store['store_id'] = clean_id_column(dim_store['store_id'], 'store_id')
@@ -404,23 +412,23 @@ def create_dim_store(targets_df):
         'city_id', 
         'city_name', 
         'region',
-        'target_revenue', 
+        'monthly_target',
+        'annual_target',
         'manager_name'
     ]].copy()
     
-    # FIX: Remove duplicates based on store_id
+    # Remove duplicates based on store_id
     dim_store = dim_store.drop_duplicates(subset=['store_id'], keep='first')
     
     # Validate data
     print(f"✓ dim_store created ({len(dim_store)} stores)")
     print(f"   Regions: {dim_store['region'].nunique()} unique")
-    print(f"   Total target revenue: {dim_store['target_revenue'].sum():,.2f} DZD")
+    print(f"   Average monthly target: {dim_store['monthly_target'].mean():,.2f} DZD")
+    print(f"   Average annual target: {dim_store['annual_target'].mean():,.2f} DZD")
     
     return dim_store
-
-
 # ===============================================================
-# 8. CREATE DIM_CUSTOMER
+# 8. CREATE DIM_CUSTOMER - SUPPRESSION DES HOMONYMES
 # ===============================================================
 def create_dim_customer():
     """
@@ -431,8 +439,8 @@ def create_dim_customer():
     - city_name (VARCHAR)
     - region (VARCHAR)
     
-    FIX: Gère les doublons comme Lotfi Bouzid avec différentes wilayas
-    Solution: Garde la première ville/région associée à chaque client unique
+    FIX: Supprime les homonymes (même nom + même ville)
+    Garde seulement le premier customer_id trouvé
     """
     base_dir = os.path.dirname(os.path.abspath(__file__))
     extracted_dir = os.path.join(base_dir, '../data/extracted')
@@ -451,24 +459,42 @@ def create_dim_customer():
     if 'region_name' in cities_df.columns:
         cities_df = cities_df.rename(columns={'region_name': 'region'})
     
-    # Clean IDs BEFORE any processing
+    print(f"   Initial rows: {len(customers_df)}")
+    
+    # Clean IDs
     customers_df['customer_id'] = clean_id_column(customers_df['customer_id'], 'customer_id')
     customers_df['city_id'] = clean_id_column(customers_df['city_id'], 'city_id')
     cities_df['city_id'] = clean_id_column(cities_df['city_id'], 'city_id')
     
-    # Check for duplicates BEFORE removing them
-    duplicate_count = customers_df.duplicated(subset=['customer_id']).sum()
-    if duplicate_count > 0:
-        print(f"   ⚠ Found {duplicate_count} duplicate customer_id entries")
-        # Show example of duplicates
-        dupes = customers_df[customers_df.duplicated(subset=['customer_id'], keep=False)].sort_values('customer_id')
-        if len(dupes) > 0:
-            print(f"   Example: {dupes[['customer_id', 'full_name', 'city_id']].head(6).to_string(index=False)}")
+    # Strip whitespace and normalize names
+    customers_df['full_name'] = customers_df['full_name'].astype(str).str.strip()
     
-    # FIX: Remove duplicates - keep first occurrence of each customer_id
-    # This means if Lotfi Bouzid appears 3 times with different cities, we keep the first one
-    customers_df = customers_df.drop_duplicates(subset=['customer_id'], keep='first')
-    print(f"   → Kept {len(customers_df)} unique customers")
+    # STEP 1: Remove duplicates based on customer_id (true duplicates)
+    dup_by_id = customers_df.duplicated(subset=['customer_id']).sum()
+    if dup_by_id > 0:
+        print(f"   Found {dup_by_id} duplicate customer_ids → removing")
+        customers_df = customers_df.drop_duplicates(subset=['customer_id'], keep='first')
+    
+    # STEP 2: Remove homonymes (same name + same city = likely duplicate person)
+    dup_by_name_city = customers_df.duplicated(subset=['full_name', 'city_id']).sum()
+    if dup_by_name_city > 0:
+        print(f"   Found {dup_by_name_city} homonymes (same name + city) → removing")
+        
+        # Show examples
+        homonymes = customers_df[customers_df.duplicated(subset=['full_name', 'city_id'], keep=False)].sort_values(['full_name', 'city_id'])
+        unique_homonymes = homonymes.groupby(['full_name', 'city_id']).size().reset_index(name='count')
+        
+        print(f"   Examples of homonymes found:")
+        for _, row in unique_homonymes.head(5).iterrows():
+            entries = customers_df[(customers_df['full_name'] == row['full_name']) & 
+                                   (customers_df['city_id'] == row['city_id'])]
+            customer_ids = entries['customer_id'].tolist()
+            print(f"      '{row['full_name']}' in city {row['city_id']}: customer_ids {customer_ids}")
+        
+        # Keep only first occurrence of each name+city combination
+        customers_df = customers_df.drop_duplicates(subset=['full_name', 'city_id'], keep='first')
+    
+    print(f"   After deduplication: {len(customers_df)} rows")
     
     # Merge with cities
     dim_customer = customers_df.merge(
@@ -490,67 +516,88 @@ def create_dim_customer():
         'region'
     ]].copy()
     
-    print(f"✓ dim_customer created ({len(dim_customer)} unique customers)")
+    # Reset index
+    dim_customer = dim_customer.reset_index(drop=True)
+    
+    # Final verification
+    final_dup_id = dim_customer.duplicated(subset=['customer_id']).sum()
+    final_dup_name_city = dim_customer.duplicated(subset=['full_name', 'city_id']).sum()
+    
+    if final_dup_id > 0 or final_dup_name_city > 0:
+        print(f"   ⚠ WARNING: Still found duplicates!")
+        print(f"      By customer_id: {final_dup_id}")
+        print(f"      By name+city: {final_dup_name_city}")
+    else:
+        print(f"   ✓ NO duplicates (by customer_id or name+city)")
+    
+    print(f"✓ dim_customer: {len(dim_customer)} unique customers")
+    print(f"   Regions: {dim_customer['region'].nunique()}")
+    print(f"   Cities: {dim_customer['city_name'].nunique()}")
+    
     return dim_customer
 
-
-# ===============================================================
-# 9. CREATE DIM_DATE
-# ===============================================================
-def create_dim_date(sales_df):
+def create_dim_date():
     """
-    COLONNES FINALES ATTENDUES:
-    - date (DATE format YYYY-MM-DD)
+    COLONNES FINALES:
+    - date_id (INT) - YYYYMMDD, PRIMARY KEY
+    - date (VARCHAR) - YYYY-MM-DD
     - year (INT)
-    - quarter (INT) - Q1=1, Q2=2, Q3=3, Q4=4
+    - quarter (INT) - 1-4
     - month (INT) - 1-12
     - month_name (VARCHAR)
     - day (INT) - 1-31
-    - day_of_week (INT) - 1=Monday, 7=Sunday (corrected from 0-6)
+    - day_of_week (INT) - 1=Monday, 7=Sunday
     - day_name (VARCHAR)
     - week_of_year (INT) - 1-53
     """
-    # Extract all unique dates from sales
-    all_dates = pd.to_datetime(sales_df['date'].dropna().unique())
+    import pandas as pd
     
-    dim_date = pd.DataFrame({
-        'date': all_dates
-    })
+    START_DATE = '2023-01-01'
+    END_DATE = '2024-12-31'
     
-    # Sort first
-    dim_date = dim_date.sort_values('date').reset_index(drop=True)
+    date_range = pd.date_range(start=START_DATE, end=END_DATE, freq='D')
     
-    # Add date components BEFORE converting to string
+    dim_date = pd.DataFrame({'date': date_range})
+    
+    dim_date['date_id'] = dim_date['date'].dt.strftime('%Y%m%d').astype(int)
     dim_date['year'] = dim_date['date'].dt.year.astype(int)
-    dim_date['quarter'] = dim_date['date'].dt.quarter.astype(int)  # 1-4 based on month
+    dim_date['quarter'] = dim_date['date'].dt.quarter.astype(int)
     dim_date['month'] = dim_date['date'].dt.month.astype(int)
     dim_date['month_name'] = dim_date['date'].dt.strftime('%B')
     dim_date['day'] = dim_date['date'].dt.day.astype(int)
-    
-    # FIX: day_of_week - Convert 0-6 to 1-7 (1=Monday, 7=Sunday)
     dim_date['day_of_week'] = (dim_date['date'].dt.dayofweek + 1).astype(int)
     dim_date['day_name'] = dim_date['date'].dt.strftime('%A')
+    dim_date['week_of_year'] = dim_date['date'].dt.isocalendar().week.clip(1, 53).astype(int)
     
-    # week_of_year using isocalendar()
-    dim_date['week_of_year'] = dim_date['date'].dt.isocalendar().week.astype(int)
-    
-    # Convert date to YYYY-MM-DD string format LAST
     dim_date['date'] = dim_date['date'].dt.strftime('%Y-%m-%d')
     
-    print(f"✓ dim_date created ({len(dim_date)} dates)")
-    print(f"   Date range: {dim_date['date'].min()} to {dim_date['date'].max()}")
+    dim_date = dim_date[[
+        'date_id', 'date', 'year', 'quarter', 'month', 'month_name',
+        'day', 'day_of_week', 'day_name', 'week_of_year'
+    ]]
     
-    # Show distribution of quarters
-    temp_df = pd.DataFrame({'date': pd.to_datetime(dim_date['date'])})
-    temp_df['quarter'] = temp_df['date'].dt.quarter
-    quarter_counts = temp_df['quarter'].value_counts().sort_index()
-    print(f"   Quarter distribution: Q1={quarter_counts.get(1,0)}, Q2={quarter_counts.get(2,0)}, Q3={quarter_counts.get(3,0)}, Q4={quarter_counts.get(4,0)}")
-    print(f"   Day of week: 1-7 (1=Monday, 7=Sunday)")
-    print(f"   Week range: {dim_date['week_of_year'].min()} to {dim_date['week_of_year'].max()}")
+    assert dim_date['date_id'].nunique() == len(dim_date), "date_id not unique!"
+    assert not dim_date.duplicated(subset=['date_id']).any(), "Duplicate date_ids found!"
     
     return dim_date
 
 
+def add_date_id_to_fact_sales(fact_sales_df, dim_date_df):
+    """
+    Ajoute date_id à fact_sales et convertit date en format ISO.
+    """
+    import pandas as pd
+    
+    fact_sales_df['date'] = pd.to_datetime(fact_sales_df['date'])
+    fact_sales_df['date_id'] = fact_sales_df['date'].dt.strftime('%Y%m%d').astype(int)
+    
+    missing = fact_sales_df[~fact_sales_df['date_id'].isin(dim_date_df['date_id'])]
+    if not missing.empty:
+        print(f"⚠ {len(missing)} transactions with dates NOT in dim_date")
+    
+    fact_sales_df['date'] = fact_sales_df['date'].dt.strftime('%Y-%m-%d')
+    
+    return fact_sales_df
 # ===============================================================
 # 10. NET PROFIT CALCULATION & FACT_SALES
 # ===============================================================
@@ -576,17 +623,16 @@ def calculate_net_profit(marketing_df, shipping_df):
     required_files = ['sales.csv', 'products.csv', 'customers.csv', 'cities.csv', 'categories.csv']
     for f in required_files:
         if not os.path.exists(os.path.join(extracted_dir, f)):
-            print(f"✗ Missing required extracted file: {f}")
             return None
 
-    # Load and standardize
     sales_df = standardize_columns(pd.read_csv(os.path.join(extracted_dir, 'sales.csv')))
     products_df = standardize_columns(pd.read_csv(os.path.join(extracted_dir, 'products.csv')))
     customers_df = standardize_columns(pd.read_csv(os.path.join(extracted_dir, 'customers.csv')))
     cities_df = standardize_columns(pd.read_csv(os.path.join(extracted_dir, 'cities.csv')))
     categories_df = standardize_columns(pd.read_csv(os.path.join(extracted_dir, 'categories.csv')))
 
-    # Load subcategories if available
+    sales_df = sales_df.drop_duplicates(subset=['trans_id'], keep='first')
+
     subcategories_df = None
     subcat_path = os.path.join(extracted_dir, 'subcategories.csv')
     if os.path.exists(subcat_path):
@@ -595,27 +641,21 @@ def calculate_net_profit(marketing_df, shipping_df):
                               if col in subcategories_df.columns), None)
         if subcat_id_col and subcat_id_col != 'subcategory_id':
             subcategories_df = subcategories_df.rename(columns={subcat_id_col: 'subcategory_id'})
-        print("✓ subcategories.csv loaded")
 
-    # Normalize region name in cities
     if 'region' in cities_df.columns and 'region_name' not in cities_df.columns:
         cities_df = cities_df.rename(columns={'region': 'region_name'})
 
-    # Date handling
     sales_df['date'] = pd.to_datetime(sales_df['date'], errors='coerce')
     sales_df['month'] = sales_df['date'].dt.to_period('M')
 
-    # Start enrichment
     enriched_df = sales_df.copy()
 
-    # 1. Add unit_cost from products
     enriched_df = enriched_df.merge(
         products_df[['product_id', 'unit_cost']], 
         on='product_id', 
         how='left'
     )
 
-    # 2. Geographic enrichment
     enriched_df = enriched_df.merge(
         customers_df[['customer_id', 'city_id']], 
         on='customer_id', 
@@ -627,7 +667,6 @@ def calculate_net_profit(marketing_df, shipping_df):
         how='left'
     )
     
-    # FIX: Normalize region_name before merge with shipping
     enriched_df['region_name'] = enriched_df['region_name'].astype(str).str.lower().str.strip()
     shipping_df['region_name'] = shipping_df['region_name'].astype(str).str.lower().str.strip()
     
@@ -636,15 +675,7 @@ def calculate_net_profit(marketing_df, shipping_df):
         on='region_name', 
         how='left'
     )
-    
-    # DEBUG: Check shipping cost merge
-    print(f"   Shipping costs matched: {enriched_df['shipping_cost'].notna().sum()} / {len(enriched_df)}")
-    if enriched_df['shipping_cost'].isna().all():
-        print("   ⚠ WARNING: No shipping costs matched! Check region_name values:")
-        print(f"      Cities regions: {sorted(cities_df['region_name'].unique()[:5])}")
-        print(f"      Shipping regions: {sorted(shipping_df['region_name'].unique())}")
 
-    # 3. Category enrichment
     category_added = False
     if subcategories_df is not None:
         prod_subcat_col = next((col for col in ['subcategory_id', 'subcat_id', 'sub_category_id'] 
@@ -671,9 +702,7 @@ def calculate_net_profit(marketing_df, shipping_df):
             )
             enriched_df = enriched_df.rename(columns={'category_name': 'category'})
             category_added = True
-            print("✓ Category added via subcategories")
 
-    # Fallback: direct category from products
     if not category_added:
         cat_col_in_products = next((col for col in ['category', 'category_name', 'category_id'] 
                                     if col in products_df.columns), None)
@@ -691,7 +720,6 @@ def calculate_net_profit(marketing_df, shipping_df):
                 how='left'
             )
             category_added = True
-            print("✓ Category added directly from products + categories")
         elif cat_col_in_products in ['category', 'category_name']:
             enriched_df = enriched_df.merge(
                 products_df[['product_id', cat_col_in_products]].rename(columns={cat_col_in_products: 'category'}),
@@ -699,21 +727,15 @@ def calculate_net_profit(marketing_df, shipping_df):
                 how='left'
             )
             category_added = True
-            print("✓ Category added directly from products")
 
-    # Last resort
     if not category_added:
         enriched_df['category'] = 'unknown'
-        print("⚠ No category link found → using 'unknown'")
 
-    # Normalize category
     enriched_df['category'] = enriched_df['category'].astype(str).str.lower().str.strip()
 
-    # 4. Marketing allocation
     marketing_df['month'] = marketing_df['date'].dt.to_period('M')
     marketing_df['category'] = marketing_df['category'].astype(str).str.lower().str.strip()
 
-    # Calculate category-month total revenue
     cat_month_rev = enriched_df.groupby(['category', 'month'])['total_revenue'].sum().reset_index(name='cat_month_total')
     
     enriched_df = enriched_df.merge(
@@ -728,41 +750,32 @@ def calculate_net_profit(marketing_df, shipping_df):
         how='left'
     )
 
-    # Allocate marketing proportionally
     enriched_df['allocated_marketing_dzd'] = (
         enriched_df['total_revenue'] / enriched_df['cat_month_total']
     ) * enriched_df['marketing_cost_dzd']
 
-    # 5. Calculate costs
     enriched_df['unit_cost'] = pd.to_numeric(enriched_df['unit_cost'], errors='coerce').fillna(0)
     enriched_df['cost'] = (enriched_df['unit_cost'] * enriched_df['quantity']).round(2)
     
-    # FIX: Shipping cost per unit - ensure we have values
     enriched_df['shipping_cost'] = pd.to_numeric(enriched_df['shipping_cost'], errors='coerce')
     
-    # If shipping_cost is still all NaN, use a default value
     if enriched_df['shipping_cost'].isna().all():
-        print("   ⚠ Using default shipping cost of 50 DZD per unit")
         enriched_df['shipping_cost'] = 50.0
     else:
         enriched_df['shipping_cost'] = enriched_df['shipping_cost'].fillna(50.0)
     
     enriched_df['shipping_cost_total'] = (enriched_df['shipping_cost'] * enriched_df['quantity']).round(2)
     
-    # Fill NaN values
     enriched_df['allocated_marketing_dzd'] = enriched_df['allocated_marketing_dzd'].fillna(0).round(2)
 
-    # 6. Calculate gross_profit
     enriched_df['gross_profit'] = (enriched_df['total_revenue'] - enriched_df['cost']).round(2)
 
-    # 7. Calculate net_profit
     enriched_df['net_profit'] = (
         enriched_df['gross_profit'] -
         enriched_df['shipping_cost_total'] -
         enriched_df['allocated_marketing_dzd']
     ).round(2)
 
-    # 8. Clean up and select final columns
     fact_sales = enriched_df[[
         'trans_id', 
         'date', 
@@ -778,25 +791,23 @@ def calculate_net_profit(marketing_df, shipping_df):
         'net_profit'
     ]].copy()
 
-    # Rename columns to match schema
     fact_sales = fact_sales.rename(columns={
         'shipping_cost_total': 'shipping_cost',
         'allocated_marketing_dzd': 'marketing_cost'
     })
 
-    # Clean and ensure proper data types
     fact_sales['trans_id'] = clean_id_column(fact_sales['trans_id'], 'trans_id')
     fact_sales['store_id'] = clean_id_column(fact_sales['store_id'], 'store_id')
     fact_sales['product_id'] = clean_id_column(fact_sales['product_id'], 'product_id')
     fact_sales['customer_id'] = clean_id_column(fact_sales['customer_id'], 'customer_id')
     fact_sales['quantity'] = pd.to_numeric(fact_sales['quantity'], errors='coerce').fillna(0).astype(int)
     
-    # Round all decimal columns
     decimal_cols = ['total_revenue', 'cost', 'gross_profit', 'shipping_cost', 'marketing_cost', 'net_profit']
     for col in decimal_cols:
         fact_sales[col] = fact_sales[col].round(2)
+    
+    fact_sales = fact_sales.drop_duplicates(subset=['trans_id'], keep='first')
 
-    print(f"✓ fact_sales created ({len(fact_sales)} transactions)")
     return fact_sales
 
 
@@ -1013,7 +1024,7 @@ def main():
     
     # Step 7: Create dim_date
     print("\n[7/8] Creating dim_date...")
-    dim_date = create_dim_date(fact_sales)
+    dim_date = create_dim_date()
     
     # Step 8: Calculate marketing ROI
     print("\n[8/8] Calculating marketing ROI...")
