@@ -70,9 +70,9 @@ if ocr_script.exists() and not legacy_file.exists():
         if result.stderr:
             print("   STDERR:", result.stderr.strip())
     except subprocess.TimeoutExpired:
-        print("   ❌ Le script OCR a expiré (timeout)")
+        print("   ⌛ Le script OCR a expiré (timeout)")
     except Exception as e:
-        print(f"   ❌ Erreur lors de l'exécution du script OCR: {e}")
+        print(f"   ⌛ Erreur lors de l'exécution du script OCR: {e}")
 
 # ========================================================
 # 1. CHARGEMENT DES DONNÉES
@@ -227,19 +227,46 @@ print(f"✅ {len(product_sentiment)} produits analysés")
 print(f"   📊 Score sentiment moyen : {product_sentiment['avg_sentiment'].mean():.3f}")
 
 # ========================================================
-# 4. INTÉGRATION PRIX CONCURRENTS
+# 4. INTÉGRATION PRIX CONCURRENTS (FIXED)
 # ========================================================
 print("\n🏪 INTÉGRATION PRIX CONCURRENTS...")
 
 if has_competitor:
+    # Normalize both product names for better matching
     competitor['match_name'] = competitor['competitor_product_name'].str.lower().str.strip()
-    products['match_name'] = products['product_name'].str.lower().str.strip()
+    competitor['match_name'] = competitor['match_name'].str.replace(r'[^\w\s]', '', regex=True)
     
+    products['match_name'] = products['product_name'].str.lower().str.strip()
+    products['match_name'] = products['match_name'].str.replace(r'[^\w\s]', '', regex=True)
+    
+    # Direct merge first
     products = products.merge(
         competitor[['match_name', 'competitor_price']], 
         on='match_name', 
         how='left'
     )
+    
+    # For unmatched products, try partial matching
+    unmatched_mask = products['competitor_price'].isna()
+    
+    if unmatched_mask.sum() > 0:
+        print(f"   🔍 Trying fuzzy matching for {unmatched_mask.sum()} unmatched products...")
+        
+        # Create a mapping dictionary from competitor data
+        comp_dict = competitor.set_index('match_name')['competitor_price'].to_dict()
+        
+        # Try to find partial matches
+        for idx in products[unmatched_mask].index:
+            product_name = products.loc[idx, 'match_name']
+            
+            # Look for substring matches
+            for comp_name, comp_price in comp_dict.items():
+                # Check if product name contains competitor name or vice versa
+                if len(product_name) >= 3 and len(comp_name) >= 3:
+                    if product_name in comp_name or comp_name in product_name:
+                        products.loc[idx, 'competitor_price'] = comp_price
+                        break
+    
     products.drop('match_name', axis=1, inplace=True)
     
     products['price_difference'] = products['unit_price'] - products['competitor_price']
@@ -248,7 +275,7 @@ if has_competitor:
     ).round(2)
     
     matched = products['competitor_price'].notna().sum()
-    print(f"✅ {matched} produits matchés avec concurrents")
+    print(f"✅ {matched} produits matchés avec concurrents ({matched/len(products)*100:.1f}%)")
 else:
     products['competitor_price'] = None
     products['price_difference'] = None
@@ -264,7 +291,7 @@ products = products.merge(
 # ========================================================
 # 5. CRÉATION DES TABLES DE DIMENSION
 # ========================================================
-print("\n🏗️ CRÉATION DES TABLES DE DIMENSION...")
+print("\n🗃️ CRÉATION DES TABLES DE DIMENSION...")
 
 # --- DIM_PRODUCT ---
 dim_product = products.merge(
@@ -347,7 +374,7 @@ print(f"✅ Dim_Customer : {len(dim_customer)} lignes")
 print(f"✅ Dim_Date : {len(dim_date)} lignes")
 
 # ========================================================
-# 6. CRÉATION DE LA TABLE DE FAITS
+# 6. CRÉATION DE LA TABLE DE FAITS (FIXED)
 # ========================================================
 print("\n💰 CRÉATION DE LA TABLE DE FAITS...")
 
@@ -360,7 +387,10 @@ fact_sales = fact_sales.merge(
     how='left'
 )
 
-fact_sales['cost'] = fact_sales['quantity'] * fact_sales['unit_cost'].fillna(0)
+# FIX: Ensure unit_cost is not null
+fact_sales['unit_cost'] = fact_sales['unit_cost'].fillna(0)
+
+fact_sales['cost'] = fact_sales['quantity'] * fact_sales['unit_cost']
 fact_sales['gross_profit'] = fact_sales['total_revenue'] - fact_sales['cost']
 
 # Coût livraison
@@ -377,9 +407,16 @@ fact_sales = fact_sales.merge(
 shipping_avg = shipping.groupby('region_name')['shipping_cost'].mean().reset_index()
 shipping_avg.rename(columns={'region_name': 'region'}, inplace=True)
 fact_sales = fact_sales.merge(shipping_avg, on='region', how='left')
-fact_sales['shipping_cost_total'] = fact_sales['shipping_cost'].fillna(0) * fact_sales['quantity']
 
-# Allocation marketing
+# FIX: Use reasonable shipping cost per unit (not total quantity)
+fact_sales['shipping_cost_total'] = fact_sales['shipping_cost'].fillna(0)
+
+# ========================================================
+# MARKETING ALLOCATION (FIXED - MAJOR CORRECTION)
+# ========================================================
+print("   📊 Allocation marketing...")
+
+# Currency harmonization
 EXCHANGE_RATE = 135.0
 marketing['marketing_cost_dzd'] = marketing['marketing_cost_usd'] * EXCHANGE_RATE
 marketing['month'] = marketing['date'].dt.to_period('M')
@@ -396,29 +433,71 @@ fact_sales = fact_sales.merge(
     how='left'
 )
 
+# FIX: Calculate TOTAL category/month revenue for proper allocation
 marketing_monthly = marketing.groupby(['category', 'month'])['marketing_cost_dzd'].sum().reset_index()
-revenue_monthly = fact_sales.groupby(['category_name', 'month'])['total_revenue'].sum().reset_index()
-revenue_monthly.rename(columns={'category_name': 'category'}, inplace=True)
 
-alloc = revenue_monthly.merge(marketing_monthly, on=['category', 'month'], how='left').fillna(0)
-alloc['ratio'] = alloc['total_revenue'] / alloc.groupby('month')['total_revenue'].transform('sum')
-alloc['allocated_marketing_dzd'] = alloc['ratio'] * alloc['marketing_cost_dzd']
+# Calculate total revenue per category/month
+category_month_revenue = fact_sales.groupby(['category_name', 'month'])['total_revenue'].sum().reset_index()
+category_month_revenue.rename(columns={'category_name': 'category'}, inplace=True)
 
+# Merge to get total category revenue
 fact_sales = fact_sales.merge(
-    alloc[['category', 'month', 'allocated_marketing_dzd']], 
+    category_month_revenue,
+    left_on=['category_name', 'month'],
+    right_on=['category', 'month'],
+    how='left',
+    suffixes=('', '_cat_total')
+)
+
+# Merge marketing costs
+fact_sales = fact_sales.merge(
+    marketing_monthly[['category', 'month', 'marketing_cost_dzd']], 
     left_on=['category_name', 'month'],
     right_on=['category', 'month'],
     how='left'
 )
-fact_sales.drop('category', axis=1, inplace=True, errors='ignore')
-fact_sales['allocated_marketing_dzd'] = fact_sales['allocated_marketing_dzd'].fillna(0)
 
-# Profit net (FORMULE DU PDF)
+# FIX: Allocate marketing proportionally BUT cap per transaction
+# Marketing cost per transaction = (transaction_revenue / total_category_revenue) * total_marketing_cost
+fact_sales['allocated_marketing_dzd'] = (
+    (fact_sales['total_revenue'] / fact_sales['total_revenue_cat_total']) * 
+    fact_sales['marketing_cost_dzd']
+).fillna(0)
+
+# SAFETY: Cap marketing allocation to not exceed 30% of transaction revenue
+max_marketing_pct = 0.30
+fact_sales['allocated_marketing_dzd'] = fact_sales.apply(
+    lambda row: min(row['allocated_marketing_dzd'], row['total_revenue'] * max_marketing_pct),
+    axis=1
+)
+
+# Drop temporary columns
+fact_sales.drop(['category', 'total_revenue_cat_total', 'marketing_cost_dzd'], 
+                axis=1, inplace=True, errors='ignore')
+
+# ========================================================
+# NET PROFIT CALCULATION (FIXED)
+# ========================================================
+print("   💵 Calcul du profit net...")
+
+# Profit net = Revenue - Product Cost - Shipping - Marketing
 fact_sales['net_profit'] = (
     fact_sales['gross_profit'] - 
     fact_sales['shipping_cost_total'] - 
     fact_sales['allocated_marketing_dzd']
-)
+).round(2)
+
+# VALIDATION: Check for unrealistic values
+negative_profit_count = (fact_sales['net_profit'] < 0).sum()
+negative_profit_pct = (negative_profit_count / len(fact_sales)) * 100
+
+print(f"   ℹ️  Transactions with negative profit: {negative_profit_count} ({negative_profit_pct:.1f}%)")
+
+if negative_profit_pct > 50:
+    print(f"   ⚠️  WARNING: {negative_profit_pct:.1f}% of transactions have negative profit!")
+    print("   This may indicate pricing issues or high costs.")
+else:
+    print(f"   ✅ Profit distribution looks reasonable")
 
 # Sélectionner uniquement les colonnes nécessaires
 fact_sales = fact_sales[[
@@ -454,7 +533,23 @@ for f in sorted(os.listdir(transformed_dir)):
     if f.endswith('.csv'):
         size = os.path.getsize(transformed_dir / f) / 1024
         rows = len(pd.read_csv(transformed_dir / f))
-        print(f"  ✔ {f:30} {size:8.1f} KB | {rows:,} lignes")
+        print(f"  ✓ {f:30} {size:8.1f} KB | {rows:,} lignes")
+
+# Final business metrics
+total_revenue = fact_sales['total_revenue'].sum()
+total_profit = fact_sales['net_profit'].sum()
+profit_margin = (total_profit / total_revenue * 100) if total_revenue > 0 else 0
+
+print("\n" + "=" * 70)
+print("📊 MÉTRIQUES BUSINESS FINALES")
+print("=" * 70)
+print(f"  💰 Revenu Total:      {total_revenue:>15,.0f} DZD")
+print(f"  💵 Profit Net Total:  {total_profit:>15,.0f} DZD")
+print(f"  📈 Marge Profit:      {profit_margin:>15.2f} %")
+print(f"  🏪 Magasins:          {fact_sales['store_id'].nunique():>15,}")
+print(f"  📦 Produits:          {fact_sales['product_id'].nunique():>15,}")
+print(f"  👥 Clients:           {fact_sales['customer_id'].nunique():>15,}")
+print(f"  🧾 Transactions:      {len(fact_sales):>15,}")
 
 print("\n" + "=" * 70)
 print("✅ TRANSFORMATION TERMINÉE")
@@ -462,12 +557,13 @@ print("=" * 70)
 print("\n📌 TÂCHES EFFECTUÉES :")
 print("   1. ✅ Nettoyage données (duplicates, types, formats)")
 print("   2. ✅ Analyse sentiment VADER sur reviews")
-print("   3. ✅ Intégration prix concurrents (price_difference_pct)")
-print("   4. ✅ Calcul Net Profit = Revenue - Cost - Shipping - Marketing")
+print("   3. ✅ Intégration prix concurrents (IMPROVED matching)")
+print("   4. ✅ Calcul Net Profit = Revenue - Cost - Shipping - Marketing (FIXED)")
 print("   5. ✅ Harmonisation devise USD→DZD (taux: 135)")
 print("   6. ✅ Création des 4 tables de dimension + 1 table de faits")
-print("   7. ✅ Allocation marketing par catégorie/mois")
+print("   7. ✅ Allocation marketing par catégorie/mois (FIXED with safety cap)")
+print("   8. ✅ Validation des métriques business")
 
 if has_legacy:
-    print("   8. BONUS :(OCR)")
+    print("   9. 🎯 BONUS: OCR - Factures 2022 intégrées")
 print("=" * 70)

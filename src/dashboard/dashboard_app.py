@@ -1,23 +1,24 @@
 """
-Dashboard Business Intelligence - TechStore
-Membre 4 : Frontend Developer
-Projet : TechStore Business Intelligence
-
-Application Streamlit pour visualiser les KPIs et analyses
+TechStore Business Intelligence Dashboard
+Main Streamlit Application
 """
 
 import streamlit as st
-import sqlite3
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from datetime import datetime, timedelta
-import numpy as np
+from pathlib import Path
+import sys
 
-# ====================================================================
-# CONFIGURATION DE LA PAGE
-# ====================================================================
+# Add parent directory to path for imports
+sys.path.append(str(Path(__file__).parent.parent))
 
+from dashboard.utils.database_connector import DatabaseConnector, get_db_connection
+from dashboard.components.kpi_cards import display_kpi_row, fetch_global_kpis
+from dashboard.components.filters import DashboardFilters
+from dashboard.components import charts
+
+# Page configuration
 st.set_page_config(
     page_title="TechStore BI Dashboard",
     page_icon="📊",
@@ -25,656 +26,546 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# CSS personnalisé pour améliorer l'apparence
+# Custom CSS
 st.markdown("""
 <style>
-    .main > div {
-        padding-top: 2rem;
-    }
-    .stMetric {
-        background-color: #f0f2f6;
-        padding: 15px;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    h1 {
+    .main-header {
+        font-size: 2.5rem;
+        font-weight: bold;
         color: #1f77b4;
-        padding-bottom: 10px;
-        border-bottom: 3px solid #1f77b4;
+        text-align: center;
+        margin-bottom: 2rem;
     }
-    h2 {
+    .section-header {
+        font-size: 1.8rem;
+        font-weight: bold;
         color: #2c3e50;
-        margin-top: 20px;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 0.5rem;
     }
-    .highlight {
-        background-color: #ffffcc;
-        padding: 10px;
-        border-radius: 5px;
-        margin: 10px 0;
+    .metric-card {
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 </style>
 """, unsafe_allow_html=True)
 
-# ====================================================================
-# CONNEXION À LA BASE DE DONNÉES
-# ====================================================================
+# Initialize database connection (NO CACHING - thread-safe)
+def init_database():
+    """Initialize database connector (creates new instance each time)"""
+    return DatabaseConnector()
 
-@st.cache_resource
-def get_database_connection():
-    """Établir une connexion réutilisable à la base de données"""
-    try:
-        conn = sqlite3.connect('database/techstore_dw.db', check_same_thread=False)
-        return conn
-    except Exception as e:
-        st.error(f"❌ Erreur de connexion à la base de données: {e}")
-        return None
+# Get fresh database connection
+db = init_database()
 
-# Connexion globale
-conn = get_database_connection()
+# Initialize filters with fresh DB connection
+filters_manager = DashboardFilters(db)
 
-# ====================================================================
-# FONCTIONS DE RÉCUPÉRATION DES DONNÉES
-# ====================================================================
+# Main App
+def main():
+    """Main dashboard application"""
+    
+    # Header
+    st.markdown('<h1 class="main-header">📊 TechStore Business Intelligence Dashboard</h1>', 
+                unsafe_allow_html=True)
+    
+    # Sidebar filters
+    filters = filters_manager.render_sidebar_filters()
+    
+    # Display filter summary
+    st.info(f"**Active Filters:** {filters_manager.get_filter_summary(filters)}")
+    
+    # Navigation tabs
+    tab1, tab2, tab3, tab4 = st.tabs([
+        "📈 Dashboard Overview",
+        "📊 Advanced Analytics", 
+        "🗂️ Raw Data Explorer",
+        "ℹ️ About"
+    ])
+    
+    with tab1:
+        render_dashboard_overview(filters)
+    
+    with tab2:
+        render_advanced_analytics(filters)
+    
+    with tab3:
+        render_raw_data_explorer()
+    
+    with tab4:
+        render_about_page()
 
-@st.cache_data(ttl=300)
-def get_date_range():
-    """Obtenir la plage de dates disponible"""
-    query = """
+
+def render_dashboard_overview(filters):
+    """Render main dashboard with KPIs and key charts"""
+    
+    st.markdown('<h2 class="section-header">Global KPIs</h2>', unsafe_allow_html=True)
+    
+    # Build filter conditions
+    where_clause, params = filters_manager.build_filter_sql_conditions(filters)
+    
+    # Fetch and display KPIs with filters
+    kpi_data = fetch_global_kpis_filtered(db, where_clause, params)
+    display_kpi_row(kpi_data)
+    
+    st.markdown("---")
+    
+    # Monthly Trends with filters
+    st.markdown('<h2 class="section-header">📈 Monthly Revenue & Profit Trends</h2>', 
+                unsafe_allow_html=True)
+    
+    query_monthly = f"""
     SELECT 
-        MIN(Date) as min_date,
-        MAX(Date) as max_date
-    FROM Fact_Sales
-    """
-    df = pd.read_sql(query, conn)
-    return pd.to_datetime(df['min_date'][0]), pd.to_datetime(df['max_date'][0])
-
-@st.cache_data(ttl=300)
-def get_stores():
-    """Obtenir la liste des magasins"""
-    query = "SELECT DISTINCT Store_ID, Store_Name FROM Dim_Store ORDER BY Store_Name"
-    return pd.read_sql(query, conn)
-
-@st.cache_data(ttl=300)
-def get_categories():
-    """Obtenir la liste des catégories"""
-    query = "SELECT DISTINCT Category FROM Dim_Product ORDER BY Category"
-    return pd.read_sql(query, conn)
-
-def build_filter_query(base_query, date_range, stores, categories):
-    """Construire une requête avec les filtres appliqués"""
-    conditions = []
-    params = []
-    
-    if date_range:
-        conditions.append("f.Date BETWEEN ? AND ?")
-        params.extend([date_range[0].strftime('%Y-%m-%d'), date_range[1].strftime('%Y-%m-%d')])
-    
-    if stores:
-        placeholders = ','.join(['?'] * len(stores))
-        conditions.append(f"s.Store_ID IN ({placeholders})")
-        params.extend(stores)
-    
-    if categories:
-        placeholders = ','.join(['?'] * len(categories))
-        conditions.append(f"p.Category IN ({placeholders})")
-        params.extend(categories)
-    
-    if conditions:
-        where_clause = " AND " + " AND ".join(conditions)
-        query = base_query.replace("WHERE 1=1", f"WHERE 1=1 {where_clause}")
-    else:
-        query = base_query
-    
-    return query, params
-
-# ====================================================================
-# EN-TÊTE DE L'APPLICATION
-# ====================================================================
-
-st.title("📊 TechStore - Business Intelligence Dashboard")
-st.markdown("**Plateforme d'Analyse et de Visualisation des Données**")
-st.markdown("---")
-
-# ====================================================================
-# SIDEBAR - FILTRES INTERACTIFS
-# ====================================================================
-
-st.sidebar.title("🔍 Filtres d'Analyse")
-st.sidebar.markdown("Personnalisez votre analyse en sélectionnant les critères ci-dessous.")
-
-# Filtre de date
-st.sidebar.subheader("📅 Période")
-min_date, max_date = get_date_range()
-
-# Période prédéfinie ou personnalisée
-period_option = st.sidebar.radio(
-    "Sélection rapide:",
-    ["Tout", "Dernier mois", "Dernier trimestre", "Personnalisé"]
-)
-
-if period_option == "Dernier mois":
-    date_start = max_date - timedelta(days=30)
-    date_end = max_date
-elif period_option == "Dernier trimestre":
-    date_start = max_date - timedelta(days=90)
-    date_end = max_date
-elif period_option == "Personnalisé":
-    col1, col2 = st.sidebar.columns(2)
-    with col1:
-        date_start = st.date_input("Du", min_date, min_value=min_date, max_value=max_date)
-    with col2:
-        date_end = st.date_input("Au", max_date, min_value=min_date, max_value=max_date)
-else:
-    date_start = min_date
-    date_end = max_date
-
-date_range = (pd.to_datetime(date_start), pd.to_datetime(date_end))
-
-# Filtre de magasin
-st.sidebar.subheader("🏪 Magasins")
-df_stores = get_stores()
-store_option = st.sidebar.radio("Sélection:", ["Tous les magasins", "Sélection personnalisée"])
-
-if store_option == "Sélection personnalisée":
-    selected_stores = st.sidebar.multiselect(
-        "Choisir les magasins:",
-        options=df_stores['Store_ID'].tolist(),
-        format_func=lambda x: df_stores[df_stores['Store_ID'] == x]['Store_Name'].values[0],
-        default=df_stores['Store_ID'].tolist()
-    )
-else:
-    selected_stores = df_stores['Store_ID'].tolist()
-
-# Filtre de catégorie
-st.sidebar.subheader("📦 Catégories de Produits")
-df_categories = get_categories()
-category_option = st.sidebar.radio("Sélection:", ["Toutes les catégories", "Sélection personnalisée"], key="cat_radio")
-
-if category_option == "Sélection personnalisée":
-    selected_categories = st.sidebar.multiselect(
-        "Choisir les catégories:",
-        options=df_categories['Category'].tolist(),
-        default=df_categories['Category'].tolist()
-    )
-else:
-    selected_categories = df_categories['Category'].tolist()
-
-st.sidebar.markdown("---")
-st.sidebar.info(f"📊 Période analysée: {(date_end - date_start).days} jours")
-
-# ====================================================================
-# SECTION 1 : KPIs GLOBAUX
-# ====================================================================
-
-st.header("📈 Indicateurs Clés de Performance (KPIs)")
-
-# Requête pour les KPIs principaux
-kpi_query = """
-SELECT 
-    SUM(f.Total_Revenue) as Total_Revenue,
-    SUM(f.Net_Profit) as Net_Profit,
-    AVG(f.Net_Profit / NULLIF(f.Total_Revenue, 0)) * 100 as Profit_Margin,
-    COUNT(DISTINCT f.Sale_ID) as Total_Orders,
-    SUM(f.Total_Revenue) / NULLIF(COUNT(DISTINCT f.Sale_ID), 0) as Avg_Order_Value
-FROM Fact_Sales f
-JOIN Dim_Store s ON f.Store_ID = s.Store_ID
-JOIN Dim_Product p ON f.Product_ID = p.Product_ID
-WHERE 1=1
-"""
-
-kpi_query_filtered, params = build_filter_query(kpi_query, date_range, selected_stores, selected_categories)
-df_kpis = pd.read_sql(kpi_query_filtered, conn, params=params)
-
-# Requête pour les objectifs
-target_query = """
-SELECT 
-    SUM(f.Total_Revenue) as Actual_Sales,
-    SUM(s.Monthly_Target) as Total_Target
-FROM Fact_Sales f
-JOIN Dim_Store s ON f.Store_ID = s.Store_ID
-JOIN Dim_Product p ON f.Product_ID = p.Product_ID
-WHERE 1=1
-"""
-
-target_query_filtered, params_target = build_filter_query(target_query, date_range, selected_stores, selected_categories)
-df_target = pd.read_sql(target_query_filtered, conn, params=params_target)
-
-# Requête pour le sentiment
-sentiment_query = """
-SELECT AVG(p.Sentiment_Score) as Avg_Sentiment
-FROM Fact_Sales f
-JOIN Dim_Product p ON f.Product_ID = p.Product_ID
-JOIN Dim_Store s ON f.Store_ID = s.Store_ID
-WHERE 1=1 AND p.Sentiment_Score IS NOT NULL
-"""
-
-sentiment_query_filtered, params_sent = build_filter_query(sentiment_query, date_range, selected_stores, selected_categories)
-df_sentiment = pd.read_sql(sentiment_query_filtered, conn, params=params_sent)
-
-# Affichage des KPIs
-col1, col2, col3, col4, col5 = st.columns(5)
-
-with col1:
-    revenue = df_kpis['Total_Revenue'].values[0]
-    st.metric(
-        "💰 Revenu Total",
-        f"{revenue:,.0f} DZD" if not pd.isna(revenue) else "N/A"
-    )
-
-with col2:
-    profit = df_kpis['Net_Profit'].values[0]
-    st.metric(
-        "💵 Profit Net",
-        f"{profit:,.0f} DZD" if not pd.isna(profit) else "N/A"
-    )
-
-with col3:
-    actual = df_target['Actual_Sales'].values[0]
-    target = df_target['Total_Target'].values[0]
-    achievement = (actual / target * 100) if target and target > 0 else 0
-    st.metric(
-        "🎯 Objectif Atteint",
-        f"{achievement:.1f}%",
-        delta=f"{actual - target:,.0f} DZD" if not pd.isna(target) else None
-    )
-
-with col4:
-    sentiment = df_sentiment['Avg_Sentiment'].values[0]
-    sentiment_emoji = "😊" if sentiment > 0.5 else "😐" if sentiment > 0 else "😞"
-    st.metric(
-        f"{sentiment_emoji} Sentiment",
-        f"{sentiment:.2f}" if not pd.isna(sentiment) else "N/A"
-    )
-
-with col5:
-    avg_order = df_kpis['Avg_Order_Value'].values[0]
-    st.metric(
-        "🛒 Panier Moyen",
-        f"{avg_order:,.0f} DZD" if not pd.isna(avg_order) else "N/A"
-    )
-
-st.markdown("---")
-
-# ====================================================================
-# SECTION 2 : ANALYSES VISUELLES AVANCÉES
-# ====================================================================
-
-st.header("📊 Analyses Détaillées")
-
-# ==================== Graphique 1 & 2 ====================
-col_left, col_right = st.columns(2)
-
-with col_left:
-    st.subheader("📈 Évolution du Revenu (YTD)")
-    
-    ytd_query = """
-    SELECT 
-        d.Year,
-        d.Month,
-        d.Month_Name,
-        SUM(f.Total_Revenue) as Monthly_Revenue
-    FROM Fact_Sales f
-    JOIN Dim_Date d ON f.Date = d.Date
-    JOIN Dim_Store s ON f.Store_ID = s.Store_ID
-    JOIN Dim_Product p ON f.Product_ID = p.Product_ID
-    WHERE 1=1
-    GROUP BY d.Year, d.Month, d.Month_Name
-    ORDER BY d.Year, d.Month
+        dd.Year || '-' || PRINTF('%02d', dd.Month) as Year_Month,
+        ROUND(SUM(fs.Total_Revenue), 2) as Revenue,
+        ROUND(SUM(fs.Net_Profit), 2) as Profit,
+        COUNT(*) as Transaction_Count
+    FROM Fact_Sales fs
+    JOIN Dim_Date dd ON fs.Date_ID = dd.Date_ID
+    JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
+    JOIN Dim_Product dp ON fs.Product_ID = dp.Product_ID
+    WHERE {where_clause}
+    GROUP BY dd.Year, dd.Month
+    ORDER BY dd.Year, dd.Month
     """
     
-    ytd_query_filtered, params_ytd = build_filter_query(ytd_query, date_range, selected_stores, selected_categories)
-    df_ytd = pd.read_sql(ytd_query_filtered, conn, params=params_ytd)
+    df_monthly = db.execute_query(query_monthly, tuple(params))
     
-    if not df_ytd.empty:
-        df_ytd['YTD_Revenue'] = df_ytd['Monthly_Revenue'].cumsum()
-        
-        fig_ytd = go.Figure()
-        
-        fig_ytd.add_trace(go.Scatter(
-            x=df_ytd['Month_Name'],
-            y=df_ytd['Monthly_Revenue'],
-            name='Revenu Mensuel',
+    if len(df_monthly) > 0:
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(
+            x=df_monthly['Year_Month'], 
+            y=df_monthly['Revenue'],
+            name='Revenue',
             mode='lines+markers',
             line=dict(color='#3498db', width=3)
         ))
-        
-        fig_ytd.add_trace(go.Scatter(
-            x=df_ytd['Month_Name'],
-            y=df_ytd['YTD_Revenue'],
-            name='Revenu Cumulé (YTD)',
+        fig.add_trace(go.Scatter(
+            x=df_monthly['Year_Month'], 
+            y=df_monthly['Profit'],
+            name='Profit',
             mode='lines+markers',
-            line=dict(color='#e74c3c', width=3, dash='dash')
+            line=dict(color='#2ecc71', width=3)
         ))
-        
-        fig_ytd.update_layout(
-            xaxis_title="Mois",
-            yaxis_title="Revenu (DZD)",
-            hovermode='x unified',
-            showlegend=True
+        fig.update_layout(
+            title="Monthly Revenue vs Profit",
+            xaxis_title="Month",
+            yaxis_title="Amount (DZD)",
+            height=400,
+            hovermode='x unified'
         )
-        
-        st.plotly_chart(fig_ytd, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True)
     else:
-        st.info("Aucune donnée disponible pour cette période")
-
-with col_right:
-    st.subheader("💸 ROI Marketing par Catégorie")
+        st.info("No data available for the selected filters")
     
-    roi_query = """
+    # Category Performance with filters
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown('<h3>📦 Revenue by Category</h3>', unsafe_allow_html=True)
+        query_category = f"""
+        SELECT 
+            dp.Category_Name,
+            ROUND(SUM(fs.Total_Revenue), 2) as Total_Revenue
+        FROM Fact_Sales fs
+        JOIN Dim_Product dp ON fs.Product_ID = dp.Product_ID
+        JOIN Dim_Date dd ON fs.Date_ID = dd.Date_ID
+        JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
+        WHERE {where_clause}
+        GROUP BY dp.Category_Name
+        ORDER BY Total_Revenue DESC
+        """
+        df_category = db.execute_query(query_category, tuple(params))
+        
+        if len(df_category) > 0:
+            fig_cat = px.pie(
+                df_category, 
+                values='Total_Revenue', 
+                names='Category_Name',
+                hole=0.4
+            )
+            fig_cat.update_layout(height=350)
+            st.plotly_chart(fig_cat, use_container_width=True)
+        else:
+            st.info("No data available")
+    
+    with col2:
+        st.markdown('<h3>🏆 Top 10 Products</h3>', unsafe_allow_html=True)
+        query_top_products = f"""
+        SELECT 
+            dp.Product_Name,
+            ROUND(SUM(fs.Total_Revenue), 2) as Revenue
+        FROM Fact_Sales fs
+        JOIN Dim_Product dp ON fs.Product_ID = dp.Product_ID
+        JOIN Dim_Date dd ON fs.Date_ID = dd.Date_ID
+        JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
+        WHERE {where_clause}
+        GROUP BY dp.Product_Name
+        ORDER BY Revenue DESC
+        LIMIT 10
+        """
+        df_top_products = db.execute_query(query_top_products, tuple(params))
+        
+        if len(df_top_products) > 0:
+            fig_products = px.bar(
+                df_top_products,
+                x='Revenue',
+                y='Product_Name',
+                orientation='h',
+                color='Revenue',
+                color_continuous_scale='Blues'
+            )
+            fig_products.update_layout(height=350, showlegend=False)
+            fig_products.update_yaxes(categoryorder='total ascending')
+            st.plotly_chart(fig_products, use_container_width=True)
+        else:
+            st.info("No data available")
+
+
+def fetch_global_kpis_filtered(db_connector, where_clause, params):
+    """
+    Fetch global KPIs with filters applied
+    
+    Args:
+        db_connector: DatabaseConnector instance
+        where_clause: SQL WHERE conditions
+        params: Query parameters
+        
+    Returns:
+        Dictionary with KPI values
+    """
+    kpis = {}
+    
+    # Total Revenue
+    query_revenue = f"""
+    SELECT ROUND(SUM(fs.Total_Revenue), 2) as Total_Revenue 
+    FROM Fact_Sales fs
+    JOIN Dim_Date dd ON fs.Date_ID = dd.Date_ID
+    JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
+    JOIN Dim_Product dp ON fs.Product_ID = dp.Product_ID
+    WHERE {where_clause}
+    """
+    result = db_connector.execute_query(query_revenue, tuple(params))
+    kpis['total_revenue'] = float(result['Total_Revenue'].iloc[0]) if result['Total_Revenue'].iloc[0] is not None else 0
+    
+    # Net Profit
+    query_profit = f"""
+    SELECT ROUND(SUM(fs.Net_Profit), 2) as Net_Profit 
+    FROM Fact_Sales fs
+    JOIN Dim_Date dd ON fs.Date_ID = dd.Date_ID
+    JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
+    JOIN Dim_Product dp ON fs.Product_ID = dp.Product_ID
+    WHERE {where_clause}
+    """
+    result = db_connector.execute_query(query_profit, tuple(params))
+    kpis['net_profit'] = float(result['Net_Profit'].iloc[0]) if result['Net_Profit'].iloc[0] is not None else 0
+    
+    # Target Achievement
+    query_target = f"""
     SELECT 
-        p.Category,
-        SUM(f.Total_Revenue) as Revenue,
-        SUM(f.Marketing_Cost_DZD) as Marketing_Cost,
-        ((SUM(f.Total_Revenue) - SUM(f.Marketing_Cost_DZD)) / NULLIF(SUM(f.Marketing_Cost_DZD), 0)) * 100 as ROI
-    FROM Fact_Sales f
-    JOIN Dim_Product p ON f.Product_ID = p.Product_ID
-    JOIN Dim_Store s ON f.Store_ID = s.Store_ID
-    WHERE 1=1
-    GROUP BY p.Category
-    HAVING SUM(f.Marketing_Cost_DZD) > 0
-    ORDER BY ROI DESC
+        ROUND(SUM(fs.Total_Revenue), 2) as Actual_Sales,
+        ROUND(SUM(ds.Monthly_Target * 12), 2) as Annual_Target,
+        ROUND((SUM(fs.Total_Revenue) * 100.0 / NULLIF(SUM(ds.Monthly_Target * 12), 0)), 2) as Achievement_Percentage
+    FROM Fact_Sales fs
+    JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
+    JOIN Dim_Date dd ON fs.Date_ID = dd.Date_ID
+    JOIN Dim_Product dp ON fs.Product_ID = dp.Product_ID
+    WHERE ds.Monthly_Target IS NOT NULL AND {where_clause}
+    """
+    result = db_connector.execute_query(query_target, tuple(params))
+    kpis['target_achievement'] = float(result['Achievement_Percentage'].iloc[0]) if result['Achievement_Percentage'].iloc[0] is not None else 0
+    
+    # Average Sentiment
+    query_sentiment = """
+    SELECT ROUND(AVG(Sentiment_Score), 3) as Avg_Sentiment
+    FROM Dim_Product
+    WHERE Sentiment_Score IS NOT NULL
+    """
+    result = db_connector.execute_query(query_sentiment)
+    kpis['avg_sentiment'] = float(result['Avg_Sentiment'].iloc[0]) if result['Avg_Sentiment'].iloc[0] is not None else 0
+    
+    return kpis
+
+
+def render_advanced_analytics(filters):
+    """Render advanced analytics with complex SQL queries"""
+    
+    st.markdown('<h2 class="section-header">🎯 Advanced Business Analytics</h2>', 
+                unsafe_allow_html=True)
+    
+    # Build filter conditions
+    where_clause, params = filters_manager.build_filter_sql_conditions(filters)
+    
+    # YTD Growth Analysis
+    st.markdown("### 📊 Year-to-Date (YTD) Revenue Growth")
+    
+    query_ytd = f"""
+    SELECT 
+        dd.Year,
+        dd.Month,
+        ROUND(SUM(fs.Total_Revenue), 2) as Monthly_Revenue,
+        ROUND(SUM(SUM(fs.Total_Revenue)) OVER (
+            PARTITION BY dd.Year 
+            ORDER BY dd.Month
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ), 2) as YTD_Revenue
+    FROM Fact_Sales fs
+    JOIN Dim_Date dd ON fs.Date_ID = dd.Date_ID
+    JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
+    JOIN Dim_Product dp ON fs.Product_ID = dp.Product_ID
+    WHERE {where_clause}
+    GROUP BY dd.Year, dd.Month
+    ORDER BY dd.Year, dd.Month
     """
     
-    roi_query_filtered, params_roi = build_filter_query(roi_query, date_range, selected_stores, selected_categories)
-    df_roi = pd.read_sql(roi_query_filtered, conn, params=params_roi)
+    df_ytd = db.execute_query(query_ytd, tuple(params))
     
-    if not df_roi.empty:
-        fig_roi = px.bar(
-            df_roi,
-            x='Category',
-            y='ROI',
-            color='ROI',
-            color_continuous_scale=['red', 'yellow', 'green'],
-            title="Retour sur Investissement (%)",
-            labels={'ROI': 'ROI (%)', 'Category': 'Catégorie'}
-        )
+    if len(df_ytd) > 0:
+        df_ytd['Period'] = df_ytd['Year'].astype(str) + '-' + df_ytd['Month'].astype(str).str.zfill(2)
         
-        fig_roi.add_hline(y=0, line_dash="dash", line_color="black", annotation_text="Seuil de rentabilité")
-        
-        st.plotly_chart(fig_roi, use_container_width=True)
-    else:
-        st.info("Aucune donnée de marketing disponible")
-
-# ==================== Graphique 3 ====================
-st.subheader("🏆 Top 3 Produits par Catégorie")
-
-top_products_query = """
-WITH RankedProducts AS (
-    SELECT 
-        p.Category,
-        p.Product_Name,
-        SUM(f.Quantity) as Total_Sold,
-        SUM(f.Total_Revenue) as Revenue,
-        ROW_NUMBER() OVER (PARTITION BY p.Category ORDER BY SUM(f.Quantity) DESC) as rank
-    FROM Fact_Sales f
-    JOIN Dim_Product p ON f.Product_ID = p.Product_ID
-    JOIN Dim_Store s ON f.Store_ID = s.Store_ID
-    WHERE 1=1
-    GROUP BY p.Category, p.Product_Name
-)
-SELECT Category, Product_Name, Total_Sold, Revenue
-FROM RankedProducts
-WHERE rank <= 3
-ORDER BY Category, rank
-"""
-
-top_query_filtered, params_top = build_filter_query(top_products_query, date_range, selected_stores, selected_categories)
-df_top = pd.read_sql(top_query_filtered, conn, params=params_top)
-
-if not df_top.empty:
-    fig_top = px.bar(
-        df_top,
-        x='Product_Name',
-        y='Total_Sold',
-        color='Category',
-        title="Meilleurs produits vendus",
-        labels={'Total_Sold': 'Quantité Vendue', 'Product_Name': 'Produit'},
-        text='Total_Sold'
-    )
-    
-    fig_top.update_traces(texttemplate='%{text:.0f}', textposition='outside')
-    fig_top.update_layout(showlegend=True, xaxis_tickangle=-45)
-    
-    st.plotly_chart(fig_top, use_container_width=True)
-else:
-    st.info("Aucun produit trouvé pour les filtres sélectionnés")
-
-# ==================== Graphique 4 ====================
-st.subheader("💲 Comparaison des Prix Concurrents")
-
-price_query = """
-SELECT 
-    p.Product_Name,
-    p.Unit_Cost as Our_Price,
-    p.Competitor_Price,
-    (p.Unit_Cost - p.Competitor_Price) as Price_Difference,
-    CASE 
-        WHEN p.Unit_Cost > p.Competitor_Price THEN 'Surpayé'
-        WHEN p.Unit_Cost < p.Competitor_Price THEN 'Compétitif'
-        ELSE 'Égal'
-    END as Status
-FROM Dim_Product p
-WHERE p.Competitor_Price IS NOT NULL
-ORDER BY ABS(p.Unit_Cost - p.Competitor_Price) DESC
-LIMIT 15
-"""
-
-df_price = pd.read_sql(price_query, conn)
-
-if not df_price.empty:
-    fig_price = go.Figure()
-    
-    fig_price.add_trace(go.Bar(
-        name='Notre Prix',
-        x=df_price['Product_Name'],
-        y=df_price['Our_Price'],
-        marker_color='#3498db'
-    ))
-    
-    fig_price.add_trace(go.Bar(
-        name='Prix Concurrent',
-        x=df_price['Product_Name'],
-        y=df_price['Competitor_Price'],
-        marker_color='#e74c3c'
-    ))
-    
-    fig_price.update_layout(
-        barmode='group',
-        title="Comparaison des Prix (Top 15 différences)",
-        xaxis_title="Produit",
-        yaxis_title="Prix (DZD)",
-        xaxis_tickangle=-45,
-        showlegend=True
-    )
-    
-    st.plotly_chart(fig_price, use_container_width=True)
-    
-    # Tableau des différences
-    with st.expander("📋 Voir le détail des différences de prix"):
-        df_price_display = df_price[['Product_Name', 'Our_Price', 'Competitor_Price', 'Price_Difference', 'Status']]
-        df_price_display.columns = ['Produit', 'Notre Prix', 'Prix Concurrent', 'Différence', 'Statut']
-        st.dataframe(df_price_display, use_container_width=True)
-else:
-    st.info("Aucune donnée de prix concurrent disponible")
-
-st.markdown("---")
-
-# ====================================================================
-# SECTION 3 : KPIs PERSONNALISÉS
-# ====================================================================
-
-st.header("🎯 KPIs Personnalisés")
-
-col_a, col_b, col_c = st.columns(3)
-
-# KPI Custom 1: Marge Bénéficiaire Globale
-with col_a:
-    st.subheader("📊 Marge Bénéficiaire")
-    profit_margin = df_kpis['Profit_Margin'].values[0]
-    
-    fig_gauge = go.Figure(go.Indicator(
-        mode="gauge+number+delta",
-        value=profit_margin if not pd.isna(profit_margin) else 0,
-        domain={'x': [0, 1], 'y': [0, 1]},
-        title={'text': "Marge (%)"},
-        delta={'reference': 20},
-        gauge={
-            'axis': {'range': [None, 50]},
-            'bar': {'color': "darkblue"},
-            'steps': [
-                {'range': [0, 10], 'color': "lightcoral"},
-                {'range': [10, 20], 'color': "lightyellow"},
-                {'range': [20, 50], 'color': "lightgreen"}
-            ],
-            'threshold': {
-                'line': {'color': "red", 'width': 4},
-                'thickness': 0.75,
-                'value': 20
-            }
-        }
-    ))
-    
-    fig_gauge.update_layout(height=250)
-    st.plotly_chart(fig_gauge, use_container_width=True)
-
-# KPI Custom 2: Meilleure Région
-with col_b:
-    st.subheader("🗺️ Performance Régionale")
-    
-    region_query = """
-    SELECT 
-        c.Region,
-        SUM(f.Total_Revenue) as Revenue,
-        COUNT(DISTINCT f.Sale_ID) as Orders
-    FROM Fact_Sales f
-    JOIN Dim_Customer c ON f.Customer_ID = c.Customer_ID
-    JOIN Dim_Store s ON f.Store_ID = s.Store_ID
-    JOIN Dim_Product p ON f.Product_ID = p.Product_ID
-    WHERE 1=1
-    GROUP BY c.Region
-    ORDER BY Revenue DESC
-    """
-    
-    region_query_filtered, params_reg = build_filter_query(region_query, date_range, selected_stores, selected_categories)
-    df_region = pd.read_sql(region_query_filtered, conn, params=params_reg)
-    
-    if not df_region.empty:
-        fig_region = px.pie(
-            df_region,
-            values='Revenue',
-            names='Region',
-            title='Répartition du revenu par région'
-        )
-        
-        st.plotly_chart(fig_region, use_container_width=True)
-    else:
-        st.info("Aucune donnée régionale disponible")
-
-# KPI Custom 3: Tendance des Ventes
-with col_c:
-    st.subheader("📉 Tendance Hebdomadaire")
-    
-    trend_query = """
-    SELECT 
-        d.Week,
-        SUM(f.Total_Revenue) as Weekly_Revenue
-    FROM Fact_Sales f
-    JOIN Dim_Date d ON f.Date = d.Date
-    JOIN Dim_Store s ON f.Store_ID = s.Store_ID
-    JOIN Dim_Product p ON f.Product_ID = p.Product_ID
-    WHERE 1=1
-    GROUP BY d.Week
-    ORDER BY d.Week
-    LIMIT 12
-    """
-    
-    trend_query_filtered, params_trend = build_filter_query(trend_query, date_range, selected_stores, selected_categories)
-    df_trend = pd.read_sql(trend_query_filtered, conn, params=params_trend)
-    
-    if not df_trend.empty and len(df_trend) > 1:
-        fig_trend = px.line(
-            df_trend,
-            x='Week',
-            y='Weekly_Revenue',
-            title='Évolution sur 12 semaines',
+        fig_ytd = px.line(
+            df_ytd,
+            x='Period',
+            y='YTD_Revenue',
+            color='Year',
+            title='Cumulative YTD Revenue by Year',
             markers=True
         )
-        
-        st.plotly_chart(fig_trend, use_container_width=True)
+        fig_ytd.update_layout(height=400)
+        st.plotly_chart(fig_ytd, use_container_width=True)
     else:
-        st.info("Données insuffisantes pour afficher la tendance")
-
-st.markdown("---")
-
-# ====================================================================
-# SECTION 4 : INSIGHTS & RECOMMANDATIONS
-# ====================================================================
-
-st.header("💡 Insights et Recommandations")
-
-# Identifier les produits problématiques (ROI négatif)
-if not df_roi.empty:
-    negative_roi = df_roi[df_roi['ROI'] < 0]
+        st.info("No data available for the selected filters")
     
-    if not negative_roi.empty:
-        st.warning(f"⚠️ **Alerte :** {len(negative_roi)} catégorie(s) avec un ROI marketing négatif")
-        
-        for _, row in negative_roi.iterrows():
-            st.markdown(f"""
-            <div class="highlight">
-            <strong>{row['Category']}</strong> : ROI de {row['ROI']:.1f}%<br>
-            → Coût marketing : {row['Marketing_Cost']:,.0f} DZD<br>
-            → Revenu généré : {row['Revenue']:,.0f} DZD<br>
-            <strong>Recommandation :</strong> Réduire ou suspendre les investissements publicitaires pour cette catégorie.
-            </div>
-            """, unsafe_allow_html=True)
-
-# Identifier les produits surpayés
-if not df_price.empty:
-    overpriced = df_price[df_price['Status'] == 'Surpayé']
+    st.markdown("---")
     
-    if not overpriced.empty and len(overpriced) > 3:
-        st.warning(f"⚠️ **Alerte Prix :** {len(overpriced)} produits sont plus chers que la concurrence")
+    # Marketing ROI Analysis
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("### 💰 Marketing ROI by Category")
+        query_roi = f"""
+        SELECT 
+            dp.Category_Name,
+            ROUND(SUM(fs.Marketing_Cost), 2) as Marketing_Spend,
+            ROUND(SUM(fs.Total_Revenue), 2) as Revenue_Generated,
+            ROUND(
+                ((SUM(fs.Total_Revenue) - SUM(fs.Marketing_Cost)) * 100.0 / 
+                NULLIF(SUM(fs.Marketing_Cost), 0)), 
+                2
+            ) as ROI_Percentage
+        FROM Fact_Sales fs
+        JOIN Dim_Product dp ON fs.Product_ID = dp.Product_ID
+        JOIN Dim_Date dd ON fs.Date_ID = dd.Date_ID
+        JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
+        WHERE fs.Marketing_Cost > 0 AND {where_clause}
+        GROUP BY dp.Category_Name
+        ORDER BY ROI_Percentage DESC
+        """
+        df_roi = db.execute_query(query_roi, tuple(params))
         
-        top_overpriced = overpriced.nlargest(3, 'Price_Difference')
+        if len(df_roi) > 0:
+            fig_roi = px.bar(
+                df_roi,
+                x='Category_Name',
+                y='ROI_Percentage',
+                color='ROI_Percentage',
+                color_continuous_scale='RdYlGn',
+                title='Marketing ROI % by Category'
+            )
+            fig_roi.update_layout(height=350)
+            st.plotly_chart(fig_roi, use_container_width=True)
+        else:
+            st.info("No marketing data available")
+    
+    with col2:
+        st.markdown("### 💲 Price Competitiveness Analysis")
+        query_price = f"""
+        SELECT 
+            dp.Product_Name,
+            ROUND(AVG(fs.Total_Revenue * 1.0 / NULLIF(fs.Quantity, 0)), 2) as Our_Avg_Price,
+            dp.Competitor_Price,
+            ROUND(((AVG(fs.Total_Revenue * 1.0 / NULLIF(fs.Quantity, 0)) - dp.Competitor_Price) * 100.0 / 
+                   NULLIF(dp.Competitor_Price, 0)), 2) as Price_Diff_Pct
+        FROM Fact_Sales fs
+        JOIN Dim_Product dp ON fs.Product_ID = dp.Product_ID
+        JOIN Dim_Date dd ON fs.Date_ID = dd.Date_ID
+        JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
+        WHERE dp.Competitor_Price IS NOT NULL AND {where_clause}
+        GROUP BY dp.Product_ID, dp.Product_Name, dp.Competitor_Price
+        HAVING COUNT(*) >= 5
+        ORDER BY Price_Diff_Pct DESC
+        LIMIT 10
+        """
+        df_price = db.execute_query(query_price, tuple(params))
         
-        for _, row in top_overpriced.iterrows():
-            st.markdown(f"""
-            <div class="highlight">
-            <strong>{row['Product_Name']}</strong><br>
-            → Notre prix : {row['Our_Price']:,.0f} DZD<br>
-            → Prix concurrent : {row['Competitor_Price']:,.0f} DZD<br>
-            → Différence : +{row['Price_Difference']:,.0f} DZD<br>
-            <strong>Recommandation :</strong> Aligner le prix avec la concurrence ou justifier la différence par la qualité.
-            </div>
-            """, unsafe_allow_html=True)
+        if len(df_price) > 0:
+            fig_price = px.bar(
+                df_price,
+                x='Price_Diff_Pct',
+                y='Product_Name',
+                orientation='h',
+                color='Price_Diff_Pct',
+                color_continuous_scale='RdYlGn_r',
+                title='Price Difference vs Competitors (%)'
+            )
+            fig_price.update_layout(height=350)
+            fig_price.update_yaxes(categoryorder='total ascending')
+            st.plotly_chart(fig_price, use_container_width=True)
+        else:
+            st.info("No competitor data available")
+    
+    st.markdown("---")
+    
+    # Store Performance
+    st.markdown("### 🏪 Store Performance Analysis")
+    
+    query_store = f"""
+    SELECT 
+        ds.Store_Name,
+        ds.Region,
+        ROUND(SUM(fs.Total_Revenue), 2) as Total_Revenue,
+        ROUND(SUM(fs.Net_Profit), 2) as Net_Profit,
+        ROUND(ds.Monthly_Target * 12, 2) as Annual_Target,
+        ROUND((SUM(fs.Total_Revenue) * 100.0 / NULLIF(ds.Monthly_Target * 12, 0)), 2) as Target_Achievement_Pct,
+        COUNT(DISTINCT fs.Customer_ID) as Unique_Customers
+    FROM Fact_Sales fs
+    JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
+    JOIN Dim_Date dd ON fs.Date_ID = dd.Date_ID
+    JOIN Dim_Product dp ON fs.Product_ID = dp.Product_ID
+    WHERE ds.Monthly_Target IS NOT NULL AND {where_clause}
+    GROUP BY ds.Store_ID, ds.Store_Name, ds.Region, ds.Monthly_Target
+    ORDER BY Net_Profit DESC
+    """
+    df_store = db.execute_query(query_store, tuple(params))
+    
+    if len(df_store) > 0:
+        # Display as enhanced dataframe
+        st.dataframe(
+            df_store.style.background_gradient(subset=['Net_Profit'], cmap='Greens'),
+            use_container_width=True,
+            height=400
+        )
+    else:
+        st.info("No store data available for the selected filters")
 
-# Performance vs Objectifs
-if not df_target.empty:
-    if achievement < 90:
-        st.error(f"❌ **Objectifs non atteints :** Seulement {achievement:.1f}% des objectifs réalisés")
-        st.markdown("""
-        **Actions recommandées :**
-        - Analyser les catégories sous-performantes
-        - Renforcer les efforts marketing sur les produits rentables
-        - Revoir les objectifs de ventes avec les managers
-        """)
-    elif achievement >= 100:
-        st.success(f"✅ **Excellente performance !** Objectifs dépassés à {achievement:.1f}%")
-        st.balloons()
 
-# ====================================================================
-# FOOTER
-# ====================================================================
+def render_raw_data_explorer():
+    """Render raw data table viewer"""
+    
+    st.markdown('<h2 class="section-header">🗂️ Raw Data Explorer</h2>', 
+                unsafe_allow_html=True)
+    
+    st.info("📊 View and export raw data from the Data Warehouse tables")
+    
+    # Get all tables
+    tables = db.get_table_list()
+    
+    # Table selector
+    selected_table = st.selectbox(
+        "Select Table to View",
+        options=tables,
+        index=0
+    )
+    
+    if selected_table:
+        # Get table info
+        row_count = db.get_row_count(selected_table)
+        schema = db.get_table_schema(selected_table)
+        
+        # Display metadata
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("📊 Total Rows", f"{row_count:,}")
+        with col2:
+            st.metric("📋 Columns", len(schema))
+        with col3:
+            st.metric("💾 Table", selected_table)
+        
+        st.markdown("---")
+        
+        # Schema display
+        with st.expander("🔍 View Table Schema"):
+            st.dataframe(schema, use_container_width=True)
+        
+        # Row limit selector
+        limit = st.slider("Number of rows to display", 10, 1000, 100, 10)
+        
+        # Fetch and display data
+        df = db.get_table_data(selected_table, limit=limit)
+        
+        st.markdown(f"### Preview: {selected_table} (showing {len(df)} of {row_count:,} rows)")
+        st.dataframe(df, use_container_width=True, height=500)
+        
+        # Download button
+        csv = df.to_csv(index=False).encode('utf-8')
+        st.download_button(
+            label="📥 Download as CSV",
+            data=csv,
+            file_name=f"{selected_table}.csv",
+            mime="text/csv",
+            use_container_width=True
+        )
 
-st.markdown("---")
-st.markdown("""
-<div style='text-align: center; color: gray; padding: 20px;'>
-    <p>📊 <strong>TechStore Business Intelligence Dashboard</strong></p>
-    <p>Projet BI - 4ème Année Ingénierie IA | 2025</p>
-    <p>Dernière mise à jour : {}</p>
-</div>
-""".format(datetime.now().strftime('%d/%m/%Y %H:%M')), unsafe_allow_html=True)
 
-# Fermer la connexion à la fin (optionnel car cache_resource la garde ouverte)
-# conn.close()
+def render_about_page():
+    """Render about/documentation page"""
+    
+    st.markdown('<h2 class="section-header">ℹ️ About This Dashboard</h2>', 
+                unsafe_allow_html=True)
+    
+    st.markdown("""
+    ## 🎯 TechStore Business Intelligence Platform
+    
+    This dashboard provides comprehensive analytics for TechStore's retail operations across Algeria.
+    
+    ### 📊 Data Sources
+    - **ERP System**: MySQL database with sales transactions, products, customers, and stores
+    - **Marketing Data**: Excel spreadsheets tracking advertising expenses
+    - **HR Data**: Monthly sales targets and store manager information
+    - **Logistics**: Shipping rates by region
+    - **Competitor Intelligence**: Web-scraped pricing data
+    - **Legacy Archives**: OCR-digitized paper invoices from 2022
+    
+    ### 🏗️ Architecture
+    - **ETL Pipeline**: Python-based extraction, transformation, and loading
+    - **Data Warehouse**: SQLite database with Star Schema design
+    - **Visualization**: Streamlit + Plotly for interactive dashboards
+    
+    ### 📈 Key Features
+    - **Global KPIs**: Revenue, profit, target achievement, sentiment analysis
+    - **Time Series Analysis**: YTD growth, monthly trends
+    - **Marketing ROI**: Campaign effectiveness measurement
+    - **Price Intelligence**: Competitive pricing analysis
+    - **OLAP Capabilities**: Multi-dimensional filtering and drill-down
+    
+    ### 👥 Project Team
+    - **Member 1**: Data Extraction Engineer (MySQL + Web Scraping)
+    - **Member 2**: ETL & Transformation Specialist (Pandas + OCR)
+    - **Member 3**: Database Architect (Star Schema + SQL)
+    - **Member 4**: Dashboard Developer (Streamlit + Visualization)
+    
+    ### 📚 Technology Stack
+    - Python 3.x
+    - Pandas, NumPy
+    - MySQL Connector
+    - BeautifulSoup (Web Scraping)
+    - Tesseract OCR
+    - VADER Sentiment Analysis
+    - SQLite3
+    - Streamlit
+    - Plotly
+    
+    ---
+    
+    **Course**: Business Intelligence (BI)  
+    **Level**: 4th Year Artificial Intelligence Engineering  
+    **Institution**: University of 8 Mai 1945 Guelma
+    """)
+
+
+if __name__ == "__main__":
+    main()
