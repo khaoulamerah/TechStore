@@ -1,33 +1,21 @@
-"""
-Interactive Filters for OLAP Analysis
-Enables slicing and dicing by Date, Region, Store, Category
-"""
-
 import streamlit as st
 import pandas as pd
 from datetime import datetime, date
 from typing import Dict, List, Tuple, Any
 
+
 class DashboardFilters:
-    """Manages all dashboard filters and their state"""
     
     def __init__(self, db_connector):
-        """
-        Initialize filter manager
-        
-        Args:
-            db_connector: DatabaseConnector instance
-        """
         self.db = db_connector
         self._filter_values = {}
+        
+        # Initialiser l'état de session pour les filtres
+        if 'filter_version' not in st.session_state:
+            st.session_state.filter_version = 0
     
     def render_sidebar_filters(self) -> Dict[str, Any]:
-        """
-        Render all filters in Streamlit sidebar
-        
-        Returns:
-            Dictionary of selected filter values
-        """
+
         st.sidebar.header("🔍 Filters (OLAP)")
         st.sidebar.markdown("---")
         
@@ -50,11 +38,32 @@ class DashboardFilters:
         
         st.sidebar.markdown("---")
         
-        # Reset button
-        if st.sidebar.button("🔄 Reset All Filters", use_container_width=True):
+        # Reset button AVEC FIX
+        if st.sidebar.button("🔄 Reset All Filters", 
+                            use_container_width=True,
+                            key=f"reset_btn_{st.session_state.filter_version}"):
+            self._reset_all_filters()
             st.rerun()
         
         return filters
+    
+    def _reset_all_filters(self):
+        """Reset tous les filtres à leurs valeurs par défaut"""
+        # Incrémenter la version pour forcer la recréation des widgets
+        st.session_state.filter_version += 1
+        
+        # Supprimer toutes les clés de filtres du session_state
+        keys_to_remove = [
+            'date_filter',
+            'region_filter', 
+            'store_filter',
+            'category_filter',
+            'subcat_filter'
+        ]
+        
+        for key in keys_to_remove:
+            if key in st.session_state:
+                del st.session_state[key]
     
     def _render_date_filter(self) -> Tuple[date, date]:
         """Render date range filter"""
@@ -67,13 +76,13 @@ class DashboardFilters:
         min_date = pd.to_datetime(result['min_date'].iloc[0]).date()
         max_date = pd.to_datetime(result['max_date'].iloc[0]).date()
         
-        # Date range selector
+        # Date range selector AVEC KEY DYNAMIQUE
         date_range = st.sidebar.date_input(
             "Select Date Range",
             value=(min_date, max_date),
             min_value=min_date,
             max_value=max_date,
-            key="date_filter"
+            key=f"date_filter_{st.session_state.filter_version}"
         )
         
         # Handle single date selection
@@ -93,11 +102,12 @@ class DashboardFilters:
         result = self.db.execute_query(query)
         regions = result['Region'].tolist()
         
+        # AVEC KEY DYNAMIQUE
         selected_regions = st.sidebar.multiselect(
             "Select Regions",
             options=regions,
             default=regions,
-            key="region_filter"
+            key=f"region_filter_{st.session_state.filter_version}"
         )
         
         return selected_regions if selected_regions else regions
@@ -117,11 +127,12 @@ class DashboardFilters:
         result = self.db.execute_query(query, tuple(selected_regions))
         stores = result['Store_Name'].tolist()
         
+        # AVEC KEY DYNAMIQUE
         selected_stores = st.sidebar.multiselect(
             "Select Stores",
             options=stores,
             default=stores,
-            key="store_filter"
+            key=f"store_filter_{st.session_state.filter_version}"
         )
         
         return selected_stores if selected_stores else stores
@@ -140,11 +151,12 @@ class DashboardFilters:
         result = self.db.execute_query(query)
         categories = result['Category_Name'].tolist()
         
+        # AVEC KEY DYNAMIQUE
         selected_categories = st.sidebar.multiselect(
             "Select Categories",
             options=categories,
             default=categories,
-            key="category_filter"
+            key=f"category_filter_{st.session_state.filter_version}"
         )
         
         return selected_categories if selected_categories else categories
@@ -166,26 +178,18 @@ class DashboardFilters:
         subcategories = result['Subcategory_Name'].tolist()
         
         if subcategories:
+            # AVEC KEY DYNAMIQUE
             selected_subcats = st.sidebar.multiselect(
                 "Select Subcategories",
                 options=subcategories,
                 default=subcategories,
-                key="subcat_filter"
+                key=f"subcat_filter_{st.session_state.filter_version}"
             )
             return selected_subcats if selected_subcats else subcategories
         else:
             return []
     
     def build_filter_sql_conditions(self, filters: Dict[str, Any]) -> Tuple[str, List]:
-        """
-        Build SQL WHERE clause conditions from filter selections
-        
-        Args:
-            filters: Dictionary of filter values
-            
-        Returns:
-            Tuple of (WHERE clause string, parameter list)
-        """
         conditions = []
         params = []
         
@@ -224,15 +228,6 @@ class DashboardFilters:
         return where_clause, params
     
     def get_filter_summary(self, filters: Dict[str, Any]) -> str:
-        """
-        Generate human-readable filter summary
-        
-        Args:
-            filters: Dictionary of filter values
-            
-        Returns:
-            Summary string
-        """
         summary_parts = []
         
         if filters.get('date_range'):

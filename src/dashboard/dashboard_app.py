@@ -70,7 +70,7 @@ def main():
     """Main dashboard application"""
     
     # Header
-    st.markdown('<h1 class="main-header">📊 TechStore Business Intelligence Dashboard</h1>', 
+    st.markdown('<h1 class="main-header"> TechStore Business Intelligence Dashboard</h1>', 
                 unsafe_allow_html=True)
     
     # Sidebar filters
@@ -115,7 +115,7 @@ def render_dashboard_overview(filters):
     st.markdown("---")
     
     # Monthly Trends with filters
-    st.markdown('<h2 class="section-header">📈 Monthly Revenue & Profit Trends</h2>', 
+    st.markdown('<h2 class="section-header"> Monthly Revenue & Profit Trends</h2>', 
                 unsafe_allow_html=True)
     
     query_monthly = f"""
@@ -166,7 +166,7 @@ def render_dashboard_overview(filters):
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown('<h3>📦 Revenue by Category</h3>', unsafe_allow_html=True)
+        st.markdown('<h3> Revenue by Category</h3>', unsafe_allow_html=True)
         query_category = f"""
         SELECT 
             dp.Category_Name,
@@ -194,7 +194,7 @@ def render_dashboard_overview(filters):
             st.info("No data available")
     
     with col2:
-        st.markdown('<h3>🏆 Top 10 Products</h3>', unsafe_allow_html=True)
+        st.markdown('<h3> Top 10 Products</h3>', unsafe_allow_html=True)
         query_top_products = f"""
         SELECT 
             dp.Product_Name,
@@ -294,14 +294,14 @@ def fetch_global_kpis_filtered(db_connector, where_clause, params):
 def render_advanced_analytics(filters):
     """Render advanced analytics with complex SQL queries"""
     
-    st.markdown('<h2 class="section-header">🎯 Advanced Business Analytics</h2>', 
+    st.markdown('<h2 class="section-header"> Advanced Business Analytics</h2>', 
                 unsafe_allow_html=True)
     
     # Build filter conditions
     where_clause, params = filters_manager.build_filter_sql_conditions(filters)
     
     # YTD Growth Analysis
-    st.markdown("### 📊 Year-to-Date (YTD) Revenue Growth")
+    st.markdown("### Year-to-Date (YTD) Revenue Growth")
     
     query_ytd = f"""
     SELECT 
@@ -346,7 +346,7 @@ def render_advanced_analytics(filters):
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("### 💰 Marketing ROI by Category")
+        st.markdown("### Marketing ROI by Category")
         query_roi = f"""
         SELECT 
             dp.Category_Name,
@@ -382,7 +382,7 @@ def render_advanced_analytics(filters):
             st.info("No marketing data available")
     
     with col2:
-        st.markdown("### 💲 Price Competitiveness Analysis")
+        st.markdown("### Price Competitiveness Analysis")
         query_price = f"""
         SELECT 
             dp.Product_Name,
@@ -421,7 +421,7 @@ def render_advanced_analytics(filters):
     st.markdown("---")
     
     # Store Performance
-    st.markdown("### 🏪 Store Performance Analysis")
+    st.markdown("### Store Performance Analysis")
     
     query_store = f"""
     SELECT 
@@ -456,10 +456,10 @@ def render_advanced_analytics(filters):
 def render_raw_data_explorer():
     """Render raw data table viewer"""
     
-    st.markdown('<h2 class="section-header">🗂️ Raw Data Explorer</h2>', 
+    st.markdown('<h2 class="section-header"> Raw Data Explorer</h2>', 
                 unsafe_allow_html=True)
     
-    st.info("📊 View and export raw data from the Data Warehouse tables")
+    st.info("View and export raw data from the Data Warehouse tables")
     
     # Get all tables
     tables = db.get_table_list()
@@ -518,11 +518,11 @@ def render_about_page():
                 unsafe_allow_html=True)
     
     st.markdown("""
-    ## 🎯 TechStore Business Intelligence Platform
+    ## TechStore Business Intelligence Platform
     
     This dashboard provides comprehensive analytics for TechStore's retail operations across Algeria.
     
-    ### 📊 Data Sources
+    ### Data Sources
     - **ERP System**: MySQL database with sales transactions, products, customers, and stores
     - **Marketing Data**: Excel spreadsheets tracking advertising expenses
     - **HR Data**: Monthly sales targets and store manager information
@@ -530,25 +530,25 @@ def render_about_page():
     - **Competitor Intelligence**: Web-scraped pricing data
     - **Legacy Archives**: OCR-digitized paper invoices from 2022
     
-    ### 🏗️ Architecture
+    ### Architecture
     - **ETL Pipeline**: Python-based extraction, transformation, and loading
     - **Data Warehouse**: SQLite database with Star Schema design
     - **Visualization**: Streamlit + Plotly for interactive dashboards
     
-    ### 📈 Key Features
+    ### Key Features
     - **Global KPIs**: Revenue, profit, target achievement, sentiment analysis
     - **Time Series Analysis**: YTD growth, monthly trends
     - **Marketing ROI**: Campaign effectiveness measurement
     - **Price Intelligence**: Competitive pricing analysis
     - **OLAP Capabilities**: Multi-dimensional filtering and drill-down
     
-    ### 👥 Project Team
+    ### Project Team
     - **Member 1**: Data Extraction Engineer (MySQL + Web Scraping)
     - **Member 2**: ETL & Transformation Specialist (Pandas + OCR)
     - **Member 3**: Database Architect (Star Schema + SQL)
     - **Member 4**: Dashboard Developer (Streamlit + Visualization)
     
-    ### 📚 Technology Stack
+    ### Technology Stack
     - Python 3.x
     - Pandas, NumPy
     - MySQL Connector
