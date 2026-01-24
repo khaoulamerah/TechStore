@@ -1,161 +1,172 @@
 """
-Composants réutilisables pour les KPI Cards
-Membre 4 : Frontend Developer
+KPI Card Components for Dashboard
+Displays global business metrics
 """
 
 import streamlit as st
-import plotly.graph_objects as go
+import pandas as pd
+from typing import Dict, Any
 
-def create_metric_card(title, value, delta=None, delta_color="normal", icon=""):
+def display_kpi_row(kpi_data: Dict[str, Any]):
     """
-    Créer une carte KPI stylisée
+    Display a row of KPI cards
     
     Args:
-        title (str): Titre du KPI
-        value (str/float): Valeur à afficher
-        delta (str): Variation (optionnel)
-        delta_color (str): Couleur du delta (normal/inverse/off)
-        icon (str): Emoji ou icône
-    """
-    st.metric(
-        label=f"{icon} {title}",
-        value=value,
-        delta=delta,
-        delta_color=delta_color
-    )
-
-def create_gauge_chart(value, title, min_val=0, max_val=100, thresholds=None):
-    """
-    Créer un graphique de jauge (gauge)
-    
-    Args:
-        value (float): Valeur actuelle
-        title (str): Titre de la jauge
-        min_val (float): Valeur minimale
-        max_val (float): Valeur maximale
-        thresholds (list): Liste de seuils [(val, color), ...]
-    """
-    if thresholds is None:
-        thresholds = [
-            (max_val * 0.3, "red"),
-            (max_val * 0.6, "yellow"),
-            (max_val, "green")
-        ]
-    
-    steps = []
-    prev_val = min_val
-    for threshold, color in thresholds:
-        steps.append({
-            'range': [prev_val, threshold],
-            'color': color
-        })
-        prev_val = threshold
-    
-    fig = go.Figure(go.Indicator(
-        mode="gauge+number+delta",
-        value=value,
-        domain={'x': [0, 1], 'y': [0, 1]},
-        title={'text': title, 'font': {'size': 20}},
-        delta={'reference': max_val * 0.7},
-        gauge={
-            'axis': {'range': [min_val, max_val]},
-            'bar': {'color': "darkblue"},
-            'steps': steps,
-            'threshold': {
-                'line': {'color': "red", 'width': 4},
-                'thickness': 0.75,
-                'value': max_val * 0.9
+        kpi_data: Dictionary containing KPI values
+            {
+                'total_revenue': float,
+                'net_profit': float,
+                'target_achievement': float,
+                'avg_sentiment': float
             }
-        }
-    ))
-    
-    fig.update_layout(
-        height=300,
-        margin=dict(l=20, r=20, t=50, b=20)
-    )
-    
-    return fig
-
-def create_comparison_card(metric_name, our_value, competitor_value, unit="DZD"):
     """
-    Créer une carte de comparaison avec concurrence
-    
-    Args:
-        metric_name (str): Nom de la métrique
-        our_value (float): Notre valeur
-        competitor_value (float): Valeur concurrent
-        unit (str): Unité de mesure
-    """
-    difference = our_value - competitor_value
-    pct_diff = (difference / competitor_value * 100) if competitor_value != 0 else 0
-    
-    col1, col2 = st.columns(2)
+    col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        st.metric(
-            f"🏪 Notre {metric_name}",
-            f"{our_value:,.0f} {unit}"
-        )
+        display_revenue_kpi(kpi_data.get('total_revenue', 0))
     
     with col2:
-        st.metric(
-            f"🏬 Concurrent",
-            f"{competitor_value:,.0f} {unit}",
-            delta=f"{pct_diff:+.1f}%",
-            delta_color="inverse" if difference > 0 else "normal"
-        )
+        display_profit_kpi(kpi_data.get('net_profit', 0))
     
-    if difference > 0:
-        st.warning(f"⚠️ Nous sommes {abs(difference):,.0f} {unit} plus chers ({abs(pct_diff):.1f}%)")
-    elif difference < 0:
-        st.success(f"✅ Nous sommes {abs(difference):,.0f} {unit} moins chers ({abs(pct_diff):.1f}%)")
-    else:
-        st.info("💰 Prix identique à la concurrence")
+    with col3:
+        display_target_kpi(kpi_data.get('target_achievement', 0))
+    
+    with col4:
+        display_sentiment_kpi(kpi_data.get('avg_sentiment', 0))
 
-def create_trend_indicator(current, previous, metric_name):
-    """
-    Créer un indicateur de tendance
-    
-    Args:
-        current (float): Valeur actuelle
-        previous (float): Valeur précédente
-        metric_name (str): Nom de la métrique
-    """
-    if previous == 0:
-        return
-    
-    change = ((current - previous) / previous) * 100
-    
-    if change > 0:
-        st.success(f"📈 {metric_name} en hausse de {change:.1f}%")
-    elif change < 0:
-        st.error(f"📉 {metric_name} en baisse de {abs(change):.1f}%")
-    else:
-        st.info(f"➡️ {metric_name} stable")
 
-def create_performance_badge(achievement_pct):
-    """
-    Créer un badge de performance basé sur l'atteinte des objectifs
+def display_revenue_kpi(revenue: float):
+    """Display Total Revenue KPI card"""
+    st.metric(
+        label="💰 Total Revenue",
+        value=f"{revenue:,.0f} DZD",
+        delta=None,
+        help="Total revenue from all sales transactions"
+    )
+
+
+def display_profit_kpi(profit: float):
+    """Display Net Profit KPI card"""
+    st.metric(
+        label="💵 Net Profit",
+        value=f"{profit:,.0f} DZD",
+        delta=None,
+        help="Profit after deducting product costs, shipping, and marketing"
+    )
+
+
+def display_target_kpi(achievement_pct: float):
+    """Display Target Achievement KPI card with color coding"""
     
-    Args:
-        achievement_pct (float): Pourcentage d'atteinte (0-100+)
-    """
+    # Color coding based on achievement
     if achievement_pct >= 100:
-        badge = "🏆 Excellent"
         color = "green"
+        emoji = "✅"
     elif achievement_pct >= 90:
-        badge = "✅ Bon"
-        color = "lightgreen"
-    elif achievement_pct >= 75:
-        badge = "⚠️ Moyen"
         color = "orange"
+        emoji = "⚠️"
     else:
-        badge = "❌ Faible"
         color = "red"
+        emoji = "❌"
     
-    st.markdown(f"""
-    <div style='background-color: {color}; padding: 10px; border-radius: 5px; text-align: center;'>
-        <h3 style='margin: 0; color: white;'>{badge}</h3>
-        <p style='margin: 0; color: white; font-size: 20px;'>{achievement_pct:.1f}%</p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.metric(
+        label=f"{emoji} Target Achievement",
+        value=f"{achievement_pct:.1f}%",
+        delta=f"{achievement_pct - 100:.1f}% vs target" if achievement_pct != 0 else None,
+        help="Actual sales performance compared to annual targets"
+    )
+
+
+def display_sentiment_kpi(sentiment: float):
+    """Display Average Sentiment Score KPI card"""
+    
+    # Determine sentiment emoji
+    if sentiment >= 0.5:
+        emoji = "😄"
+        label_suffix = "Very Positive"
+    elif sentiment >= 0.2:
+        emoji = "🙂"
+        label_suffix = "Positive"
+    elif sentiment >= 0:
+        emoji = "😐"
+        label_suffix = "Neutral"
+    elif sentiment >= -0.2:
+        emoji = "😟"
+        label_suffix = "Negative"
+    else:
+        emoji = "😞"
+        label_suffix = "Very Negative"
+    
+    st.metric(
+        label=f"{emoji} Avg Sentiment",
+        value=f"{sentiment:.3f}",
+        delta=label_suffix,
+        help="Average customer sentiment score from product reviews (-1.0 to +1.0)"
+    )
+
+
+def display_custom_kpi(label: str, value: Any, delta: str = None, 
+                       emoji: str = "📊", help_text: str = None):
+    """
+    Display a custom KPI card
+    
+    Args:
+        label: KPI label
+        value: KPI value (will be formatted)
+        delta: Optional delta text
+        emoji: Emoji prefix
+        help_text: Tooltip text
+    """
+    st.metric(
+        label=f"{emoji} {label}",
+        value=value,
+        delta=delta,
+        help=help_text
+    )
+
+
+def fetch_global_kpis(db_connector) -> Dict[str, float]:
+    """
+    Fetch all global KPIs from database
+    
+    Args:
+        db_connector: DatabaseConnector instance
+        
+    Returns:
+        Dictionary with KPI values
+    """
+    kpis = {}
+    
+    # Total Revenue
+    query_revenue = "SELECT ROUND(SUM(Total_Revenue), 2) as Total_Revenue FROM Fact_Sales"
+    result = db_connector.execute_query(query_revenue)
+    kpis['total_revenue'] = float(result['Total_Revenue'].iloc[0])
+    
+    # Net Profit
+    query_profit = "SELECT ROUND(SUM(Net_Profit), 2) as Net_Profit FROM Fact_Sales"
+    result = db_connector.execute_query(query_profit)
+    kpis['net_profit'] = float(result['Net_Profit'].iloc[0])
+    
+    # Target Achievement
+    query_target = """
+    SELECT 
+        ROUND(SUM(fs.Total_Revenue), 2) as Actual_Sales,
+        ROUND(SUM(ds.Monthly_Target * 12), 2) as Annual_Target,
+        ROUND((SUM(fs.Total_Revenue) * 100.0 / NULLIF(SUM(ds.Monthly_Target * 12), 0)), 2) as Achievement_Percentage
+    FROM Fact_Sales fs
+    JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
+    WHERE ds.Monthly_Target IS NOT NULL
+    """
+    result = db_connector.execute_query(query_target)
+    kpis['target_achievement'] = float(result['Achievement_Percentage'].iloc[0])
+    
+    # Average Sentiment
+    query_sentiment = """
+    SELECT ROUND(AVG(Sentiment_Score), 3) as Avg_Sentiment
+    FROM Dim_Product
+    WHERE Sentiment_Score IS NOT NULL
+    """
+    result = db_connector.execute_query(query_sentiment)
+    kpis['avg_sentiment'] = float(result['Avg_Sentiment'].iloc[0])
+    
+    return kpis

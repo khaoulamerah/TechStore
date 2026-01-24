@@ -3,8 +3,8 @@
 # ====================================================================
 
 # Data manipulation et analyse
-pandas==2.1.4
-numpy==1.26.2
+pandas>=2.0.0
+numpy>=1.26.2
 
 # Connexion bases de données
 mysql-connector-python==8.2.0
@@ -34,3 +34,7 @@ python-dateutil==2.8.2
 # Développement et debugging (optionnel)
 jupyter==1.0.0
 ipykernel==6.27.1
+
+
+fuzzywuzzy>=0.18.0
+python-Levenshtein>=0.21.0
