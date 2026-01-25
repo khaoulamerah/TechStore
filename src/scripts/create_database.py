@@ -1,176 +1,202 @@
 """
-Database Creation Script for TechStore Data Warehouse
+Database Loading Script for TechStore Data Warehouse
 Loads pre-transformed Star Schema tables into SQLite
-Author: Database Architect - TechStore BI Project
+Author: Member 3 - Database Architect
 Date: January 2025
 """
 
 import sqlite3
 import pandas as pd
-from datetime import datetime
+import os
+from pathlib import Path
 
 print("="*70)
-print("TECHSTORE DATA WAREHOUSE - DATABASE CREATION")
-print("Star Schema: 1 Fact Table + 4 Dimension Tables")
+print("TECHSTORE DATA WAREHOUSE - DATABASE LOADING")
+print("Star Schema: 1 Fact Table + 4 Dimension Tables + Marketing ROI")
 print("="*70)
 
 # ============================================
-# STEP 1: LOAD TRANSFORMED STAR SCHEMA FILES
+# CONFIGURATION - FIXED PATH DETECTION
 # ============================================
-print("\n[1/4] Loading pre-transformed Star Schema files...")
+base_dir = Path(__file__).parent if '__file__' in globals() else Path.cwd()
+
+# Navigate to project root (TechStore folder)
+if base_dir.name == 'scripts':
+    project_root = base_dir.parent.parent  # scripts -> src -> TechStore
+elif base_dir.name == 'src':
+    project_root = base_dir.parent  # src -> TechStore
+else:
+    project_root = base_dir
+
+transformed_dir = project_root / 'src' / 'Data' / 'transformed'
+database_dir = project_root / 'src' / 'database'
+database_dir.mkdir(parents=True, exist_ok=True)
+db_path = database_dir / 'techstore_dw.db'
+
+
+# ============================================
+# STEP 1: LOAD TRANSFORMED CSV FILES
+# ============================================
+print("\n[1/4] Loading transformed Star Schema files...")
 
 try:
-    # Load all dimension tables
-    dim_customer_raw = pd.read_csv('../Data/transformed/Dim_Customer.csv')
-    dim_date_raw = pd.read_csv('../Data/transformed/Dim_Date.csv')
-    dim_product_raw = pd.read_csv('../Data/transformed/Dim_Product.csv')
-    dim_store_raw = pd.read_csv('../Data/transformed/Dim_Store.csv')
+    dim_customer_raw = pd.read_csv(transformed_dir / 'Dim_Customer.csv')  # Capital D and C
+    dim_date_raw = pd.read_csv(transformed_dir / 'Dim_Date.csv')
+    dim_product_raw = pd.read_csv(transformed_dir / 'Dim_Product.csv')
+    dim_store_raw = pd.read_csv(transformed_dir / 'Dim_Store.csv')
+    fact_sales_raw = pd.read_csv(transformed_dir / 'Fact_Sales.csv')
+
+    marketing_roi_raw = None
+    try:
+        marketing_roi_raw = pd.read_csv(transformed_dir / 'marketing_roi.csv')
+        print(f"  Marketing_ROI: {len(marketing_roi_raw):,} rows loaded")
+    except FileNotFoundError:
+        print("  Marketing_ROI.csv not found (optional - skipping)")
     
-    # Load fact table
-    fact_sales_raw = pd.read_csv('../Data/transformed/Fact_Sales.csv')
-    
-    print(f"  ✓ Dim_Customer: {len(dim_customer_raw):,} rows loaded")
-    print(f"  ✓ Dim_Date: {len(dim_date_raw):,} rows loaded")
-    print(f"  ✓ Dim_Product: {len(dim_product_raw):,} rows loaded")
-    print(f"  ✓ Dim_Store: {len(dim_store_raw):,} rows loaded")
-    print(f"  ✓ Fact_Sales: {len(fact_sales_raw):,} rows loaded")
+    print(f"  Dim_Customer: {len(dim_customer_raw):,} rows loaded")
+    print(f"  Dim_Date: {len(dim_date_raw):,} rows loaded")
+    print(f"  Dim_Product: {len(dim_product_raw):,} rows loaded")
+    print(f"  Dim_Store: {len(dim_store_raw):,} rows loaded")
+    print(f"  Fact_Sales: {len(fact_sales_raw):,} rows loaded")
     
 except FileNotFoundError as e:
-    print(f"\n  ✗ ERROR: Could not find transformed files!")
+    print(f"\n  ERROR: Missing transformed file!")
     print(f"  {e}")
-    print("\n  Please ensure the Star Schema files exist in:")
-    print("  ../Data/transformed/")
+    print(f"  Ensure all files are in: {transformed_dir}")
     exit(1)
 
 # ============================================
-# STEP 2: TRANSFORM TO MATCH SCHEMA
+# STEP 2: STANDARDIZE COLUMN NAMES
 # ============================================
-print("\n[2/4] Preparing data for Star Schema...")
+print("\n[2/4] Standardizing column names for database...")
 
-# --- Dim_Customer ---
-print("  Preparing Dim_Customer...")
-Dim_Customer = dim_customer_raw[[
-    'customer_id', 'full_name', 'city_name', 'region'
-]].rename(columns={
+def standardize_columns(df):
+    df.columns = [col.strip().lower().replace(' ', '_') for col in df.columns]
+    return df
+
+dim_customer_raw = standardize_columns(dim_customer_raw)
+dim_date_raw = standardize_columns(dim_date_raw)
+dim_product_raw = standardize_columns(dim_product_raw)
+dim_store_raw = standardize_columns(dim_store_raw)
+fact_sales_raw = standardize_columns(fact_sales_raw)
+if marketing_roi_raw is not None:
+    marketing_roi_raw = standardize_columns(marketing_roi_raw)
+
+# Map CSV columns to database schema
+Dim_Customer = dim_customer_raw.rename(columns={
     'customer_id': 'Customer_ID',
     'full_name': 'Customer_Name',
     'city_name': 'City_Name',
     'region': 'Region'
-})
-print(f"    ✓ {len(Dim_Customer):,} customers ready")
+})[[  'Customer_ID', 'Customer_Name', 'City_Name', 'Region'
+]]
 
-# --- Dim_Product ---
-print("  Preparing Dim_Product...")
-Dim_Product = dim_product_raw[[
-    'product_id', 'product_name', 'subcat_name', 'category_name',
-    'unit_cost', 'avg_sentiment', 'competitor_price'
-]].rename(columns={
+Dim_Product = dim_product_raw.rename(columns={
     'product_id': 'Product_ID',
     'product_name': 'Product_Name',
-    'subcat_name': 'Subcategory_Name',
+    'subcategory_name': 'Subcategory_Name',
     'category_name': 'Category_Name',
     'unit_cost': 'Unit_Cost',
     'avg_sentiment': 'Sentiment_Score',
     'competitor_price': 'Competitor_Price'
-})
-print(f"    ✓ {len(Dim_Product):,} products ready")
+})[[
+    'Product_ID', 'Product_Name', 'Subcategory_Name', 'Category_Name',
+    'Unit_Cost', 'Sentiment_Score', 'Competitor_Price'
+]]
 
-# --- Dim_Store ---
-print("  Preparing Dim_Store...")
-# Note: target_revenue appears to be ANNUAL (very large numbers)
-# We'll store as-is and calculate monthly in queries if needed
-Dim_Store = dim_store_raw[[
-    'store_id', 'store_name', 'city_name', 'region', 'target_revenue'
-]].rename(columns={
+Dim_Store = dim_store_raw.rename(columns={
     'store_id': 'Store_ID',
     'store_name': 'Store_Name',
     'city_name': 'City_Name',
     'region': 'Region',
-    'target_revenue': 'Annual_Target'
-})
-# Add Monthly_Target for consistency with queries
-Dim_Store['Monthly_Target'] = Dim_Store['Annual_Target'] / 12
-print(f"    ✓ {len(Dim_Store):,} stores ready")
+    'monthly_target': 'Monthly_Target',
+    'annual_target': 'Annual_Target'
+})[[
+    'Store_ID', 'Store_Name', 'City_Name', 'Region',
+    'Monthly_Target', 'Annual_Target'
+]]
 
-# --- Dim_Date ---
-print("  Preparing Dim_Date...")
-# Parse dates and create Date_ID
-dim_date_raw['date_parsed'] = pd.to_datetime(dim_date_raw['date'])
-dim_date_raw['Date_ID'] = dim_date_raw['date_parsed'].dt.strftime('%Y%m%d').astype(int)
+Dim_Date = dim_date_raw.rename(columns={
+    'date_id': 'Date_ID',
+    'date': 'Full_Date',
+    'year': 'Year',
+    'quarter': 'Quarter',
+    'month': 'Month',
+    'month_name': 'Month_Name',
+    'day': 'Day',
+    'day_of_week': 'Day_Of_Week',
+    'day_name': 'Day_Name',
+    'week_of_year': 'Week_Of_Year'
+})[[
+    'Date_ID', 'Full_Date', 'Year', 'Quarter', 'Month', 'Month_Name',
+    'Day', 'Day_Of_Week', 'Day_Name', 'Week_Of_Year'
+]]
 
-# Remove duplicate Date_IDs (keep first occurrence)
-dim_date_unique = dim_date_raw.drop_duplicates(subset=['Date_ID'], keep='first')
+fact_sales_raw['date'] = pd.to_datetime(fact_sales_raw['date'], errors='coerce')
+fact_sales_raw['date_id'] = fact_sales_raw['date'].dt.strftime('%Y%m%d').astype(int)
 
-Dim_Date = pd.DataFrame({
-    'Date_ID': dim_date_unique['Date_ID'],
-    'Full_Date': dim_date_unique['date_parsed'].dt.date,
-    'Day': dim_date_unique['day'],
-    'Month': dim_date_unique['month'],
-    'Year': dim_date_unique['year'],
-    'Quarter': dim_date_unique['quarter']
-}).sort_values('Date_ID').reset_index(drop=True)
-
-print(f"    ✓ {len(Dim_Date):,} unique dates ready")
-print(f"    Date range: {Dim_Date['Full_Date'].min()} to {Dim_Date['Full_Date'].max()}")
-
-# --- Fact_Sales ---
-print("  Preparing Fact_Sales...")
-# Parse date and create Date_ID
-fact_sales_raw['date_parsed'] = pd.to_datetime(fact_sales_raw['date'])
-fact_sales_raw['Date_ID'] = fact_sales_raw['date_parsed'].dt.strftime('%Y%m%d').astype(int)
-
-Fact_Sales = fact_sales_raw[[
-    'trans_id', 'Date_ID', 'product_id', 'store_id', 'customer_id',
-    'quantity', 'total_revenue', 'cost', 
-    'shipping_cost_total', 'allocated_marketing_dzd', 'net_profit'
-]].rename(columns={
+Fact_Sales = fact_sales_raw.rename(columns={
     'trans_id': 'Sale_ID',
+    'date_id': 'Date_ID',
     'product_id': 'Product_ID',
     'store_id': 'Store_ID',
     'customer_id': 'Customer_ID',
     'quantity': 'Quantity',
     'total_revenue': 'Total_Revenue',
     'cost': 'Product_Cost',
-    'shipping_cost_total': 'Shipping_Cost',
-    'allocated_marketing_dzd': 'Marketing_Cost',
+    'shipping_cost': 'Shipping_Cost',
+    'marketing_cost': 'Marketing_Cost',
     'net_profit': 'Net_Profit'
-})
+})[[
+    'Sale_ID', 'Date_ID', 'Product_ID', 'Store_ID', 'Customer_ID',
+    'Quantity', 'Total_Revenue', 'Product_Cost', 'Shipping_Cost',
+    'Marketing_Cost', 'Net_Profit'
+]]
 
-print(f"    ✓ {len(Fact_Sales):,} transactions ready")
+Marketing_ROI = None
+if marketing_roi_raw is not None:
+    Marketing_ROI = marketing_roi_raw.rename(columns={
+        'category': 'Category',
+        'month': 'Month',
+        'total_revenue': 'Total_Revenue',
+        'marketing_cost': 'Marketing_Cost',
+        'roi_percent': 'ROI_Percent'
+    })[[
+        'Category', 'Month', 'Total_Revenue', 'Marketing_Cost', 'ROI_Percent'
+    ]]
+
+print("  Column mapping completed")
 
 # ============================================
 # STEP 3: CREATE SQLITE DATABASE
 # ============================================
 print("\n[3/4] Creating SQLite Data Warehouse...")
 
-db_path = '../database/techstore_dw.db'
+if db_path.exists():
+    db_path.unlink()
+    print("  Old database deleted")
+
 conn = sqlite3.connect(db_path)
 cursor = conn.cursor()
+print(f"  Connected to: {db_path}")
 
-print(f"  ✓ Connected to: {db_path}")
-
-# Drop existing tables for clean rebuild
-print("\n  Dropping existing tables (if any)...")
-tables_to_drop = ['Fact_Sales', 'Dim_Date', 'Dim_Product', 'Dim_Store', 'Dim_Customer']
-for table in tables_to_drop:
-    cursor.execute(f"DROP TABLE IF EXISTS {table}")
-conn.commit()
-print("  ✓ Old tables dropped")
-
-# Create Star Schema tables
 print("\n  Creating Star Schema tables...")
 
 cursor.execute('''
 CREATE TABLE Dim_Date (
     Date_ID INTEGER PRIMARY KEY,
     Full_Date DATE NOT NULL,
-    Day INTEGER,
-    Month INTEGER,
     Year INTEGER,
-    Quarter INTEGER
+    Quarter INTEGER,
+    Month INTEGER,
+    Month_Name TEXT,
+    Day INTEGER,
+    Day_Of_Week INTEGER,
+    Day_Name TEXT,
+    Week_Of_Year INTEGER
 )
 ''')
-print("    ✓ Dim_Date created")
+print("    Dim_Date created")
 
 cursor.execute('''
 CREATE TABLE Dim_Product (
@@ -183,7 +209,7 @@ CREATE TABLE Dim_Product (
     Competitor_Price REAL
 )
 ''')
-print("    ✓ Dim_Product created")
+print("    Dim_Product created")
 
 cursor.execute('''
 CREATE TABLE Dim_Store (
@@ -191,11 +217,11 @@ CREATE TABLE Dim_Store (
     Store_Name TEXT NOT NULL,
     City_Name TEXT,
     Region TEXT,
-    Annual_Target REAL,
-    Monthly_Target REAL
+    Monthly_Target REAL,
+    Annual_Target REAL
 )
 ''')
-print("    ✓ Dim_Store created")
+print("    Dim_Store created")
 
 cursor.execute('''
 CREATE TABLE Dim_Customer (
@@ -205,7 +231,7 @@ CREATE TABLE Dim_Customer (
     Region TEXT
 )
 ''')
-print("    ✓ Dim_Customer created")
+print("    Dim_Customer created")
 
 cursor.execute('''
 CREATE TABLE Fact_Sales (
@@ -226,47 +252,69 @@ CREATE TABLE Fact_Sales (
     FOREIGN KEY (Customer_ID) REFERENCES Dim_Customer(Customer_ID)
 )
 ''')
-print("    ✓ Fact_Sales created")
+print("    Fact_Sales created")
+
+cursor.execute('''
+CREATE TABLE Marketing_ROI (
+    ROI_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Category TEXT NOT NULL,
+    Month TEXT NOT NULL,
+    Total_Revenue REAL,
+    Marketing_Cost REAL,
+    ROI_Percent REAL,
+    UNIQUE(Category, Month)
+)
+''')
+print("    Marketing_ROI created")
 
 conn.commit()
 
-# Load data into tables (dimensions first, fact last)
-print("\n  Loading data into tables...")
-print("    Loading dimensions first (for referential integrity)...")
+# ============================================
+# STEP 4: LOAD DATA INTO TABLES
+# ============================================
+print("\n[4/4] Loading data into tables...")
+print("  Loading dimensions first (for referential integrity)...")
 
 Dim_Date.to_sql('Dim_Date', conn, if_exists='append', index=False)
-print(f"      ✓ Dim_Date: {len(Dim_Date):,} rows inserted")
+print(f"    Dim_Date: {len(Dim_Date):,} rows inserted")
 
 Dim_Product.to_sql('Dim_Product', conn, if_exists='append', index=False)
-print(f"      ✓ Dim_Product: {len(Dim_Product):,} rows inserted")
+print(f"    Dim_Product: {len(Dim_Product):,} rows inserted")
 
 Dim_Store.to_sql('Dim_Store', conn, if_exists='append', index=False)
-print(f"      ✓ Dim_Store: {len(Dim_Store):,} rows inserted")
+print(f"    Dim_Store: {len(Dim_Store):,} rows inserted")
 
 Dim_Customer.to_sql('Dim_Customer', conn, if_exists='append', index=False)
-print(f"      ✓ Dim_Customer: {len(Dim_Customer):,} rows inserted")
+print(f"    Dim_Customer: {len(Dim_Customer):,} rows inserted")
 
-print("    Loading fact table...")
+print("  Loading fact table...")
 Fact_Sales.to_sql('Fact_Sales', conn, if_exists='append', index=False)
-print(f"      ✓ Fact_Sales: {len(Fact_Sales):,} rows inserted")
+print(f"    Fact_Sales: {len(Fact_Sales):,} rows inserted")
+
+if Marketing_ROI is not None:
+    print("  Loading Marketing_ROI analytical table...")
+    Marketing_ROI.to_sql('Marketing_ROI', conn, if_exists='append', index=False)
+    print(f"    Marketing_ROI: {len(Marketing_ROI):,} rows inserted")
 
 conn.commit()
-print("\n  ✓ All data loaded successfully!")
+print("\n  All data loaded successfully!")
 
 # ============================================
-# STEP 4: VERIFY DATABASE INTEGRITY
+# VERIFICATION
 # ============================================
-print("\n[4/4] Verifying database integrity...")
+print("\n[Verification] Checking database integrity...")
 
-# Row counts
 print("\n  Table Row Counts:")
 print("  " + "-"*60)
-for table in ['Dim_Date', 'Dim_Product', 'Dim_Store', 'Dim_Customer', 'Fact_Sales']:
+all_tables = ['Dim_Date', 'Dim_Product', 'Dim_Store', 'Dim_Customer', 'Fact_Sales']
+if Marketing_ROI is not None:
+    all_tables.append('Marketing_ROI')
+
+for table in all_tables:
     count = pd.read_sql(f"SELECT COUNT(*) as cnt FROM {table}", conn)['cnt'][0]
     print(f"    {table:20} {count:>10,} rows")
 print("  " + "-"*60)
 
-# Test Star Schema joins
 print("\n  Testing Star Schema joins (Top 5 Sales by Revenue)...")
 print("  " + "-"*60)
 
@@ -295,11 +343,10 @@ LIMIT 5
 try:
     test_result = pd.read_sql(test_query, conn)
     print(test_result.to_string(index=False))
-    print("\n  ✓ Star Schema joins working correctly!")
+    print("\n  Star Schema joins working correctly!")
 except Exception as e:
-    print(f"  ⚠ Join test failed: {e}")
+    print(f"  Join test failed: {e}")
 
-# Business metrics summary
 print("\n  Business Metrics Summary:")
 print("  " + "-"*60)
 
@@ -319,72 +366,38 @@ FROM Fact_Sales
 summary = pd.read_sql(summary_query, conn)
 print(summary.to_string(index=False))
 
-# Date range
 date_range_query = "SELECT MIN(Full_Date) as Start_Date, MAX(Full_Date) as End_Date FROM Dim_Date"
 date_range = pd.read_sql(date_range_query, conn)
 print(f"\n  Date Range: {date_range['Start_Date'][0]} to {date_range['End_Date'][0]}")
 
-# Category breakdown
-print("\n  Revenue by Category:")
-print("  " + "-"*60)
-category_query = """
-SELECT 
-    dp.Category_Name,
-    COUNT(*) as Transactions,
-    ROUND(SUM(fs.Total_Revenue)/1000000, 2) as Revenue_M_DZD,
-    ROUND(SUM(fs.Net_Profit)/1000000, 2) as Profit_M_DZD,
-    ROUND(SUM(fs.Net_Profit)*100.0/SUM(fs.Total_Revenue), 2) as Margin_Pct
-FROM Fact_Sales fs
-JOIN Dim_Product dp ON fs.Product_ID = dp.Product_ID
-GROUP BY dp.Category_Name
-ORDER BY Revenue_M_DZD DESC
-"""
-category_breakdown = pd.read_sql(category_query, conn)
-print(category_breakdown.to_string(index=False))
-
-# Store performance
-print("\n  Top 3 Stores by Revenue:")
-print("  " + "-"*60)
-store_query = """
-SELECT 
-    ds.Store_Name,
-    ds.Region,
-    COUNT(*) as Transactions,
-    ROUND(SUM(fs.Total_Revenue)/1000000, 2) as Revenue_M_DZD,
-    ROUND(SUM(fs.Net_Profit)/1000000, 2) as Profit_M_DZD
-FROM Fact_Sales fs
-JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
-GROUP BY ds.Store_ID, ds.Store_Name, ds.Region
-ORDER BY Revenue_M_DZD DESC
-LIMIT 3
-"""
-top_stores = pd.read_sql(store_query, conn)
-print(top_stores.to_string(index=False))
-
-# Close connection
 conn.close()
 
 # ============================================
 # FINAL SUMMARY
 # ============================================
 print("\n" + "="*70)
-print("✓ DATA WAREHOUSE CREATION COMPLETED SUCCESSFULLY!")
+print("DATA WAREHOUSE LOADING COMPLETED SUCCESSFULLY!")
 print("="*70)
-print(f"\n📊 Database File: {db_path}")
-print(f"📅 Date Range: {date_range['Start_Date'][0]} to {date_range['End_Date'][0]}")
-print(f"💰 Total Revenue: {summary['Total_Revenue_M_DZD'][0]:,.2f} Million DZD")
-print(f"💵 Total Profit: {summary['Total_Profit_M_DZD'][0]:,.2f} Million DZD")
-print(f"📈 Profit Margin: {summary['Profit_Margin_Pct'][0]:.2f}%")
-print(f"🏪 Stores: {summary['Unique_Stores'][0]}")
-print(f"📦 Products: {summary['Unique_Products'][0]}")
-print(f"👥 Customers: {summary['Unique_Customers'][0]}")
-print(f"🧾 Transactions: {summary['Total_Transactions'][0]:,}")
+print(f"\nDatabase File: {db_path}")
+print(f"Date Range: {date_range['Start_Date'][0]} to {date_range['End_Date'][0]}")
+print(f"Total Revenue: {summary['Total_Revenue_M_DZD'][0]:,.2f} Million DZD")
+print(f"Total Profit: {summary['Total_Profit_M_DZD'][0]:,.2f} Million DZD")
+print(f"Profit Margin: {summary['Profit_Margin_Pct'][0]:.2f}%")
+print(f"Stores: {summary['Unique_Stores'][0]}")
+print(f"Products: {summary['Unique_Products'][0]}")
+print(f"Customers: {summary['Unique_Customers'][0]}")
+print(f"Transactions: {summary['Total_Transactions'][0]:,}")
+
+if Marketing_ROI is not None:
+    roi_count = pd.read_sql("SELECT COUNT(*) as cnt FROM Marketing_ROI", 
+                           sqlite3.connect(db_path))['cnt'][0]
+    print(f"Marketing ROI Records: {roi_count:,}")
 
 print("\n" + "="*70)
 print("NEXT STEPS")
 print("="*70)
-print("✅ 1. Database is ready for dashboard development (Member 4)")
-print("✅ 2. Test your SQL queries: python test_queries.py")
-print("✅ 3. Take screenshots for your report")
-print("✅ 4. Share techstore_dw.db with your Dashboard Developer")
+print("1. Database is ready for dashboard development (Member 4)")
+print("2. Test your SQL queries: python test_queries.py")
+print("3. Take screenshots for your report")
+print("4. Share techstore_dw.db with your Dashboard Developer")
 print("="*70)

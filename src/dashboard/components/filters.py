@@ -1,3 +1,8 @@
+"""
+Dashboard Filters Component
+Provides interactive OLAP filtering capabilities
+"""
+
 import streamlit as st
 import pandas as pd
 from datetime import datetime, date
@@ -10,12 +15,17 @@ class DashboardFilters:
         self.db = db_connector
         self._filter_values = {}
         
-        # Initialiser l'état de session pour les filtres
+        # Initialize session state for filters
         if 'filter_version' not in st.session_state:
             st.session_state.filter_version = 0
     
     def render_sidebar_filters(self) -> Dict[str, Any]:
-
+        """
+        Render all filter controls in the sidebar
+        
+        Returns:
+            Dictionary containing all filter values
+        """
         st.sidebar.header("🔍 Filters (OLAP)")
         st.sidebar.markdown("---")
         
@@ -38,7 +48,7 @@ class DashboardFilters:
         
         st.sidebar.markdown("---")
         
-        # Reset button AVEC FIX
+        # Reset button
         if st.sidebar.button("🔄 Reset All Filters", 
                             use_container_width=True,
                             key=f"reset_btn_{st.session_state.filter_version}"):
@@ -48,11 +58,11 @@ class DashboardFilters:
         return filters
     
     def _reset_all_filters(self):
-        """Reset tous les filtres à leurs valeurs par défaut"""
-        # Incrémenter la version pour forcer la recréation des widgets
+        """Reset all filters to default values"""
+        # Increment version to force widget recreation
         st.session_state.filter_version += 1
         
-        # Supprimer toutes les clés de filtres du session_state
+        # Remove all filter keys from session_state
         keys_to_remove = [
             'date_filter',
             'region_filter', 
@@ -76,7 +86,7 @@ class DashboardFilters:
         min_date = pd.to_datetime(result['min_date'].iloc[0]).date()
         max_date = pd.to_datetime(result['max_date'].iloc[0]).date()
         
-        # Date range selector AVEC KEY DYNAMIQUE
+        # Date range selector with dynamic key
         date_range = st.sidebar.date_input(
             "Select Date Range",
             value=(min_date, max_date),
@@ -102,7 +112,7 @@ class DashboardFilters:
         result = self.db.execute_query(query)
         regions = result['Region'].tolist()
         
-        # AVEC KEY DYNAMIQUE
+        # With dynamic key
         selected_regions = st.sidebar.multiselect(
             "Select Regions",
             options=regions,
@@ -127,7 +137,7 @@ class DashboardFilters:
         result = self.db.execute_query(query, tuple(selected_regions))
         stores = result['Store_Name'].tolist()
         
-        # AVEC KEY DYNAMIQUE
+        # With dynamic key
         selected_stores = st.sidebar.multiselect(
             "Select Stores",
             options=stores,
@@ -151,7 +161,7 @@ class DashboardFilters:
         result = self.db.execute_query(query)
         categories = result['Category_Name'].tolist()
         
-        # AVEC KEY DYNAMIQUE
+        # With dynamic key
         selected_categories = st.sidebar.multiselect(
             "Select Categories",
             options=categories,
@@ -178,7 +188,7 @@ class DashboardFilters:
         subcategories = result['Subcategory_Name'].tolist()
         
         if subcategories:
-            # AVEC KEY DYNAMIQUE
+            # With dynamic key
             selected_subcats = st.sidebar.multiselect(
                 "Select Subcategories",
                 options=subcategories,
@@ -190,6 +200,15 @@ class DashboardFilters:
             return []
     
     def build_filter_sql_conditions(self, filters: Dict[str, Any]) -> Tuple[str, List]:
+        """
+        Build SQL WHERE clause and parameters from filter values
+        
+        Args:
+            filters: Dictionary of filter values
+            
+        Returns:
+            Tuple of (where_clause, params_list)
+        """
         conditions = []
         params = []
         
@@ -228,6 +247,15 @@ class DashboardFilters:
         return where_clause, params
     
     def get_filter_summary(self, filters: Dict[str, Any]) -> str:
+        """
+        Generate human-readable filter summary
+        
+        Args:
+            filters: Dictionary of filter values
+            
+        Returns:
+            Summary string
+        """
         summary_parts = []
         
         if filters.get('date_range'):

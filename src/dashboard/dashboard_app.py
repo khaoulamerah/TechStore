@@ -1,6 +1,7 @@
 """
 TechStore Business Intelligence Dashboard
 Main Streamlit Application
+UPDATED: Compatible with new schema (Annual_Target, proper column names)
 """
 
 import streamlit as st
@@ -70,7 +71,7 @@ def main():
     """Main dashboard application"""
     
     # Header
-    st.markdown('<h1 class="main-header"> TechStore Business Intelligence Dashboard</h1>', 
+    st.markdown('<h1 class="main-header">🏪 TechStore Business Intelligence Dashboard</h1>', 
                 unsafe_allow_html=True)
     
     # Sidebar filters
@@ -103,7 +104,7 @@ def main():
 def render_dashboard_overview(filters):
     """Render main dashboard with KPIs and key charts"""
     
-    st.markdown('<h2 class="section-header">Global KPIs</h2>', unsafe_allow_html=True)
+    st.markdown('<h2 class="section-header">📊 Global KPIs</h2>', unsafe_allow_html=True)
     
     # Build filter conditions
     where_clause, params = filters_manager.build_filter_sql_conditions(filters)
@@ -115,7 +116,7 @@ def render_dashboard_overview(filters):
     st.markdown("---")
     
     # Monthly Trends with filters
-    st.markdown('<h2 class="section-header"> Monthly Revenue & Profit Trends</h2>', 
+    st.markdown('<h2 class="section-header">📈 Monthly Revenue & Profit Trends</h2>', 
                 unsafe_allow_html=True)
     
     query_monthly = f"""
@@ -142,22 +143,27 @@ def render_dashboard_overview(filters):
             y=df_monthly['Revenue'],
             name='Revenue',
             mode='lines+markers',
-            line=dict(color='#3498db', width=3)
+            line=dict(color='#3498db', width=3),
+            marker=dict(size=8)
         ))
         fig.add_trace(go.Scatter(
             x=df_monthly['Year_Month'], 
             y=df_monthly['Profit'],
             name='Profit',
             mode='lines+markers',
-            line=dict(color='#2ecc71', width=3)
+            line=dict(color='#2ecc71', width=3),
+            marker=dict(size=8)
         ))
         fig.update_layout(
             title="Monthly Revenue vs Profit",
             xaxis_title="Month",
             yaxis_title="Amount (DZD)",
             height=400,
-            hovermode='x unified'
+            hovermode='x unified',
+            plot_bgcolor='rgba(0,0,0,0)'
         )
+        fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
+        fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
         st.plotly_chart(fig, use_container_width=True)
     else:
         st.info("No data available for the selected filters")
@@ -166,7 +172,7 @@ def render_dashboard_overview(filters):
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown('<h3> Revenue by Category</h3>', unsafe_allow_html=True)
+        st.markdown('<h3>🎯 Revenue by Category</h3>', unsafe_allow_html=True)
         query_category = f"""
         SELECT 
             dp.Category_Name,
@@ -186,15 +192,21 @@ def render_dashboard_overview(filters):
                 df_category, 
                 values='Total_Revenue', 
                 names='Category_Name',
-                hole=0.4
+                hole=0.4,
+                color_discrete_sequence=px.colors.qualitative.Set3
             )
-            fig_cat.update_layout(height=350)
+            fig_cat.update_traces(
+                textposition='inside',
+                textinfo='percent+label',
+                hovertemplate='<b>%{label}</b><br>%{value:,.0f} DZD<br>%{percent}<extra></extra>'
+            )
+            fig_cat.update_layout(height=350, showlegend=True)
             st.plotly_chart(fig_cat, use_container_width=True)
         else:
             st.info("No data available")
     
     with col2:
-        st.markdown('<h3> Top 10 Products</h3>', unsafe_allow_html=True)
+        st.markdown('<h3>🏆 Top 10 Products</h3>', unsafe_allow_html=True)
         query_top_products = f"""
         SELECT 
             dp.Product_Name,
@@ -219,8 +231,13 @@ def render_dashboard_overview(filters):
                 color='Revenue',
                 color_continuous_scale='Blues'
             )
-            fig_products.update_layout(height=350, showlegend=False)
-            fig_products.update_yaxes(categoryorder='total ascending')
+            fig_products.update_layout(
+                height=350, 
+                showlegend=False,
+                yaxis={'categoryorder': 'total ascending'},
+                plot_bgcolor='rgba(0,0,0,0)'
+            )
+            fig_products.update_xaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
             st.plotly_chart(fig_products, use_container_width=True)
         else:
             st.info("No data available")
@@ -229,6 +246,7 @@ def render_dashboard_overview(filters):
 def fetch_global_kpis_filtered(db_connector, where_clause, params):
     """
     Fetch global KPIs with filters applied
+    UPDATED: Uses Annual_Target column
     
     Args:
         db_connector: DatabaseConnector instance
@@ -264,17 +282,17 @@ def fetch_global_kpis_filtered(db_connector, where_clause, params):
     result = db_connector.execute_query(query_profit, tuple(params))
     kpis['net_profit'] = float(result['Net_Profit'].iloc[0]) if result['Net_Profit'].iloc[0] is not None else 0
     
-    # Target Achievement
+    # Target Achievement - UPDATED to use Annual_Target OR Monthly_Target * 12
     query_target = f"""
     SELECT 
         ROUND(SUM(fs.Total_Revenue), 2) as Actual_Sales,
-        ROUND(SUM(ds.Monthly_Target * 12), 2) as Annual_Target,
-        ROUND((SUM(fs.Total_Revenue) * 100.0 / NULLIF(SUM(ds.Monthly_Target * 12), 0)), 2) as Achievement_Percentage
+        ROUND(SUM(COALESCE(ds.Annual_Target, ds.Monthly_Target * 12)), 2) as Annual_Target,
+        ROUND((SUM(fs.Total_Revenue) * 100.0 / NULLIF(SUM(COALESCE(ds.Annual_Target, ds.Monthly_Target * 12)), 0)), 2) as Achievement_Percentage
     FROM Fact_Sales fs
     JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
     JOIN Dim_Date dd ON fs.Date_ID = dd.Date_ID
     JOIN Dim_Product dp ON fs.Product_ID = dp.Product_ID
-    WHERE ds.Monthly_Target IS NOT NULL AND {where_clause}
+    WHERE (ds.Annual_Target IS NOT NULL OR ds.Monthly_Target IS NOT NULL) AND {where_clause}
     """
     result = db_connector.execute_query(query_target, tuple(params))
     kpis['target_achievement'] = float(result['Achievement_Percentage'].iloc[0]) if result['Achievement_Percentage'].iloc[0] is not None else 0
@@ -294,14 +312,14 @@ def fetch_global_kpis_filtered(db_connector, where_clause, params):
 def render_advanced_analytics(filters):
     """Render advanced analytics with complex SQL queries"""
     
-    st.markdown('<h2 class="section-header"> Advanced Business Analytics</h2>', 
+    st.markdown('<h2 class="section-header">📊 Advanced Business Analytics</h2>', 
                 unsafe_allow_html=True)
     
     # Build filter conditions
     where_clause, params = filters_manager.build_filter_sql_conditions(filters)
     
     # YTD Growth Analysis
-    st.markdown("### Year-to-Date (YTD) Revenue Growth")
+    st.markdown("### 📈 Year-to-Date (YTD) Revenue Growth")
     
     query_ytd = f"""
     SELECT 
@@ -335,7 +353,12 @@ def render_advanced_analytics(filters):
             title='Cumulative YTD Revenue by Year',
             markers=True
         )
-        fig_ytd.update_layout(height=400)
+        fig_ytd.update_layout(
+            height=400,
+            plot_bgcolor='rgba(0,0,0,0)'
+        )
+        fig_ytd.update_xaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
+        fig_ytd.update_yaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
         st.plotly_chart(fig_ytd, use_container_width=True)
     else:
         st.info("No data available for the selected filters")
@@ -346,7 +369,7 @@ def render_advanced_analytics(filters):
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("### Marketing ROI by Category")
+        st.markdown("### 💰 Marketing ROI by Category")
         query_roi = f"""
         SELECT 
             dp.Category_Name,
@@ -376,13 +399,18 @@ def render_advanced_analytics(filters):
                 color_continuous_scale='RdYlGn',
                 title='Marketing ROI % by Category'
             )
-            fig_roi.update_layout(height=350)
+            fig_roi.update_layout(
+                height=350,
+                plot_bgcolor='rgba(0,0,0,0)'
+            )
+            fig_roi.update_xaxes(showgrid=False)
+            fig_roi.update_yaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
             st.plotly_chart(fig_roi, use_container_width=True)
         else:
             st.info("No marketing data available")
     
     with col2:
-        st.markdown("### Price Competitiveness Analysis")
+        st.markdown("### 💵 Price Competitiveness Analysis")
         query_price = f"""
         SELECT 
             dp.Product_Name,
@@ -412,16 +440,20 @@ def render_advanced_analytics(filters):
                 color_continuous_scale='RdYlGn_r',
                 title='Price Difference vs Competitors (%)'
             )
-            fig_price.update_layout(height=350)
-            fig_price.update_yaxes(categoryorder='total ascending')
+            fig_price.update_layout(
+                height=350,
+                yaxis={'categoryorder': 'total ascending'},
+                plot_bgcolor='rgba(0,0,0,0)'
+            )
+            fig_price.update_xaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
             st.plotly_chart(fig_price, use_container_width=True)
         else:
             st.info("No competitor data available")
     
     st.markdown("---")
     
-    # Store Performance
-    st.markdown("### Store Performance Analysis")
+    # Store Performance - UPDATED to use Annual_Target
+    st.markdown("### 🏪 Store Performance Analysis")
     
     query_store = f"""
     SELECT 
@@ -429,15 +461,15 @@ def render_advanced_analytics(filters):
         ds.Region,
         ROUND(SUM(fs.Total_Revenue), 2) as Total_Revenue,
         ROUND(SUM(fs.Net_Profit), 2) as Net_Profit,
-        ROUND(ds.Monthly_Target * 12, 2) as Annual_Target,
-        ROUND((SUM(fs.Total_Revenue) * 100.0 / NULLIF(ds.Monthly_Target * 12, 0)), 2) as Target_Achievement_Pct,
+        ROUND(COALESCE(ds.Annual_Target, ds.Monthly_Target * 12), 2) as Annual_Target,
+        ROUND((SUM(fs.Total_Revenue) * 100.0 / NULLIF(COALESCE(ds.Annual_Target, ds.Monthly_Target * 12), 0)), 2) as Target_Achievement_Pct,
         COUNT(DISTINCT fs.Customer_ID) as Unique_Customers
     FROM Fact_Sales fs
     JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
     JOIN Dim_Date dd ON fs.Date_ID = dd.Date_ID
     JOIN Dim_Product dp ON fs.Product_ID = dp.Product_ID
-    WHERE ds.Monthly_Target IS NOT NULL AND {where_clause}
-    GROUP BY ds.Store_ID, ds.Store_Name, ds.Region, ds.Monthly_Target
+    WHERE (ds.Annual_Target IS NOT NULL OR ds.Monthly_Target IS NOT NULL) AND {where_clause}
+    GROUP BY ds.Store_ID, ds.Store_Name, ds.Region, ds.Monthly_Target, ds.Annual_Target
     ORDER BY Net_Profit DESC
     """
     df_store = db.execute_query(query_store, tuple(params))
@@ -456,7 +488,7 @@ def render_advanced_analytics(filters):
 def render_raw_data_explorer():
     """Render raw data table viewer"""
     
-    st.markdown('<h2 class="section-header"> Raw Data Explorer</h2>', 
+    st.markdown('<h2 class="section-header">🗂️ Raw Data Explorer</h2>', 
                 unsafe_allow_html=True)
     
     st.info("View and export raw data from the Data Warehouse tables")
@@ -522,7 +554,7 @@ def render_about_page():
     
     This dashboard provides comprehensive analytics for TechStore's retail operations across Algeria.
     
-    ### Data Sources
+    ### 📊 Data Sources
     - **ERP System**: MySQL database with sales transactions, products, customers, and stores
     - **Marketing Data**: Excel spreadsheets tracking advertising expenses
     - **HR Data**: Monthly sales targets and store manager information
@@ -530,25 +562,25 @@ def render_about_page():
     - **Competitor Intelligence**: Web-scraped pricing data
     - **Legacy Archives**: OCR-digitized paper invoices from 2022
     
-    ### Architecture
+    ### 🏗️ Architecture
     - **ETL Pipeline**: Python-based extraction, transformation, and loading
     - **Data Warehouse**: SQLite database with Star Schema design
     - **Visualization**: Streamlit + Plotly for interactive dashboards
     
-    ### Key Features
+    ### ⭐ Key Features
     - **Global KPIs**: Revenue, profit, target achievement, sentiment analysis
     - **Time Series Analysis**: YTD growth, monthly trends
     - **Marketing ROI**: Campaign effectiveness measurement
     - **Price Intelligence**: Competitive pricing analysis
     - **OLAP Capabilities**: Multi-dimensional filtering and drill-down
     
-    ### Project Team
+    ### 👥 Project Team
     - **Member 1**: Data Extraction Engineer (MySQL + Web Scraping)
     - **Member 2**: ETL & Transformation Specialist (Pandas + OCR)
     - **Member 3**: Database Architect (Star Schema + SQL)
     - **Member 4**: Dashboard Developer (Streamlit + Visualization)
     
-    ### Technology Stack
+    ### 🛠️ Technology Stack
     - Python 3.x
     - Pandas, NumPy
     - MySQL Connector

@@ -1,13 +1,13 @@
-store_id,store_name,city_id,city_name,region,target_revenue,manager_name
-1,TechStore Alger Centre,1,Alger,North,204900745,Billel Rahmani
-2,TechStore Oran Bahia,2,Oran,West,272012884,Khadidja Talbi
-3,TechStore Constantine Cirta,3,Constantine,East,159931987,Ryad Guellil
-4,TechStore Annaba Coast,4,Annaba,East,124344167,Walid Diaf
-5,TechStore Setif Park,6,Setif,East,123309927,Ryad Benali
-6,TechStore Bejaia Port,7,Bejaia,North,105611125,Karim Saidi
-7,TechStore Tlemcen Ville,8,Tlemcen,West,88315800,Nour Brahami
-8,TechStore Skikda Centre,12,Skikda,East,65115584,Khadidja Mebarki
-9,TechStore Guelma 8 Mai,11,Guelma,East,50905315,Nour Saidi
-10,TechStore Biskra Ziban,9,Biskra,South,43080047,Mehdi Boukhalfa
-11,TechStore Ouargla Sud,5,Ouargla,South,33894718,Amel Oukil
-12,TechStore Ghardaia Oasis,10,Ghardaia,South,27334103,Amel Rahmani
+store_id,store_name,city_id,city_name,region,monthly_target,annual_target,manager_name
+1,TechStore Alger Centre,1,Alger,North,6209113.48,74509361.76,Billel Rahmani
+2,TechStore Oran Bahia,2,Oran,West,7555913.44,90670961.28,Khadidja Talbi
+3,TechStore Constantine Cirta,3,Constantine,East,4569485.34,54833824.08,Ryad Guellil
+4,TechStore Annaba Coast,4,Annaba,East,3552690.49,42632285.88,Walid Diaf
+5,TechStore Setif Park,6,Setif,East,3523140.77,42277689.24,Ryad Benali
+6,TechStore Bejaia Port,7,Bejaia,North,3017460.71,36209528.52,Karim Saidi
+7,TechStore Tlemcen Ville,8,Tlemcen,West,2523308.57,30279702.84,Nour Brahami
+8,TechStore Skikda Centre,12,Skikda,East,2034862.0,24418344.0,Khadidja Mebarki
+9,TechStore Guelma 8 Mai,11,Guelma,East,1542585.3,18511023.6,Nour Saidi
+10,TechStore Biskra Ziban,9,Biskra,South,1230858.49,14770301.88,Mehdi Boukhalfa
+11,TechStore Ouargla Sud,5,Ouargla,South,1027112.67,12325352.04,Amel Oukil
+12,TechStore Ghardaia Oasis,10,Ghardaia,South,803944.21,9647330.52,Amel Rahmani

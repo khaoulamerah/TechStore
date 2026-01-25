@@ -1,130 +1,212 @@
 """
-Database Connector for TechStore Dashboard
-Handles all SQLite connections and query execution
-FIXED: Thread-safe connections for Streamlit
+Database Connector for TechStore Data Warehouse
+Handles SQLite connections and query execution
 """
 
 import sqlite3
 import pandas as pd
 from pathlib import Path
-from typing import Optional, List, Dict, Any
-import threading
+from typing import Optional, Tuple, List, Any
+
 
 class DatabaseConnector:
-    """Manages thread-safe connection to the TechStore Data Warehouse"""
+    """Thread-safe database connector for TechStore Data Warehouse"""
     
-    def __init__(self, db_path: str = None):
+    def __init__(self, db_path: Optional[str] = None):
         """
         Initialize database connector
         
         Args:
-            db_path: Path to SQLite database file
+            db_path: Path to SQLite database file. If None, uses default path.
         """
         if db_path is None:
-            # Auto-detect database path (relative to project root)
-            current_dir = Path(__file__).parent.parent.parent
-            db_path = current_dir / "database" / "techstore_dw.db"
+            # Default path: src/database/techstore_dw.db
+            base_dir = Path(__file__).parent.parent.parent
+            db_path = base_dir / 'database' / 'techstore_dw.db'
         
         self.db_path = Path(db_path)
         
         if not self.db_path.exists():
-            raise FileNotFoundError(f"Database not found: {self.db_path}")
+            raise FileNotFoundError(f"Database not found at: {self.db_path}")
         
-        # Thread-local storage for connections
-        self._local = threading.local()
+        # Test connection
+        self._test_connection()
     
-    def connect(self) -> sqlite3.Connection:
+    def _test_connection(self):
+        """Test database connection on initialization"""
+        try:
+            conn = self._get_connection()
+            cursor = conn.cursor()
+            cursor.execute("SELECT COUNT(*) FROM sqlite_master WHERE type='table'")
+            table_count = cursor.fetchone()[0]
+            conn.close()
+            
+            if table_count == 0:
+                raise ValueError("Database is empty (no tables found)")
+                
+        except Exception as e:
+            raise ConnectionError(f"Database connection failed: {e}")
+    
+    def _get_connection(self) -> sqlite3.Connection:
         """
-        Establish thread-safe database connection
-        Each thread gets its own connection
-        """
-        # Check if current thread has a connection
-        if not hasattr(self._local, 'connection') or self._local.connection is None:
-            # Create new connection for this thread
-            self._local.connection = sqlite3.connect(
-                str(self.db_path),
-                check_same_thread=False  # Allow usage across threads
-            )
+        Create a new database connection (thread-safe)
         
-        return self._local.connection
-    
-    def execute_query(self, query: str, params: tuple = None) -> pd.DataFrame:
+        Returns:
+            sqlite3.Connection object
         """
-        Execute SQL query and return results as DataFrame (THREAD-SAFE)
+        conn = sqlite3.connect(str(self.db_path), check_same_thread=False)
+        conn.row_factory = sqlite3.Row  # Enable column access by name
+        return conn
+    
+    def execute_query(self, query: str, params: Optional[Tuple] = None) -> pd.DataFrame:
+        """
+        Execute a SELECT query and return results as DataFrame
         
         Args:
-            query: SQL query string
-            params: Optional query parameters for parameterized queries
+            query: SQL SELECT statement
+            params: Query parameters for parameterized queries
             
         Returns:
-            pd.DataFrame: Query results
+            pd.DataFrame with query results
         """
-        # Get thread-specific connection
-        conn = self.connect()
+        conn = self._get_connection()
         
         try:
             if params:
                 df = pd.read_sql_query(query, conn, params=params)
             else:
                 df = pd.read_sql_query(query, conn)
+            
             return df
+            
         except Exception as e:
-            raise Exception(f"Query execution failed: {e}\nQuery: {query}")
+            raise RuntimeError(f"Query execution failed: {e}\nQuery: {query}")
+        
+        finally:
+            conn.close()
+    
+    def execute_non_query(self, query: str, params: Optional[Tuple] = None) -> int:
+        """
+        Execute INSERT/UPDATE/DELETE query
+        
+        Args:
+            query: SQL statement
+            params: Query parameters
+            
+        Returns:
+            Number of affected rows
+        """
+        conn = self._get_connection()
+        cursor = conn.cursor()
+        
+        try:
+            if params:
+                cursor.execute(query, params)
+            else:
+                cursor.execute(query)
+            
+            conn.commit()
+            return cursor.rowcount
+            
+        except Exception as e:
+            conn.rollback()
+            raise RuntimeError(f"Non-query execution failed: {e}")
+        
+        finally:
+            conn.close()
     
     def get_table_list(self) -> List[str]:
-        """Get list of all tables in database"""
-        query = "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name"
-        result = self.execute_query(query)
-        return result['name'].tolist()
+        """
+        Get list of all tables in database
+        
+        Returns:
+            List of table names
+        """
+        query = """
+        SELECT name 
+        FROM sqlite_master 
+        WHERE type='table' 
+        ORDER BY name
+        """
+        
+        df = self.execute_query(query)
+        return df['name'].tolist()
     
     def get_table_schema(self, table_name: str) -> pd.DataFrame:
-        """Get schema information for a specific table"""
-        query = f"PRAGMA table_info({table_name})"
-        return self.execute_query(query)
-    
-    def get_table_data(self, table_name: str, limit: int = None) -> pd.DataFrame:
         """
-        Retrieve all data from a specific table
+        Get schema information for a table
         
         Args:
             table_name: Name of the table
-            limit: Optional row limit
             
         Returns:
-            pd.DataFrame: Table data
+            DataFrame with columns: cid, name, type, notnull, dflt_value, pk
         """
-        query = f"SELECT * FROM {table_name}"
-        if limit:
-            query += f" LIMIT {limit}"
-        
+        query = f"PRAGMA table_info({table_name})"
         return self.execute_query(query)
     
     def get_row_count(self, table_name: str) -> int:
-        """Get total row count for a table"""
+        """
+        Get total row count for a table
+        
+        Args:
+            table_name: Name of the table
+            
+        Returns:
+            Number of rows
+        """
         query = f"SELECT COUNT(*) as count FROM {table_name}"
         result = self.execute_query(query)
         return int(result['count'].iloc[0])
     
-    def close(self):
-        """Close thread-specific database connection"""
-        if hasattr(self._local, 'connection') and self._local.connection is not None:
-            self._local.connection.close()
-            self._local.connection = None
+    def get_table_data(self, table_name: str, limit: int = 100) -> pd.DataFrame:
+        """
+        Get sample data from a table
+        
+        Args:
+            table_name: Name of the table
+            limit: Maximum number of rows to return
+            
+        Returns:
+            DataFrame with table data
+        """
+        query = f"SELECT * FROM {table_name} LIMIT {limit}"
+        return self.execute_query(query)
     
-    def __enter__(self):
-        """Context manager entry"""
-        self.connect()
-        return self
-    
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        """Context manager exit"""
-        self.close()
+    def test_star_schema(self) -> pd.DataFrame:
+        """
+        Test Star Schema integrity with a sample join
+        
+        Returns:
+            DataFrame with sample joined data
+        """
+        query = """
+        SELECT 
+            fs.Sale_ID,
+            dd.Full_Date,
+            dp.Product_Name,
+            dp.Category_Name,
+            ds.Store_Name,
+            dc.Customer_Name,
+            fs.Quantity,
+            fs.Total_Revenue,
+            fs.Net_Profit
+        FROM Fact_Sales fs
+        JOIN Dim_Date dd ON fs.Date_ID = dd.Date_ID
+        JOIN Dim_Product dp ON fs.Product_ID = dp.Product_ID
+        JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
+        JOIN Dim_Customer dc ON fs.Customer_ID = dc.Customer_ID
+        LIMIT 10
+        """
+        
+        return self.execute_query(query)
 
 
-# Create a new connection for each request (Streamlit-friendly)
 def get_db_connection() -> DatabaseConnector:
     """
-    Get a new database connector instance
-    DO NOT cache this in Streamlit - create fresh each time
+    Factory function to get database connector instance
+    
+    Returns:
+        DatabaseConnector instance
     """
     return DatabaseConnector()

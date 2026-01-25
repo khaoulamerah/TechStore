@@ -1,98 +1,91 @@
-"""
-SQL Query Testing Script
-Tests all queries from sql_queries.py against the Data Warehouse
-Author: Database Architect - TechStore BI Project
-"""
-
+# save_as: test_all_queries.py
 import sqlite3
 import pandas as pd
 from sql_queries import *
 
 print("="*70)
-print("TESTING SQL QUERIES FOR TECHSTORE DASHBOARD")
+print("COMPREHENSIVE SQL QUERIES TEST")
 print("="*70)
 
 # Connect to database
-db_path = '../Data/database/techstore_dw.db'
+db_path = "../database/techstore_dw.db"
 try:
     conn = sqlite3.connect(db_path)
-    print(f"\n✓ Connected to: {db_path}\n")
+    print(f"✅ Connected to: {db_path}\n")
 except Exception as e:
-    print(f"\n✗ Error connecting to database: {e}")
+    print(f"❌ Connection failed: {e}")
     exit(1)
 
-# Define all queries to test
-queries_to_test = [
+# Get all queries from the module
+queries = [
     ("Total Revenue", QUERY_TOTAL_REVENUE),
     ("Net Profit", QUERY_NET_PROFIT),
-    ("Target Achievement", QUERY_TARGET_ACHIEVEMENT),
-    ("Average Sentiment", QUERY_AVG_SENTIMENT),
-    ("YTD Growth", QUERY_YTD_GROWTH),
+    ("Total Transactions", QUERY_TOTAL_TRANSACTIONS),
+    ("Avg Transaction Value", QUERY_AVG_TRANSACTION_VALUE),
     ("Monthly Trends", QUERY_MONTHLY_TRENDS),
-    ("Top Products by Category", QUERY_TOP_PRODUCTS_BY_CATEGORY),
+    ("Top Selling Products", QUERY_TOP_SELLING_PRODUCTS),
     ("Category Performance", QUERY_CATEGORY_PERFORMANCE),
-    ("Marketing ROI", QUERY_MARKETING_ROI),
-    ("Price Competitiveness", QUERY_PRICE_COMPETITIVENESS),
-    ("Store Performance", QUERY_STORE_PERFORMANCE),
-    ("Regional Analysis", QUERY_REGIONAL_ANALYSIS),
+    ("Store Ranking", QUERY_STORE_RANKING),
+    ("Regional Performance", QUERY_REGIONAL_PERFORMANCE),
+    ("Top Customers", QUERY_TOP_CUSTOMERS),
     ("Profit Margin by Category", QUERY_PROFIT_MARGIN_BY_CATEGORY),
-    ("Sentiment vs Sales", QUERY_SENTIMENT_VS_SALES),
-    ("Customer Segmentation", QUERY_CUSTOMER_SEGMENTATION),
+    ("Marketing ROI", QUERY_MARKETING_ROI),
+    ("Dashboard Summary", QUERY_DASHBOARD_SUMMARY),
 ]
 
-# Test each query
 results = []
-for i, (query_name, query_sql) in enumerate(queries_to_test, 1):
-    print(f"[{i}/{len(queries_to_test)}] Testing: {query_name}...")
+for i, (name, query) in enumerate(queries, 1):
+    print(f"[{i}/{len(queries)}] Testing: {name}")
     
     try:
-        result = pd.read_sql(query_sql, conn)
+        result = pd.read_sql(query, conn)
         row_count = len(result)
         col_count = len(result.columns)
         
-        print(f"  ✓ Success! Returned {row_count} rows, {col_count} columns")
+        print(f"  ✅ Success: {row_count} rows, {col_count} columns")
         
-        # Show preview for small results
-        if row_count <= 5:
-            print(f"\n  Preview:")
-            print("  " + result.to_string(index=False).replace('\n', '\n  '))
-            print()
+        # Show small results
+        if row_count <= 3:
+            print(f"  📊 Result:")
+            print(result.to_string(index=False))
         
         results.append({
-            'Query': query_name,
-            'Status': '✓ Pass',
+            'Query': name,
+            'Status': '✅ Pass',
             'Rows': row_count,
             'Columns': col_count
         })
         
     except Exception as e:
-        print(f"  ✗ Failed: {e}\n")
+        error_msg = str(e)[:50]
+        print(f"  ❌ Failed: {error_msg}")
         results.append({
-            'Query': query_name,
-            'Status': f'✗ Fail: {str(e)[:50]}',
+            'Query': name,
+            'Status': f'❌ Fail: {error_msg}',
             'Rows': 0,
             'Columns': 0
         })
+    
+    print()  # Empty line
 
 # Summary
-print("\n" + "="*70)
-print("QUERY TEST SUMMARY")
+print("="*70)
+print("TEST SUMMARY")
 print("="*70)
 
 summary_df = pd.DataFrame(results)
 print(summary_df.to_string(index=False))
 
-passed = sum(1 for r in results if r['Status'] == '✓ Pass')
-total = len(results)
+passed = sum(1 for r in results if '✅' in r['Status'])
+failed = len(results) - passed
 
-print("\n" + "="*70)
-print(f"RESULT: {passed}/{total} queries passed")
-print("="*70)
+print(f"\n✅ Passed: {passed}")
+print(f"❌ Failed: {failed}")
 
-if passed == total:
-    print("✓ All queries are working correctly!")
-    print("✓ Your sql_queries.py is ready for dashboard integration!")
+if failed == 0:
+    print("\n🎉 All queries are working perfectly!")
+    print("Ready for dashboard integration!")
 else:
-    print(f"⚠ {total - passed} queries failed - please review the errors above")
+    print(f"\n⚠️  {failed} queries need fixing")
 
 conn.close()
