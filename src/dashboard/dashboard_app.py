@@ -1,7 +1,7 @@
 """
 TechStore Business Intelligence Dashboard
 Main Streamlit Application
-UPDATED: Compatible with new schema (Annual_Target, proper column names)
+FIXED: KPI calculations now match database totals
 """
 
 import streamlit as st
@@ -246,7 +246,7 @@ def render_dashboard_overview(filters):
 def fetch_global_kpis_filtered(db_connector, where_clause, params):
     """
     Fetch global KPIs with filters applied
-    UPDATED: Uses Annual_Target column
+    FIXED: Simplified queries to match database totals exactly
     
     Args:
         db_connector: DatabaseConnector instance
@@ -258,7 +258,7 @@ def fetch_global_kpis_filtered(db_connector, where_clause, params):
     """
     kpis = {}
     
-    # Total Revenue
+    # Total Revenue - FIXED: Direct sum from Fact_Sales
     query_revenue = f"""
     SELECT ROUND(SUM(fs.Total_Revenue), 2) as Total_Revenue 
     FROM Fact_Sales fs
@@ -270,7 +270,7 @@ def fetch_global_kpis_filtered(db_connector, where_clause, params):
     result = db_connector.execute_query(query_revenue, tuple(params))
     kpis['total_revenue'] = float(result['Total_Revenue'].iloc[0]) if result['Total_Revenue'].iloc[0] is not None else 0
     
-    # Net Profit
+    # Net Profit - FIXED: Direct sum from Fact_Sales
     query_profit = f"""
     SELECT ROUND(SUM(fs.Net_Profit), 2) as Net_Profit 
     FROM Fact_Sales fs
@@ -282,17 +282,24 @@ def fetch_global_kpis_filtered(db_connector, where_clause, params):
     result = db_connector.execute_query(query_profit, tuple(params))
     kpis['net_profit'] = float(result['Net_Profit'].iloc[0]) if result['Net_Profit'].iloc[0] is not None else 0
     
-    # Target Achievement - UPDATED to use Annual_Target OR Monthly_Target * 12
+    # Target Achievement - FIXED: Handle stores without targets properly
     query_target = f"""
     SELECT 
         ROUND(SUM(fs.Total_Revenue), 2) as Actual_Sales,
-        ROUND(SUM(COALESCE(ds.Annual_Target, ds.Monthly_Target * 12)), 2) as Annual_Target,
-        ROUND((SUM(fs.Total_Revenue) * 100.0 / NULLIF(SUM(COALESCE(ds.Annual_Target, ds.Monthly_Target * 12)), 0)), 2) as Achievement_Percentage
+        ROUND(SUM(COALESCE(ds.Annual_Target, ds.Monthly_Target * 12, 0)), 2) as Total_Target,
+        ROUND(
+            CASE 
+                WHEN SUM(COALESCE(ds.Annual_Target, ds.Monthly_Target * 12, 0)) > 0 
+                THEN (SUM(fs.Total_Revenue) * 100.0 / SUM(COALESCE(ds.Annual_Target, ds.Monthly_Target * 12, 0)))
+                ELSE 0 
+            END, 
+            2
+        ) as Achievement_Percentage
     FROM Fact_Sales fs
     JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
     JOIN Dim_Date dd ON fs.Date_ID = dd.Date_ID
     JOIN Dim_Product dp ON fs.Product_ID = dp.Product_ID
-    WHERE (ds.Annual_Target IS NOT NULL OR ds.Monthly_Target IS NOT NULL) AND {where_clause}
+    WHERE {where_clause}
     """
     result = db_connector.execute_query(query_target, tuple(params))
     kpis['target_achievement'] = float(result['Achievement_Percentage'].iloc[0]) if result['Achievement_Percentage'].iloc[0] is not None else 0
@@ -452,7 +459,7 @@ def render_advanced_analytics(filters):
     
     st.markdown("---")
     
-    # Store Performance - UPDATED to use Annual_Target
+    # Store Performance
     st.markdown("### 🏪 Store Performance Analysis")
     
     query_store = f"""
@@ -461,14 +468,14 @@ def render_advanced_analytics(filters):
         ds.Region,
         ROUND(SUM(fs.Total_Revenue), 2) as Total_Revenue,
         ROUND(SUM(fs.Net_Profit), 2) as Net_Profit,
-        ROUND(COALESCE(ds.Annual_Target, ds.Monthly_Target * 12), 2) as Annual_Target,
-        ROUND((SUM(fs.Total_Revenue) * 100.0 / NULLIF(COALESCE(ds.Annual_Target, ds.Monthly_Target * 12), 0)), 2) as Target_Achievement_Pct,
+        ROUND(COALESCE(ds.Annual_Target, ds.Monthly_Target * 12, 0), 2) as Annual_Target,
+        ROUND((SUM(fs.Total_Revenue) * 100.0 / NULLIF(COALESCE(ds.Annual_Target, ds.Monthly_Target * 12, 0), 0)), 2) as Target_Achievement_Pct,
         COUNT(DISTINCT fs.Customer_ID) as Unique_Customers
     FROM Fact_Sales fs
     JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
     JOIN Dim_Date dd ON fs.Date_ID = dd.Date_ID
     JOIN Dim_Product dp ON fs.Product_ID = dp.Product_ID
-    WHERE (ds.Annual_Target IS NOT NULL OR ds.Monthly_Target IS NOT NULL) AND {where_clause}
+    WHERE {where_clause}
     GROUP BY ds.Store_ID, ds.Store_Name, ds.Region, ds.Monthly_Target, ds.Annual_Target
     ORDER BY Net_Profit DESC
     """
@@ -575,27 +582,23 @@ def render_about_page():
     - **OLAP Capabilities**: Multi-dimensional filtering and drill-down
     
     ### 👥 Project Team
-    - **Member 1**: Data Extraction Engineer (MySQL + Web Scraping)
-    - **Member 2**: ETL & Transformation Specialist (Pandas + OCR)
-    - **Member 3**: Database Architect (Star Schema + SQL)
-    - **Member 4**: Dashboard Developer (Streamlit + Visualization)
+    - **Sarah Djerrab & Khaoula Merah**: Data Extraction & Frontend Development
+    - **Hadjer Hanani**: ETL & Transformation Specialist
+    - **Tasnim Bagha**: Database Architecture & SQL
     
     ### 🛠️ Technology Stack
-    - Python 3.x
-    - Pandas, NumPy
-    - MySQL Connector
-    - BeautifulSoup (Web Scraping)
-    - Tesseract OCR
-    - VADER Sentiment Analysis
-    - SQLite3
-    - Streamlit
-    - Plotly
+    - Python 3.x, Pandas, NumPy
+    - MySQL Connector, BeautifulSoup (Web Scraping)
+    - Tesseract OCR, VADER Sentiment Analysis
+    - SQLite3, Streamlit, Plotly
     
     ---
     
     **Course**: Business Intelligence (BI)  
     **Level**: 4th Year Artificial Intelligence Engineering  
     **Institution**: University of 8 Mai 1945 Guelma
+    
+    **GitHub**: [https://github.com/khaoulamerah/TechStore.git](https://github.com/khaoulamerah/TechStore.git)
     """)
 
 
