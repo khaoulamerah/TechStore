@@ -116,3 +116,254 @@ table_subcategories      15         3 Succès
 ============================================================
 2025-12-24 11:55:29,497 - INFO - EXTRACTION TERMINÉE AVEC SUCCÈS
 2025-12-24 11:55:29,513 - INFO - ============================================================
+2026-01-26 11:32:44,775 - INFO - Connexion réussie à techstore_erp
+2026-01-26 11:32:44,775 - INFO - 
+============================================================
+2026-01-26 11:32:44,775 - INFO -  DÉBUT DE L'EXTRACTION COMPLÈTE
+2026-01-26 11:32:44,791 - INFO - ============================================================
+
+2026-01-26 11:32:46,583 - INFO - 
+Informations sur table_sales:
+2026-01-26 11:32:46,583 - INFO -    Nombre de lignes: 25000
+2026-01-26 11:32:46,583 - INFO -    Colonnes: Trans_ID, Date, Store_ID, Product_ID, Customer_ID, Quantity, Total_Revenue
+2026-01-26 11:33:08,717 - INFO - 25000 lignes extraites de table_sales
+2026-01-26 11:33:08,718 - INFO - Fichier sauvegardé: data/extracted/sales.csv
+2026-01-26 11:33:08,719 - INFO - 
+------------------------------------------------------------
+
+2026-01-26 11:33:51,954 - INFO - Connexion réussie à techstore_erp
+2026-01-26 11:33:51,954 - INFO - 
+============================================================
+2026-01-26 11:33:51,954 - INFO -  DÉBUT DE L'EXTRACTION COMPLÈTE
+2026-01-26 11:33:51,954 - INFO - ============================================================
+
+2026-01-26 11:33:52,495 - INFO - 
+Informations sur table_sales:
+2026-01-26 11:33:52,495 - INFO -    Nombre de lignes: 25000
+2026-01-26 11:33:52,495 - INFO -    Colonnes: Trans_ID, Date, Store_ID, Product_ID, Customer_ID, Quantity, Total_Revenue
+2026-01-26 11:33:55,327 - INFO - 25000 lignes extraites de table_sales
+2026-01-26 11:33:55,327 - INFO - Fichier sauvegardé: data/extracted/sales.csv
+2026-01-26 11:33:55,327 - INFO - 
+------------------------------------------------------------
+
+2026-01-26 11:33:55,683 - INFO - 
+Informations sur table_products:
+2026-01-26 11:33:55,683 - INFO -    Nombre de lignes: 38
+2026-01-26 11:33:55,683 - INFO -    Colonnes: Product_ID, Product_Name, SubCat_ID, Unit_Price, Unit_Cost
+2026-01-26 11:33:55,864 - INFO - 38 lignes extraites de table_products
+2026-01-26 11:33:55,864 - INFO - Fichier sauvegardé: data/extracted/products.csv
+2026-01-26 11:33:55,864 - INFO - 
+------------------------------------------------------------
+
+2026-01-26 11:33:56,209 - INFO - 
+Informations sur table_reviews:
+2026-01-26 11:33:56,209 - INFO -    Nombre de lignes: 3000
+2026-01-26 11:33:56,209 - INFO -    Colonnes: Review_ID, Product_ID, Customer_ID, Rating, Review_Text
+2026-01-26 11:33:56,866 - INFO - 3000 lignes extraites de table_reviews
+2026-01-26 11:33:56,866 - INFO - Fichier sauvegardé: data/extracted/reviews.csv
+2026-01-26 11:33:56,866 - INFO - 
+------------------------------------------------------------
+
+2026-01-26 11:33:57,208 - INFO - 
+Informations sur table_customers:
+2026-01-26 11:33:57,208 - INFO -    Nombre de lignes: 1200
+2026-01-26 11:33:57,208 - INFO -    Colonnes: Customer_ID, Full_Name, City_ID
+2026-01-26 11:33:57,750 - INFO - 1200 lignes extraites de table_customers
+2026-01-26 11:33:57,750 - INFO - Fichier sauvegardé: data/extracted/customers.csv
+2026-01-26 11:33:57,750 - INFO - 
+------------------------------------------------------------
+
+2026-01-26 11:33:58,096 - INFO - 
+Informations sur table_stores:
+2026-01-26 11:33:58,096 - INFO -    Nombre de lignes: 12
+2026-01-26 11:33:58,096 - INFO -    Colonnes: Store_ID, Store_Name, City_ID
+2026-01-26 11:33:58,263 - INFO - 12 lignes extraites de table_stores
+2026-01-26 11:33:58,263 - INFO - Fichier sauvegardé: data/extracted/stores.csv
+2026-01-26 11:33:58,263 - INFO - 
+------------------------------------------------------------
+
+2026-01-26 11:33:58,621 - INFO - 
+Informations sur table_cities:
+2026-01-26 11:33:58,621 - INFO -    Nombre de lignes: 12
+2026-01-26 11:33:58,621 - INFO -    Colonnes: City_ID, City_Name, Region
+2026-01-26 11:33:58,796 - INFO - 12 lignes extraites de table_cities
+2026-01-26 11:33:58,796 - INFO - Fichier sauvegardé: data/extracted/cities.csv
+2026-01-26 11:33:58,796 - INFO - 
+------------------------------------------------------------
+
+2026-01-26 11:33:59,142 - INFO - 
+Informations sur table_categories:
+2026-01-26 11:33:59,142 - INFO -    Nombre de lignes: 5
+2026-01-26 11:33:59,142 - INFO -    Colonnes: Category_ID, Category_Name
+2026-01-26 11:33:59,330 - INFO - 5 lignes extraites de table_categories
+2026-01-26 11:33:59,330 - INFO - Fichier sauvegardé: data/extracted/categories.csv
+2026-01-26 11:33:59,333 - INFO - 
+------------------------------------------------------------
+
+2026-01-26 11:33:59,673 - INFO - 
+Informations sur table_subcategories:
+2026-01-26 11:33:59,675 - INFO -    Nombre de lignes: 15
+2026-01-26 11:33:59,675 - INFO -    Colonnes: SubCat_ID, SubCat_Name, Category_ID
+2026-01-26 11:33:59,851 - INFO - 15 lignes extraites de table_subcategories
+2026-01-26 11:33:59,853 - INFO - Fichier sauvegardé: data/extracted/subcategories.csv
+2026-01-26 11:33:59,853 - INFO - 
+------------------------------------------------------------
+
+2026-01-26 11:33:59,853 - INFO - 
+============================================================
+2026-01-26 11:33:59,853 - INFO -  RÉSUMÉ DE L'EXTRACTION
+2026-01-26 11:33:59,853 - INFO - ============================================================
+
+2026-01-26 11:33:59,858 - INFO - 
+              Table  Lignes  Colonnes Statut
+        table_sales   25000         7 Succès
+     table_products      38         5 Succès
+      table_reviews    3000         5 Succès
+    table_customers    1200         3 Succès
+       table_stores      12         3 Succès
+       table_cities      12         3 Succès
+   table_categories       5         2 Succès
+table_subcategories      15         3 Succès
+
+2026-01-26 11:33:59,860 - INFO - Extraction personnalisée: Ventes avec détails complets
+2026-01-26 11:34:00,124 - ERROR - Erreur: Execution failed on sql '
+        SELECT 
+            s.Sale_ID,
+            s.Date,
+            s.Quantity,
+            s.Total_Revenue,
+            p.Product_Name,
+            p.Unit_Cost,
+            c.Category_Name,
+            st.Store_Name,
+            cu.Customer_Name
+        FROM table_sales s
+        JOIN table_products p ON s.Product_ID = p.Product_ID
+        JOIN table_categories c ON p.Category_ID = c.Category_ID
+        JOIN table_stores st ON s.Store_ID = st.Store_ID
+        JOIN table_customers cu ON s.Customer_ID = cu.Customer_ID
+        LIMIT 1000
+        ': 1054 (42S22): Unknown column 's.Sale_ID' in 'SELECT'
+2026-01-26 11:34:00,206 - INFO - Connexion fermée
+2026-01-26 11:34:00,206 - INFO - 
+============================================================
+2026-01-26 11:34:00,206 - INFO - EXTRACTION TERMINÉE AVEC SUCCÈS
+2026-01-26 11:34:00,207 - INFO - ============================================================
+2026-01-26 11:43:21,205 - INFO - Connexion réussie à techstore_erp
+2026-01-26 11:43:21,205 - INFO - 
+============================================================
+2026-01-26 11:43:21,205 - INFO -  DÉBUT DE L'EXTRACTION COMPLÈTE
+2026-01-26 11:43:21,205 - INFO - ============================================================
+
+2026-01-26 11:43:21,750 - INFO - 
+Informations sur table_sales:
+2026-01-26 11:43:21,750 - INFO -    Nombre de lignes: 25000
+2026-01-26 11:43:21,750 - INFO -    Colonnes: Trans_ID, Date, Store_ID, Product_ID, Customer_ID, Quantity, Total_Revenue
+2026-01-26 11:43:24,643 - INFO - 25000 lignes extraites de table_sales
+2026-01-26 11:43:24,643 - INFO - Fichier sauvegardé: data/extracted/sales.csv
+2026-01-26 11:43:24,643 - INFO - 
+------------------------------------------------------------
+
+2026-01-26 11:43:25,011 - INFO - 
+Informations sur table_products:
+2026-01-26 11:43:25,011 - INFO -    Nombre de lignes: 38
+2026-01-26 11:43:25,027 - INFO -    Colonnes: Product_ID, Product_Name, SubCat_ID, Unit_Price, Unit_Cost
+2026-01-26 11:43:25,215 - INFO - 38 lignes extraites de table_products
+2026-01-26 11:43:25,215 - INFO - Fichier sauvegardé: data/extracted/products.csv
+2026-01-26 11:43:25,215 - INFO - 
+------------------------------------------------------------
+
+2026-01-26 11:43:25,577 - INFO - 
+Informations sur table_reviews:
+2026-01-26 11:43:25,577 - INFO -    Nombre de lignes: 3000
+2026-01-26 11:43:25,577 - INFO -    Colonnes: Review_ID, Product_ID, Customer_ID, Rating, Review_Text
+2026-01-26 11:43:26,253 - INFO - 3000 lignes extraites de table_reviews
+2026-01-26 11:43:26,253 - INFO - Fichier sauvegardé: data/extracted/reviews.csv
+2026-01-26 11:43:26,253 - INFO - 
+------------------------------------------------------------
+
+2026-01-26 11:43:26,618 - INFO - 
+Informations sur table_customers:
+2026-01-26 11:43:26,619 - INFO -    Nombre de lignes: 1200
+2026-01-26 11:43:26,619 - INFO -    Colonnes: Customer_ID, Full_Name, City_ID
+2026-01-26 11:43:27,258 - INFO - 1200 lignes extraites de table_customers
+2026-01-26 11:43:27,258 - INFO - Fichier sauvegardé: data/extracted/customers.csv
+2026-01-26 11:43:27,258 - INFO - 
+------------------------------------------------------------
+
+2026-01-26 11:43:27,612 - INFO - 
+Informations sur table_stores:
+2026-01-26 11:43:27,612 - INFO -    Nombre de lignes: 12
+2026-01-26 11:43:27,612 - INFO -    Colonnes: Store_ID, Store_Name, City_ID
+2026-01-26 11:43:27,796 - INFO - 12 lignes extraites de table_stores
+2026-01-26 11:43:27,796 - INFO - Fichier sauvegardé: data/extracted/stores.csv
+2026-01-26 11:43:27,796 - INFO - 
+------------------------------------------------------------
+
+2026-01-26 11:43:28,275 - INFO - 
+Informations sur table_cities:
+2026-01-26 11:43:28,275 - INFO -    Nombre de lignes: 12
+2026-01-26 11:43:28,275 - INFO -    Colonnes: City_ID, City_Name, Region
+2026-01-26 11:43:28,462 - INFO - 12 lignes extraites de table_cities
+2026-01-26 11:43:28,462 - INFO - Fichier sauvegardé: data/extracted/cities.csv
+2026-01-26 11:43:28,462 - INFO - 
+------------------------------------------------------------
+
+2026-01-26 11:43:28,822 - INFO - 
+Informations sur table_categories:
+2026-01-26 11:43:28,822 - INFO -    Nombre de lignes: 5
+2026-01-26 11:43:28,822 - INFO -    Colonnes: Category_ID, Category_Name
+2026-01-26 11:43:29,012 - INFO - 5 lignes extraites de table_categories
+2026-01-26 11:43:29,012 - INFO - Fichier sauvegardé: data/extracted/categories.csv
+2026-01-26 11:43:29,012 - INFO - 
+------------------------------------------------------------
+
+2026-01-26 11:43:29,356 - INFO - 
+Informations sur table_subcategories:
+2026-01-26 11:43:29,356 - INFO -    Nombre de lignes: 15
+2026-01-26 11:43:29,372 - INFO -    Colonnes: SubCat_ID, SubCat_Name, Category_ID
+2026-01-26 11:43:29,561 - INFO - 15 lignes extraites de table_subcategories
+2026-01-26 11:43:29,561 - INFO - Fichier sauvegardé: data/extracted/subcategories.csv
+2026-01-26 11:43:29,561 - INFO - 
+------------------------------------------------------------
+
+2026-01-26 11:43:29,561 - INFO - 
+============================================================
+2026-01-26 11:43:29,561 - INFO -  RÉSUMÉ DE L'EXTRACTION
+2026-01-26 11:43:29,561 - INFO - ============================================================
+
+2026-01-26 11:43:29,561 - INFO - 
+              Table  Lignes  Colonnes Statut
+        table_sales   25000         7 Succès
+     table_products      38         5 Succès
+      table_reviews    3000         5 Succès
+    table_customers    1200         3 Succès
+       table_stores      12         3 Succès
+       table_cities      12         3 Succès
+   table_categories       5         2 Succès
+table_subcategories      15         3 Succès
+
+2026-01-26 11:43:29,561 - INFO - Extraction personnalisée: Ventes avec détails complets
+2026-01-26 11:43:29,826 - ERROR - Erreur: Execution failed on sql '
+        SELECT 
+            s.Sale_ID,
+            s.Date,
+            s.Quantity,
+            s.Total_Revenue,
+            p.Product_Name,
+            p.Unit_Cost,
+            c.Category_Name,
+            st.Store_Name,
+            cu.Customer_Name
+        FROM table_sales s
+        JOIN table_products p ON s.Product_ID = p.Product_ID
+        JOIN table_categories c ON p.Category_ID = c.Category_ID
+        JOIN table_stores st ON s.Store_ID = st.Store_ID
+        JOIN table_customers cu ON s.Customer_ID = cu.Customer_ID
+        LIMIT 1000
+        ': 1054 (42S22): Unknown column 's.Sale_ID' in 'SELECT'
+2026-01-26 11:43:29,926 - INFO - Connexion fermée
+2026-01-26 11:43:29,926 - INFO - 
+============================================================
+2026-01-26 11:43:29,926 - INFO - EXTRACTION TERMINÉE AVEC SUCCÈS
+2026-01-26 11:43:29,931 - INFO - ============================================================
