@@ -55,15 +55,26 @@ dim_product_raw = standardize_columns(dim_product_raw)
 dim_store_raw = standardize_columns(dim_store_raw)
 fact_sales_raw = standardize_columns(fact_sales_raw)
 
+# DEBUG: Print available columns
+print("\n  [DEBUG] Available columns in each dataframe:")
+print(f"    Dim_Customer: {list(dim_customer_raw.columns)}")
+print(f"    Dim_Product: {list(dim_product_raw.columns)}")
+print(f"    Dim_Store: {list(dim_store_raw.columns)}")
+
+# Map columns with fallback handling
 Dim_Customer = dim_customer_raw.rename(columns={
     'customer_id': 'Customer_ID',
     'full_name': 'Customer_Name',
     'city_name': 'City_Name',
     'region': 'Region'
-})[[  'Customer_ID', 'Customer_Name', 'City_Name', 'Region'
-]]
+})
 
-Dim_Product = dim_product_raw.rename(columns={
+# Select only columns that exist
+customer_cols = ['Customer_ID', 'Customer_Name', 'City_Name', 'Region']
+Dim_Customer = Dim_Customer[[col for col in customer_cols if col in Dim_Customer.columns]]
+
+# Dim_Product with flexible column mapping
+product_rename_map = {
     'product_id': 'Product_ID',
     'product_name': 'Product_Name',
     'subcategory_name': 'Subcategory_Name',
@@ -71,23 +82,36 @@ Dim_Product = dim_product_raw.rename(columns={
     'unit_cost': 'Unit_Cost',
     'avg_sentiment': 'Sentiment_Score',
     'competitor_price': 'Competitor_Price'
-})[[
-    'Product_ID', 'Product_Name', 'Subcategory_Name', 'Category_Name',
-    'Unit_Cost', 'Sentiment_Score', 'Competitor_Price'
-]]
+}
 
-Dim_Store = dim_store_raw.rename(columns={
+# Only rename columns that exist
+existing_product_cols = {k: v for k, v in product_rename_map.items() if k in dim_product_raw.columns}
+Dim_Product = dim_product_raw.rename(columns=existing_product_cols)
+
+# Select columns that exist after renaming
+product_final_cols = ['Product_ID', 'Product_Name', 'Subcategory_Name', 'Category_Name',
+                      'Unit_Cost', 'Sentiment_Score', 'Competitor_Price']
+Dim_Product = Dim_Product[[col for col in product_final_cols if col in Dim_Product.columns]]
+
+# Dim_Store with Manager_Name
+store_rename_map = {
     'store_id': 'Store_ID',
     'store_name': 'Store_Name',
     'city_name': 'City_Name',
     'region': 'Region',
     'monthly_target': 'Monthly_Target',
-    'annual_target': 'Annual_Target'
-})[[
-    'Store_ID', 'Store_Name', 'City_Name', 'Region',
-    'Monthly_Target', 'Annual_Target'
-]]
+    'annual_target': 'Annual_Target',
+    'manager_name': 'Manager_Name'
+}
 
+existing_store_cols = {k: v for k, v in store_rename_map.items() if k in dim_store_raw.columns}
+Dim_Store = dim_store_raw.rename(columns=existing_store_cols)
+
+store_final_cols = ['Store_ID', 'Store_Name', 'City_Name', 'Region',
+                    'Monthly_Target', 'Annual_Target', 'Manager_Name']
+Dim_Store = Dim_Store[[col for col in store_final_cols if col in Dim_Store.columns]]
+
+# Dim_Date
 Dim_Date = dim_date_raw.rename(columns={
     'date_id': 'Date_ID',
     'date': 'Full_Date',
@@ -99,11 +123,13 @@ Dim_Date = dim_date_raw.rename(columns={
     'day_of_week': 'Day_Of_Week',
     'day_name': 'Day_Name',
     'week_of_year': 'Week_Of_Year'
-})[[
-    'Date_ID', 'Full_Date', 'Year', 'Quarter', 'Month', 'Month_Name',
-    'Day', 'Day_Of_Week', 'Day_Name', 'Week_Of_Year'
-]]
+})
 
+date_cols = ['Date_ID', 'Full_Date', 'Year', 'Quarter', 'Month', 'Month_Name',
+             'Day', 'Day_Of_Week', 'Day_Name', 'Week_Of_Year']
+Dim_Date = Dim_Date[[col for col in date_cols if col in Dim_Date.columns]]
+
+# Fact_Sales
 fact_sales_raw['date'] = pd.to_datetime(fact_sales_raw['date'], errors='coerce')
 fact_sales_raw['date_id'] = fact_sales_raw['date'].dt.strftime('%Y%m%d').astype(int)
 
@@ -119,13 +145,20 @@ Fact_Sales = fact_sales_raw.rename(columns={
     'shipping_cost': 'Shipping_Cost',
     'marketing_cost': 'Marketing_Cost',
     'net_profit': 'Net_Profit'
-})[[
-    'Sale_ID', 'Date_ID', 'Product_ID', 'Store_ID', 'Customer_ID',
-    'Quantity', 'Total_Revenue', 'Product_Cost', 'Shipping_Cost',
-    'Marketing_Cost', 'Net_Profit'
-]]
+})
+
+fact_cols = ['Sale_ID', 'Date_ID', 'Product_ID', 'Store_ID', 'Customer_ID',
+             'Quantity', 'Total_Revenue', 'Product_Cost', 'Shipping_Cost',
+             'Marketing_Cost', 'Net_Profit']
+Fact_Sales = Fact_Sales[[col for col in fact_cols if col in Fact_Sales.columns]]
 
 print("  Column mapping completed")
+print(f"\n  Final column counts:")
+print(f"    Dim_Customer: {len(Dim_Customer.columns)} columns")
+print(f"    Dim_Product: {len(Dim_Product.columns)} columns")
+print(f"    Dim_Store: {len(Dim_Store.columns)} columns")
+print(f"    Dim_Date: {len(Dim_Date.columns)} columns")
+print(f"    Fact_Sales: {len(Fact_Sales.columns)} columns")
 
 print("\n[3/4] Creating SQLite Data Warehouse...")
 
@@ -139,6 +172,7 @@ print(f"  Connected to: {db_path}")
 
 print("\n  Creating Star Schema tables...")
 
+# Dim_Date
 cursor.execute('''
 CREATE TABLE Dim_Date (
     Date_ID INTEGER PRIMARY KEY,
@@ -155,31 +189,47 @@ CREATE TABLE Dim_Date (
 ''')
 print("    Dim_Date created")
 
-cursor.execute('''
-CREATE TABLE Dim_Product (
-    Product_ID TEXT PRIMARY KEY,
-    Product_Name TEXT NOT NULL,
-    Subcategory_Name TEXT,
-    Category_Name TEXT,
-    Unit_Cost REAL,
-    Sentiment_Score REAL,
-    Competitor_Price REAL
-)
-''')
+# Dim_Product - flexible schema based on available columns
+product_schema = "CREATE TABLE Dim_Product (\n"
+product_schema += "    Product_ID TEXT PRIMARY KEY,\n"
+product_schema += "    Product_Name TEXT NOT NULL"
+
+if 'Subcategory_Name' in Dim_Product.columns:
+    product_schema += ",\n    Subcategory_Name TEXT"
+if 'Category_Name' in Dim_Product.columns:
+    product_schema += ",\n    Category_Name TEXT"
+if 'Unit_Cost' in Dim_Product.columns:
+    product_schema += ",\n    Unit_Cost REAL"
+if 'Sentiment_Score' in Dim_Product.columns:
+    product_schema += ",\n    Sentiment_Score REAL"
+if 'Competitor_Price' in Dim_Product.columns:
+    product_schema += ",\n    Competitor_Price REAL"
+
+product_schema += "\n)"
+cursor.execute(product_schema)
 print("    Dim_Product created")
 
-cursor.execute('''
-CREATE TABLE Dim_Store (
-    Store_ID INTEGER PRIMARY KEY,
-    Store_Name TEXT NOT NULL,
-    City_Name TEXT,
-    Region TEXT,
-    Monthly_Target REAL,
-    Annual_Target REAL
-)
-''')
+# Dim_Store - with Manager_Name
+store_schema = "CREATE TABLE Dim_Store (\n"
+store_schema += "    Store_ID INTEGER PRIMARY KEY,\n"
+store_schema += "    Store_Name TEXT NOT NULL"
+
+if 'City_Name' in Dim_Store.columns:
+    store_schema += ",\n    City_Name TEXT"
+if 'Region' in Dim_Store.columns:
+    store_schema += ",\n    Region TEXT"
+if 'Monthly_Target' in Dim_Store.columns:
+    store_schema += ",\n    Monthly_Target REAL"
+if 'Annual_Target' in Dim_Store.columns:
+    store_schema += ",\n    Annual_Target REAL"
+if 'Manager_Name' in Dim_Store.columns:
+    store_schema += ",\n    Manager_Name TEXT"
+
+store_schema += "\n)"
+cursor.execute(store_schema)
 print("    Dim_Store created")
 
+# Dim_Customer
 cursor.execute('''
 CREATE TABLE Dim_Customer (
     Customer_ID TEXT PRIMARY KEY,
@@ -190,6 +240,7 @@ CREATE TABLE Dim_Customer (
 ''')
 print("    Dim_Customer created")
 
+# Fact_Sales
 cursor.execute('''
 CREATE TABLE Fact_Sales (
     Sale_ID INTEGER PRIMARY KEY,
@@ -254,10 +305,7 @@ SELECT
     fs.Sale_ID,
     dd.Full_Date,
     dp.Product_Name,
-    dp.Category_Name,
     ds.Store_Name,
-    ds.City_Name as Store_City,
-    ds.Region,
     dc.Customer_Name,
     fs.Quantity,
     ROUND(fs.Total_Revenue, 2) as Revenue,

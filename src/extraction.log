@@ -1143,98 +1143,98 @@ Data saved to: data/extracted/competitor_prices.csv
 2026-01-27 17:46:38,023 - INFO -   Total products: 38
 2026-01-27 17:46:38,024 - INFO -   Average price: 89032.37 DZD
 2026-01-27 17:46:38,025 - INFO -   Price range: 930 - 350400 DZD
-2026-01-27 19:57:55,594 - INFO - ✓ Connexion réussie à techstore_erp
-2026-01-27 19:57:55,594 - INFO - 
+2026-01-27 19:56:30,468 - INFO - ✓ Connexion réussie à techstore_erp
+2026-01-27 19:56:30,475 - INFO - 
 ======================================================================
-2026-01-27 19:57:55,594 - INFO -  DÉBUT DE L'EXTRACTION COMPLÈTE
-2026-01-27 19:57:55,594 - INFO - ======================================================================
+2026-01-27 19:56:30,475 - INFO -  DÉBUT DE L'EXTRACTION COMPLÈTE
+2026-01-27 19:56:30,475 - INFO - ======================================================================
 
-2026-01-27 19:57:56,126 - INFO - 
+2026-01-27 19:56:30,917 - INFO - 
 [INFO] table_sales:
-2026-01-27 19:57:56,126 - INFO -   → Lignes: 25000
-2026-01-27 19:57:56,126 - INFO -   → Colonnes: Trans_ID, Date, Store_ID, Product_ID, Customer_ID, Quantity, Total_Revenue
-2026-01-27 19:57:56,126 - INFO - [EXTRACTION] Table: table_sales
-2026-01-27 19:57:58,543 - INFO -   → 25000 lignes extraites
-2026-01-27 19:57:58,543 - INFO -   → Fichier: data/extracted/sales.csv
-2026-01-27 19:57:58,543 - INFO - 
+2026-01-27 19:56:30,917 - INFO -   → Lignes: 25000
+2026-01-27 19:56:30,917 - INFO -   → Colonnes: Trans_ID, Date, Store_ID, Product_ID, Customer_ID, Quantity, Total_Revenue
+2026-01-27 19:56:30,917 - INFO - [EXTRACTION] Table: table_sales
+2026-01-27 19:56:32,064 - INFO -   → 25000 lignes extraites
+2026-01-27 19:56:32,064 - INFO -   → Fichier: data/extracted/sales.csv
+2026-01-27 19:56:32,064 - INFO - 
 ----------------------------------------------------------------------
 
-2026-01-27 19:57:58,859 - INFO - 
+2026-01-27 19:56:32,357 - INFO - 
 [INFO] table_products:
-2026-01-27 19:57:58,859 - INFO -   → Lignes: 38
-2026-01-27 19:57:58,859 - INFO -   → Colonnes: Product_ID, Product_Name, SubCat_ID, Unit_Price, Unit_Cost
-2026-01-27 19:57:58,859 - INFO - [EXTRACTION] Table: table_products
-2026-01-27 19:57:59,024 - INFO -   → 38 lignes extraites
-2026-01-27 19:57:59,024 - INFO -   → Fichier: data/extracted/products.csv
-2026-01-27 19:57:59,024 - INFO - 
+2026-01-27 19:56:32,357 - INFO -   → Lignes: 38
+2026-01-27 19:56:32,357 - INFO -   → Colonnes: Product_ID, Product_Name, SubCat_ID, Unit_Price, Unit_Cost
+2026-01-27 19:56:32,357 - INFO - [EXTRACTION] Table: table_products
+2026-01-27 19:56:32,479 - INFO -   → 38 lignes extraites
+2026-01-27 19:56:32,479 - INFO -   → Fichier: data/extracted/products.csv
+2026-01-27 19:56:32,487 - INFO - 
 ----------------------------------------------------------------------
 
-2026-01-27 19:57:59,404 - INFO - 
+2026-01-27 19:56:32,732 - INFO - 
 [INFO] table_reviews:
-2026-01-27 19:57:59,404 - INFO -   → Lignes: 3000
-2026-01-27 19:57:59,404 - INFO -   → Colonnes: Review_ID, Product_ID, Customer_ID, Rating, Review_Text
-2026-01-27 19:57:59,404 - INFO - [EXTRACTION] Table: table_reviews
-2026-01-27 19:58:00,016 - INFO -   → 3000 lignes extraites
-2026-01-27 19:58:00,032 - INFO -   → Fichier: data/extracted/reviews.csv
-2026-01-27 19:58:00,032 - INFO - 
+2026-01-27 19:56:32,732 - INFO -   → Lignes: 3000
+2026-01-27 19:56:32,734 - INFO -   → Colonnes: Review_ID, Product_ID, Customer_ID, Rating, Review_Text
+2026-01-27 19:56:32,734 - INFO - [EXTRACTION] Table: table_reviews
+2026-01-27 19:56:33,061 - INFO -   → 3000 lignes extraites
+2026-01-27 19:56:33,061 - INFO -   → Fichier: data/extracted/reviews.csv
+2026-01-27 19:56:33,063 - INFO - 
 ----------------------------------------------------------------------
 
-2026-01-27 19:58:00,359 - INFO - 
+2026-01-27 19:56:33,296 - INFO - 
 [INFO] table_customers:
-2026-01-27 19:58:00,359 - INFO -   → Lignes: 1200
-2026-01-27 19:58:00,361 - INFO -   → Colonnes: Customer_ID, Full_Name, City_ID
-2026-01-27 19:58:00,361 - INFO - [EXTRACTION] Table: table_customers
-2026-01-27 19:58:01,035 - INFO -   → 1200 lignes extraites
-2026-01-27 19:58:01,035 - INFO -   → Fichier: data/extracted/customers.csv
-2026-01-27 19:58:01,035 - INFO - 
+2026-01-27 19:56:33,296 - INFO -   → Lignes: 1200
+2026-01-27 19:56:33,296 - INFO -   → Colonnes: Customer_ID, Full_Name, City_ID
+2026-01-27 19:56:33,296 - INFO - [EXTRACTION] Table: table_customers
+2026-01-27 19:56:33,443 - INFO -   → 1200 lignes extraites
+2026-01-27 19:56:33,443 - INFO -   → Fichier: data/extracted/customers.csv
+2026-01-27 19:56:33,443 - INFO - 
 ----------------------------------------------------------------------
 
-2026-01-27 19:58:01,370 - INFO - 
+2026-01-27 19:56:33,738 - INFO - 
 [INFO] table_stores:
-2026-01-27 19:58:01,371 - INFO -   → Lignes: 12
-2026-01-27 19:58:01,371 - INFO -   → Colonnes: Store_ID, Store_Name, City_ID
-2026-01-27 19:58:01,372 - INFO - [EXTRACTION] Table: table_stores
-2026-01-27 19:58:01,536 - INFO -   → 12 lignes extraites
-2026-01-27 19:58:01,538 - INFO -   → Fichier: data/extracted/stores.csv
-2026-01-27 19:58:01,538 - INFO - 
+2026-01-27 19:56:33,738 - INFO -   → Lignes: 12
+2026-01-27 19:56:33,738 - INFO -   → Colonnes: Store_ID, Store_Name, City_ID
+2026-01-27 19:56:33,738 - INFO - [EXTRACTION] Table: table_stores
+2026-01-27 19:56:33,874 - INFO -   → 12 lignes extraites
+2026-01-27 19:56:33,876 - INFO -   → Fichier: data/extracted/stores.csv
+2026-01-27 19:56:33,876 - INFO - 
 ----------------------------------------------------------------------
 
-2026-01-27 19:58:01,913 - INFO - 
+2026-01-27 19:56:34,259 - INFO - 
 [INFO] table_cities:
-2026-01-27 19:58:01,913 - INFO -   → Lignes: 12
-2026-01-27 19:58:01,913 - INFO -   → Colonnes: City_ID, City_Name, Region
-2026-01-27 19:58:01,913 - INFO - [EXTRACTION] Table: table_cities
-2026-01-27 19:58:02,248 - INFO -   → 12 lignes extraites
-2026-01-27 19:58:02,248 - INFO -   → Fichier: data/extracted/cities.csv
-2026-01-27 19:58:02,248 - INFO - 
+2026-01-27 19:56:34,275 - INFO -   → Lignes: 12
+2026-01-27 19:56:34,275 - INFO -   → Colonnes: City_ID, City_Name, Region
+2026-01-27 19:56:34,279 - INFO - [EXTRACTION] Table: table_cities
+2026-01-27 19:56:34,408 - INFO -   → 12 lignes extraites
+2026-01-27 19:56:34,408 - INFO -   → Fichier: data/extracted/cities.csv
+2026-01-27 19:56:34,408 - INFO - 
 ----------------------------------------------------------------------
 
-2026-01-27 19:58:02,553 - INFO - 
+2026-01-27 19:56:34,645 - INFO - 
 [INFO] table_categories:
-2026-01-27 19:58:02,553 - INFO -   → Lignes: 5
-2026-01-27 19:58:02,569 - INFO -   → Colonnes: Category_ID, Category_Name
-2026-01-27 19:58:02,569 - INFO - [EXTRACTION] Table: table_categories
-2026-01-27 19:58:02,723 - INFO -   → 5 lignes extraites
-2026-01-27 19:58:02,723 - INFO -   → Fichier: data/extracted/categories.csv
-2026-01-27 19:58:02,723 - INFO - 
+2026-01-27 19:56:34,645 - INFO -   → Lignes: 5
+2026-01-27 19:56:34,645 - INFO -   → Colonnes: Category_ID, Category_Name
+2026-01-27 19:56:34,645 - INFO - [EXTRACTION] Table: table_categories
+2026-01-27 19:56:34,766 - INFO -   → 5 lignes extraites
+2026-01-27 19:56:34,766 - INFO -   → Fichier: data/extracted/categories.csv
+2026-01-27 19:56:34,766 - INFO - 
 ----------------------------------------------------------------------
 
-2026-01-27 19:58:03,054 - INFO - 
+2026-01-27 19:56:34,989 - INFO - 
 [INFO] table_subcategories:
-2026-01-27 19:58:03,054 - INFO -   → Lignes: 15
-2026-01-27 19:58:03,054 - INFO -   → Colonnes: SubCat_ID, SubCat_Name, Category_ID
-2026-01-27 19:58:03,054 - INFO - [EXTRACTION] Table: table_subcategories
-2026-01-27 19:58:03,222 - INFO -   → 15 lignes extraites
-2026-01-27 19:58:03,222 - INFO -   → Fichier: data/extracted/subcategories.csv
-2026-01-27 19:58:03,222 - INFO - 
+2026-01-27 19:56:34,989 - INFO -   → Lignes: 15
+2026-01-27 19:56:34,989 - INFO -   → Colonnes: SubCat_ID, SubCat_Name, Category_ID
+2026-01-27 19:56:34,989 - INFO - [EXTRACTION] Table: table_subcategories
+2026-01-27 19:56:35,134 - INFO -   → 15 lignes extraites
+2026-01-27 19:56:35,134 - INFO -   → Fichier: data/extracted/subcategories.csv
+2026-01-27 19:56:35,134 - INFO - 
 ----------------------------------------------------------------------
 
-2026-01-27 19:58:03,222 - INFO - 
+2026-01-27 19:56:35,134 - INFO - 
 ======================================================================
-2026-01-27 19:58:03,222 - INFO -  RÉSUMÉ DE L'EXTRACTION
-2026-01-27 19:58:03,222 - INFO - ======================================================================
+2026-01-27 19:56:35,134 - INFO -  RÉSUMÉ DE L'EXTRACTION
+2026-01-27 19:56:35,134 - INFO - ======================================================================
 
-2026-01-27 19:58:03,222 - INFO - 
+2026-01-27 19:56:35,134 - INFO - 
               Table  Lignes  Colonnes   Statut
         table_sales   25000         7 ✓ Succès
      table_products      38         5 ✓ Succès
@@ -1245,11 +1245,82 @@ Data saved to: data/extracted/competitor_prices.csv
    table_categories       5         2 ✓ Succès
 table_subcategories      15         3 ✓ Succès
 
-2026-01-27 19:58:03,222 - INFO - [REQUÊTE PERSONNALISÉE] Ventes avec détails complets (1000 premières lignes)
-2026-01-27 19:58:03,924 - INFO -   → 1000 lignes extraites
-2026-01-27 19:58:03,924 - INFO -   → Fichier: data/extracted/sales_detailed.csv
-2026-01-27 19:58:04,003 - INFO - ✓ Connexion fermée
-2026-01-27 19:58:04,004 - INFO - 
+2026-01-27 19:56:35,134 - INFO - [REQUÊTE PERSONNALISÉE] Ventes avec détails complets (1000 premières lignes)
+2026-01-27 19:56:35,492 - INFO -   → 1000 lignes extraites
+2026-01-27 19:56:35,493 - INFO -   → Fichier: data/extracted/sales_detailed.csv
+2026-01-27 19:56:35,554 - INFO - ✓ Connexion fermée
+2026-01-27 19:56:35,579 - INFO - 
 ======================================================================
-2026-01-27 19:58:04,005 - INFO - ✓ EXTRACTION TERMINÉE AVEC SUCCÈS
-2026-01-27 19:58:04,006 - INFO - ======================================================================
+2026-01-27 19:56:35,579 - INFO - ✓ EXTRACTION TERMINÉE AVEC SUCCÈS
+2026-01-27 19:56:35,579 - INFO - ======================================================================
+2026-01-27 20:37:06,667 - INFO - ============================================================
+2026-01-27 20:37:06,668 - INFO - Starting web scraping process
+2026-01-27 20:37:06,669 - INFO - ============================================================
+2026-01-27 20:37:06,670 - INFO - Fetching page: https://boughida.com/competitor/
+2026-01-27 20:37:07,366 - INFO - Page successfully retrieved
+2026-01-27 20:37:07,366 - INFO - Found additional pages: 2
+2026-01-27 20:37:07,366 - INFO - 
+Page 1/3: https://boughida.com/competitor/
+2026-01-27 20:37:07,380 - INFO - ------------------------------------------------------------
+2026-01-27 20:37:07,382 - INFO - Fetching page: https://boughida.com/competitor/
+2026-01-27 20:37:08,097 - INFO - Page successfully retrieved
+2026-01-27 20:37:08,098 - INFO - Found 13 potential product containers
+2026-01-27 20:37:08,098 - INFO - Extracted: Samsung S23 Ultra: 174800.0 DZD
+2026-01-27 20:37:08,098 - INFO - Extracted: HP LaserJet Pro: 46000.0 DZD
+2026-01-27 20:37:08,098 - INFO - Extracted: Dell 24 Monitor: 24200.0 DZD
+2026-01-27 20:37:08,113 - INFO - Extracted: Canon i-Sensys: 39000.0 DZD
+2026-01-27 20:37:08,115 - INFO - Extracted: Epson EcoTank: 27700.0 DZD
+2026-01-27 20:37:08,116 - INFO - Extracted: Nikon D3500: 69200.0 DZD
+2026-01-27 20:37:08,116 - INFO - Extracted: Xiaomi Redmi Note 12: 36800.0 DZD
+2026-01-27 20:37:08,116 - INFO - Extracted: HP Pavilion Desktop: 83000.0 DZD
+2026-01-27 20:37:08,129 - INFO - Extracted: Redmi Buds 4: 5300.0 DZD
+2026-01-27 20:37:08,134 - INFO - Extracted: DJI Mini 3: 126900.0 DZD
+2026-01-27 20:37:08,136 - INFO - Extracted: Sony SRS-XB13: 11100.0 DZD
+2026-01-27 20:37:08,136 - INFO - Extracted: ASUS ROG STRIX: 290600.0 DZD
+2026-01-27 20:37:08,136 - INFO - Extracted: LG UltraGear: 41700.0 DZD
+2026-01-27 20:37:10,148 - INFO - 
+Page 2/3: https://boughida.com/competitor/competitor_page_2.html
+2026-01-27 20:37:10,148 - INFO - ------------------------------------------------------------
+2026-01-27 20:37:10,148 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_2.html
+2026-01-27 20:37:10,879 - INFO - Page successfully retrieved
+2026-01-27 20:37:10,879 - INFO - Found 13 potential product containers
+2026-01-27 20:37:10,879 - INFO - Extracted: IPHONE CABLE: 3200.0 DZD
+2026-01-27 20:37:10,879 - INFO - Extracted: Lenovo ThinkPad: 94600.0 DZD
+2026-01-27 20:37:10,896 - INFO - Extracted: AirPods Pro: 47400.0 DZD
+2026-01-27 20:37:10,900 - INFO - Extracted: Phone Case Silicon: 1800.0 DZD
+2026-01-27 20:37:10,900 - INFO - Extracted: Sony WH-1000XM5: 65400.0 DZD
+2026-01-27 20:37:10,900 - INFO - Extracted: iPhone 13: 136900.0 DZD
+2026-01-27 20:37:10,900 - INFO - Extracted: Canon 445 Black: 2600.0 DZD
+2026-01-27 20:37:10,913 - INFO - Extracted: DJI Mavic 3: 350400.0 DZD
+2026-01-27 20:37:10,915 - INFO - Extracted: JBL Flip 6: 23500.0 DZD
+2026-01-27 20:37:10,918 - INFO - Extracted: HP VICTUS 15: 119700.0 DZD
+2026-01-27 20:37:10,919 - INFO - Extracted: HP 650 Black: 2900.0 DZD
+2026-01-27 20:37:10,923 - INFO - Extracted: Oppo Reno 8: 60200.0 DZD
+2026-01-27 20:37:10,929 - INFO - Extracted: SAMSUNG CHARGER 25W: 4200.0 DZD
+2026-01-27 20:37:12,931 - INFO - 
+Page 3/3: https://boughida.com/competitor/competitor_page_3.html
+2026-01-27 20:37:12,931 - INFO - ------------------------------------------------------------
+2026-01-27 20:37:12,931 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_3.html
+2026-01-27 20:37:13,732 - INFO - Page successfully retrieved
+2026-01-27 20:37:13,732 - INFO - Found 12 potential product containers
+2026-01-27 20:37:13,744 - INFO - Extracted: MacBook Air M2: 190500.0 DZD
+2026-01-27 20:37:13,747 - INFO - Extracted: Canon Pixma: 11600.0 DZD
+2026-01-27 20:37:13,750 - INFO - Extracted: Canon EOS 4000D: 60200.0 DZD
+2026-01-27 20:37:13,751 - INFO - Extracted: JBL Tune 510BT: 11200.0 DZD
+2026-01-27 20:37:13,751 - INFO - Extracted: Screen Protector: 930.0 DZD
+2026-01-27 20:37:13,751 - INFO - Extracted: Custom Gaming PC: 300000.0 DZD
+2026-01-27 20:37:13,762 - INFO - Extracted: Samsung Odyssey G5: 46700.0 DZD
+2026-01-27 20:37:13,766 - INFO - Extracted: Realme GT3: 71700.0 DZD
+2026-01-27 20:37:13,768 - INFO - Extracted: iPhone 14 Pro: 212700.0 DZD
+2026-01-27 20:37:13,768 - INFO - Extracted: IPHONE 15 PRO MAX: 281500.0 DZD
+2026-01-27 20:37:13,776 - INFO - Extracted: Dell XPS 13 5G: 242700.0 DZD
+2026-01-27 20:37:13,778 - INFO - Extracted: Dell OptiPlex: 64400.0 DZD
+2026-01-27 20:37:13,780 - INFO - ============================================================
+2026-01-27 20:37:13,781 - INFO - Scraping completed: 38 total products
+2026-01-27 20:37:13,783 - INFO - ============================================================
+2026-01-27 20:37:13,797 - INFO - 
+Data saved to: data/extracted/competitor_prices.csv
+2026-01-27 20:37:13,799 - INFO - Statistics:
+2026-01-27 20:37:13,799 - INFO -   Total products: 38
+2026-01-27 20:37:13,804 - INFO -   Average price: 89032.37 DZD
+2026-01-27 20:37:13,804 - INFO -   Price range: 930 - 350400 DZD

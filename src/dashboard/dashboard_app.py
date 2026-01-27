@@ -476,7 +476,7 @@ def render_raw_data_explorer():
         st.markdown("---")
         with st.expander(" View Table Schema"):
             st.dataframe(schema, use_container_width=True)
-        limit = st.slider("Number of rows to display", 10, 1000, 100, 10)
+        limit = st.slider("Number of rows to display", 10, 3000, 100, 10)
         df = db.get_table_data(selected_table, limit=limit)
         
         st.markdown(f"### Preview: {selected_table} (showing {len(df)} of {row_count:,} rows)")
