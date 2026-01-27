@@ -86,7 +86,7 @@ filters_manager = DashboardFilters(db)
 def main():
     """Main dashboard application"""
     
-    st.markdown('<h1 class="main-header">🏪 TechStore Business Intelligence Dashboard</h1>', 
+    st.markdown('<h1 class="main-header"> TechStore Business Intelligence Dashboard</h1>', 
                 unsafe_allow_html=True)
     
     filters = filters_manager.render_sidebar_filters()
@@ -451,7 +451,7 @@ def render_advanced_analytics(filters):
 def render_raw_data_explorer():
     """Render raw data table viewer"""
     
-    st.markdown('<h2 class="section-header">🗂️ Raw Data Explorer</h2>', 
+    st.markdown('<h2 class="section-header"> Raw Data Explorer</h2>', 
                 unsafe_allow_html=True)
     
     st.info("View and export raw data from the Data Warehouse tables")
@@ -474,7 +474,7 @@ def render_raw_data_explorer():
             st.metric(" Table", selected_table)
         
         st.markdown("---")
-        with st.expander("🔍 View Table Schema"):
+        with st.expander(" View Table Schema"):
             st.dataframe(schema, use_container_width=True)
         limit = st.slider("Number of rows to display", 10, 1000, 100, 10)
         df = db.get_table_data(selected_table, limit=limit)
