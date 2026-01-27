@@ -1,10 +1,3 @@
-"""
-Database Loading Script for TechStore Data Warehouse
-Loads pre-transformed Star Schema tables into SQLite
-Author: Member 3 - Database Architect
-Date: January 2025
-"""
-
 import sqlite3
 import pandas as pd
 import os
@@ -15,16 +8,12 @@ print("TECHSTORE DATA WAREHOUSE - DATABASE LOADING")
 print("Star Schema: 1 Fact Table + 4 Dimension Tables")
 print("="*70)
 
-# ============================================
-# CONFIGURATION - FIXED PATH DETECTION
-# ============================================
 base_dir = Path(__file__).parent if '__file__' in globals() else Path.cwd()
 
-# Navigate to project root (TechStore folder)
 if base_dir.name == 'scripts':
-    project_root = base_dir.parent.parent  # scripts -> src -> TechStore
+    project_root = base_dir.parent.parent
 elif base_dir.name == 'src':
-    project_root = base_dir.parent  # src -> TechStore
+    project_root = base_dir.parent
 else:
     project_root = base_dir
 
@@ -33,10 +22,6 @@ database_dir = project_root / 'src' / 'database'
 database_dir.mkdir(parents=True, exist_ok=True)
 db_path = database_dir / 'techstore_dw.db'
 
-
-# ============================================
-# STEP 1: LOAD TRANSFORMED CSV FILES
-# ============================================
 print("\n[1/4] Loading transformed Star Schema files...")
 
 try:
@@ -58,9 +43,6 @@ except FileNotFoundError as e:
     print(f"  Ensure all files are in: {transformed_dir}")
     exit(1)
 
-# ============================================
-# STEP 2: STANDARDIZE COLUMN NAMES
-# ============================================
 print("\n[2/4] Standardizing column names for database...")
 
 def standardize_columns(df):
@@ -73,7 +55,6 @@ dim_product_raw = standardize_columns(dim_product_raw)
 dim_store_raw = standardize_columns(dim_store_raw)
 fact_sales_raw = standardize_columns(fact_sales_raw)
 
-# Map CSV columns to database schema
 Dim_Customer = dim_customer_raw.rename(columns={
     'customer_id': 'Customer_ID',
     'full_name': 'Customer_Name',
@@ -146,9 +127,6 @@ Fact_Sales = fact_sales_raw.rename(columns={
 
 print("  Column mapping completed")
 
-# ============================================
-# STEP 3: CREATE SQLITE DATABASE
-# ============================================
 print("\n[3/4] Creating SQLite Data Warehouse...")
 
 if db_path.exists():
@@ -235,9 +213,6 @@ print("    Fact_Sales created")
 
 conn.commit()
 
-# ============================================
-# STEP 4: LOAD DATA INTO TABLES
-# ============================================
 print("\n[4/4] Loading data into tables...")
 print("  Loading dimensions first (for referential integrity)...")
 
@@ -260,9 +235,6 @@ print(f"    Fact_Sales: {len(Fact_Sales):,} rows inserted")
 conn.commit()
 print("\n  All data loaded successfully!")
 
-# ============================================
-# VERIFICATION
-# ============================================
 print("\n[Verification] Checking database integrity...")
 
 print("\n  Table Row Counts:")
@@ -331,9 +303,6 @@ print(f"\n  Date Range: {date_range['Start_Date'][0]} to {date_range['End_Date']
 
 conn.close()
 
-# ============================================
-# FINAL SUMMARY
-# ============================================
 print("\n" + "="*70)
 print("DATA WAREHOUSE LOADING COMPLETED SUCCESSFULLY!")
 print("="*70)

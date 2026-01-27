@@ -1,11 +1,4 @@
-"""
-SQL Queries for TechStore Dashboard - FUNCTION-BASED VERSION
-All queries as reusable functions that accept filter conditions
-"""
 
-# ============================================
-# HELPER FUNCTIONS
-# ============================================
 
 def apply_filters(base_query: str, where_clause: str = "1=1") -> str:
     """
@@ -18,12 +11,10 @@ def apply_filters(base_query: str, where_clause: str = "1=1") -> str:
     Returns:
         Complete query with filters applied
     """
-    # Add the filter WHERE clause to queries that need it
     if "WHERE" in base_query.upper():
-        # Query already has WHERE, add to it with AND
+
         return base_query.replace("WHERE", f"WHERE {where_clause} AND", 1)
     else:
-        # Add WHERE clause before GROUP BY or ORDER BY
         if "GROUP BY" in base_query.upper():
             return base_query.replace("GROUP BY", f"WHERE {where_clause}\nGROUP BY", 1)
         elif "ORDER BY" in base_query.upper():
@@ -31,10 +22,6 @@ def apply_filters(base_query: str, where_clause: str = "1=1") -> str:
         else:
             return f"{base_query}\nWHERE {where_clause}"
 
-
-# ============================================
-# GLOBAL KPIs
-# ============================================
 
 def get_total_revenue_query(where_clause: str = "1=1") -> str:
     """Get total revenue query with optional filters"""
@@ -186,9 +173,6 @@ def get_ytd_revenue_query(where_clause: str = "1=1") -> str:
     ORDER BY dd.Year, dd.Month
     """
 
-# ============================================
-# PRODUCT ANALYSIS
-# ============================================
 
 def get_top_selling_products_query(where_clause: str = "1=1", limit: int = 15) -> str:
     """Get top selling products query with optional filters"""
@@ -229,9 +213,6 @@ def get_category_performance_query(where_clause: str = "1=1") -> str:
     ORDER BY Total_Revenue DESC
     """
 
-# ============================================
-# STORE PERFORMANCE
-# ============================================
 
 def get_store_ranking_query(where_clause: str = "1=1") -> str:
     """Get store ranking query with optional filters"""
@@ -273,9 +254,6 @@ def get_regional_performance_query(where_clause: str = "1=1") -> str:
     ORDER BY Total_Revenue DESC
     """
 
-# ============================================
-# CUSTOMER ANALYSIS
-# ============================================
 
 def get_top_customers_query(where_clause: str = "1=1", limit: int = 20) -> str:
     """Get top customers query with optional filters"""
@@ -317,11 +295,6 @@ def get_customer_geography_query(where_clause: str = "1=1") -> str:
     GROUP BY dc.Region, dc.City_Name
     ORDER BY Total_Revenue DESC
     """
-
-# ============================================
-# PROFITABILITY ANALYSIS
-# ============================================
-
 def get_profit_margin_by_category_query(where_clause: str = "1=1") -> str:
     """Get profit margin by category query with optional filters"""
     return f"""
@@ -366,10 +339,6 @@ def get_marketing_roi_query(where_clause: str = "1=1") -> str:
     ORDER BY ROI_Percentage DESC
     """
 
-# ============================================
-# SENTIMENT ANALYSIS
-# ============================================
-
 def get_sentiment_vs_sales_query(where_clause: str = "1=1", limit: int = 15) -> str:
     """Get sentiment vs sales query with optional filters"""
     return f"""
@@ -391,9 +360,6 @@ def get_sentiment_vs_sales_query(where_clause: str = "1=1", limit: int = 15) -> 
     LIMIT {limit}
     """
 
-# ============================================
-# PRICE COMPETITIVENESS
-# ============================================
 
 def get_price_competitiveness_query(where_clause: str = "1=1", limit: int = 10) -> str:
     """Get price competitiveness analysis query with optional filters"""
@@ -414,11 +380,6 @@ def get_price_competitiveness_query(where_clause: str = "1=1", limit: int = 10) 
     ORDER BY Price_Diff_Pct DESC
     LIMIT {limit}
     """
-
-# ============================================
-# BUSINESS OVERVIEW DASHBOARD
-# ============================================
-
 def get_dashboard_summary_query(where_clause: str = "1=1") -> str:
     """Get dashboard summary query with optional filters"""
     return f"""
@@ -452,12 +413,6 @@ def get_dashboard_summary_query(where_clause: str = "1=1") -> str:
     WHERE {where_clause}
     """
 
-
-# ============================================
-# BACKWARD COMPATIBILITY - Original constant queries (no filters)
-# ============================================
-
-# Base queries without filters for backward compatibility
 QUERY_TOTAL_REVENUE = """
 SELECT ROUND(SUM(Total_Revenue), 2) as Total_Revenue
 FROM Fact_Sales
