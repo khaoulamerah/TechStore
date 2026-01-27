@@ -1,7 +1,7 @@
-2025-12-24 11:55:11,754 - INFO - Connexion r�ussie � techstore_erp
+2025-12-24 11:55:11,754 - INFO - Connexion r�ussie � techstore_erp
 2025-12-24 11:55:11,798 - INFO - 
 ============================================================
-2025-12-24 11:55:11,798 - INFO -  D�BUT DE L'EXTRACTION COMPL�TE
+2025-12-24 11:55:11,798 - INFO -  D�BUT DE L'EXTRACTION COMPL�TE
 2025-12-24 11:55:11,798 - INFO - ============================================================
 
 2025-12-24 11:55:12,594 - INFO - 
@@ -9,7 +9,7 @@ Informations sur table_sales:
 2025-12-24 11:55:12,596 - INFO -    Nombre de lignes: 25000
 2025-12-24 11:55:12,596 - INFO -    Colonnes: Trans_ID, Date, Store_ID, Product_ID, Customer_ID, Quantity, Total_Revenue
 2025-12-24 11:55:20,238 - INFO - 25000 lignes extraites de table_sales
-2025-12-24 11:55:20,251 - INFO - Fichier sauvegard�: data/extracted/sales.csv
+2025-12-24 11:55:20,251 - INFO - Fichier sauvegard�: data/extracted/sales.csv
 2025-12-24 11:55:20,251 - INFO - 
 ------------------------------------------------------------
 
@@ -18,7 +18,7 @@ Informations sur table_products:
 2025-12-24 11:55:20,821 - INFO -    Nombre de lignes: 38
 2025-12-24 11:55:20,821 - INFO -    Colonnes: Product_ID, Product_Name, SubCat_ID, Unit_Price, Unit_Cost
 2025-12-24 11:55:21,177 - INFO - 38 lignes extraites de table_products
-2025-12-24 11:55:21,179 - INFO - Fichier sauvegard�: data/extracted/products.csv
+2025-12-24 11:55:21,179 - INFO - Fichier sauvegard�: data/extracted/products.csv
 2025-12-24 11:55:21,180 - INFO - 
 ------------------------------------------------------------
 
@@ -27,7 +27,7 @@ Informations sur table_reviews:
 2025-12-24 11:55:21,780 - INFO -    Nombre de lignes: 3000
 2025-12-24 11:55:21,780 - INFO -    Colonnes: Review_ID, Product_ID, Customer_ID, Rating, Review_Text
 2025-12-24 11:55:23,456 - INFO - 3000 lignes extraites de table_reviews
-2025-12-24 11:55:23,456 - INFO - Fichier sauvegard�: data/extracted/reviews.csv
+2025-12-24 11:55:23,456 - INFO - Fichier sauvegard�: data/extracted/reviews.csv
 2025-12-24 11:55:23,456 - INFO - 
 ------------------------------------------------------------
 
@@ -36,7 +36,7 @@ Informations sur table_customers:
 2025-12-24 11:55:24,554 - INFO -    Nombre de lignes: 1200
 2025-12-24 11:55:24,554 - INFO -    Colonnes: Customer_ID, Full_Name, City_ID
 2025-12-24 11:55:24,921 - INFO - 1200 lignes extraites de table_customers
-2025-12-24 11:55:24,922 - INFO - Fichier sauvegard�: data/extracted/customers.csv
+2025-12-24 11:55:24,922 - INFO - Fichier sauvegard�: data/extracted/customers.csv
 2025-12-24 11:55:24,922 - INFO - 
 ------------------------------------------------------------
 
@@ -45,7 +45,7 @@ Informations sur table_stores:
 2025-12-24 11:55:25,582 - INFO -    Nombre de lignes: 12
 2025-12-24 11:55:25,582 - INFO -    Colonnes: Store_ID, Store_Name, City_ID
 2025-12-24 11:55:25,759 - INFO - 12 lignes extraites de table_stores
-2025-12-24 11:55:25,760 - INFO - Fichier sauvegard�: data/extracted/stores.csv
+2025-12-24 11:55:25,760 - INFO - Fichier sauvegard�: data/extracted/stores.csv
 2025-12-24 11:55:25,760 - INFO - 
 ------------------------------------------------------------
 
@@ -54,7 +54,7 @@ Informations sur table_cities:
 2025-12-24 11:55:26,176 - INFO -    Nombre de lignes: 12
 2025-12-24 11:55:26,176 - INFO -    Colonnes: City_ID, City_Name, Region
 2025-12-24 11:55:26,400 - INFO - 12 lignes extraites de table_cities
-2025-12-24 11:55:26,403 - INFO - Fichier sauvegard�: data/extracted/cities.csv
+2025-12-24 11:55:26,403 - INFO - Fichier sauvegard�: data/extracted/cities.csv
 2025-12-24 11:55:26,404 - INFO - 
 ------------------------------------------------------------
 
@@ -63,7 +63,7 @@ Informations sur table_categories:
 2025-12-24 11:55:27,227 - INFO -    Nombre de lignes: 5
 2025-12-24 11:55:27,227 - INFO -    Colonnes: Category_ID, Category_Name
 2025-12-24 11:55:27,512 - INFO - 5 lignes extraites de table_categories
-2025-12-24 11:55:27,512 - INFO - Fichier sauvegard�: data/extracted/categories.csv
+2025-12-24 11:55:27,512 - INFO - Fichier sauvegard�: data/extracted/categories.csv
 2025-12-24 11:55:27,512 - INFO - 
 ------------------------------------------------------------
 
@@ -72,27 +72,27 @@ Informations sur table_subcategories:
 2025-12-24 11:55:28,343 - INFO -    Nombre de lignes: 15
 2025-12-24 11:55:28,347 - INFO -    Colonnes: SubCat_ID, SubCat_Name, Category_ID
 2025-12-24 11:55:28,872 - INFO - 15 lignes extraites de table_subcategories
-2025-12-24 11:55:28,872 - INFO - Fichier sauvegard�: data/extracted/subcategories.csv
+2025-12-24 11:55:28,872 - INFO - Fichier sauvegard�: data/extracted/subcategories.csv
 2025-12-24 11:55:28,872 - INFO - 
 ------------------------------------------------------------
 
 2025-12-24 11:55:28,872 - INFO - 
 ============================================================
-2025-12-24 11:55:28,872 - INFO -  R�SUM� DE L'EXTRACTION
+2025-12-24 11:55:28,872 - INFO -  R�SUM� DE L'EXTRACTION
 2025-12-24 11:55:28,872 - INFO - ============================================================
 
 2025-12-24 11:55:28,876 - INFO - 
               Table  Lignes  Colonnes Statut
-        table_sales   25000         7 Succ�s
-     table_products      38         5 Succ�s
-      table_reviews    3000         5 Succ�s
-    table_customers    1200         3 Succ�s
-       table_stores      12         3 Succ�s
-       table_cities      12         3 Succ�s
-   table_categories       5         2 Succ�s
-table_subcategories      15         3 Succ�s
+        table_sales   25000         7 Succ�s
+     table_products      38         5 Succ�s
+      table_reviews    3000         5 Succ�s
+    table_customers    1200         3 Succ�s
+       table_stores      12         3 Succ�s
+       table_cities      12         3 Succ�s
+   table_categories       5         2 Succ�s
+table_subcategories      15         3 Succ�s
 
-2025-12-24 11:55:28,876 - INFO - Extraction personnalis�e: Ventes avec d�tails complets
+2025-12-24 11:55:28,876 - INFO - Extraction personnalis�e: Ventes avec d�tails complets
 2025-12-24 11:55:29,401 - ERROR - Erreur: Execution failed on sql '
         SELECT 
             s.Sale_ID,
@@ -111,10 +111,10 @@ table_subcategories      15         3 Succ�s
         JOIN table_customers cu ON s.Customer_ID = cu.Customer_ID
         LIMIT 1000
         ': 1054 (42S22): Unknown column 's.Sale_ID' in 'SELECT'
-2025-12-24 11:55:29,497 - INFO - Connexion ferm�e
+2025-12-24 11:55:29,497 - INFO - Connexion ferm�e
 2025-12-24 11:55:29,497 - INFO - 
 ============================================================
-2025-12-24 11:55:29,497 - INFO - EXTRACTION TERMIN�E AVEC SUCC�S
+2025-12-24 11:55:29,497 - INFO - EXTRACTION TERMIN�E AVEC SUCC�S
 2025-12-24 11:55:29,513 - INFO - ============================================================
 2026-01-26 11:00:23,965 - INFO - Connexion réussie à techstore_erp
 2026-01-26 11:00:23,968 - INFO - 
@@ -920,3 +920,113 @@ Data saved to: data/extracted/competitor_prices.csv
 2026-01-27 16:43:05,788 - INFO -   Total products: 38
 2026-01-27 16:43:05,788 - INFO -   Average price: 89032.37 DZD
 2026-01-27 16:43:05,788 - INFO -   Price range: 930 - 350400 DZD
+2026-01-27 18:07:30,150 - INFO - ✓ Connexion réussie à techstore_erp
+2026-01-27 18:07:30,150 - INFO - 
+======================================================================
+2026-01-27 18:07:30,150 - INFO -  DÉBUT DE L'EXTRACTION COMPLÈTE
+2026-01-27 18:07:30,150 - INFO - ======================================================================
+
+2026-01-27 18:07:30,427 - INFO - 
+[INFO] table_sales:
+2026-01-27 18:07:30,427 - INFO -   → Lignes: 25000
+2026-01-27 18:07:30,442 - INFO -   → Colonnes: Trans_ID, Date, Store_ID, Product_ID, Customer_ID, Quantity, Total_Revenue
+2026-01-27 18:07:30,442 - INFO - [EXTRACTION] Table: table_sales
+2026-01-27 18:07:31,427 - INFO -   → 25000 lignes extraites
+2026-01-27 18:07:31,427 - INFO -   → Fichier: data/extracted/sales.csv
+2026-01-27 18:07:31,427 - INFO - 
+----------------------------------------------------------------------
+
+2026-01-27 18:07:31,700 - INFO - 
+[INFO] table_products:
+2026-01-27 18:07:31,700 - INFO -   → Lignes: 38
+2026-01-27 18:07:31,700 - INFO -   → Colonnes: Product_ID, Product_Name, SubCat_ID, Unit_Price, Unit_Cost
+2026-01-27 18:07:31,700 - INFO - [EXTRACTION] Table: table_products
+2026-01-27 18:07:31,826 - INFO -   → 38 lignes extraites
+2026-01-27 18:07:31,826 - INFO -   → Fichier: data/extracted/products.csv
+2026-01-27 18:07:31,826 - INFO - 
+----------------------------------------------------------------------
+
+2026-01-27 18:07:32,099 - INFO - 
+[INFO] table_reviews:
+2026-01-27 18:07:32,099 - INFO -   → Lignes: 3000
+2026-01-27 18:07:32,099 - INFO -   → Colonnes: Review_ID, Product_ID, Customer_ID, Rating, Review_Text
+2026-01-27 18:07:32,099 - INFO - [EXTRACTION] Table: table_reviews
+2026-01-27 18:07:32,305 - INFO -   → 3000 lignes extraites
+2026-01-27 18:07:32,305 - INFO -   → Fichier: data/extracted/reviews.csv
+2026-01-27 18:07:32,305 - INFO - 
+----------------------------------------------------------------------
+
+2026-01-27 18:07:32,567 - INFO - 
+[INFO] table_customers:
+2026-01-27 18:07:32,567 - INFO -   → Lignes: 1200
+2026-01-27 18:07:32,583 - INFO -   → Colonnes: Customer_ID, Full_Name, City_ID
+2026-01-27 18:07:32,583 - INFO - [EXTRACTION] Table: table_customers
+2026-01-27 18:07:32,725 - INFO -   → 1200 lignes extraites
+2026-01-27 18:07:32,725 - INFO -   → Fichier: data/extracted/customers.csv
+2026-01-27 18:07:32,740 - INFO - 
+----------------------------------------------------------------------
+
+2026-01-27 18:07:32,987 - INFO - 
+[INFO] table_stores:
+2026-01-27 18:07:32,987 - INFO -   → Lignes: 12
+2026-01-27 18:07:32,987 - INFO -   → Colonnes: Store_ID, Store_Name, City_ID
+2026-01-27 18:07:32,987 - INFO - [EXTRACTION] Table: table_stores
+2026-01-27 18:07:33,126 - INFO -   → 12 lignes extraites
+2026-01-27 18:07:33,126 - INFO -   → Fichier: data/extracted/stores.csv
+2026-01-27 18:07:33,126 - INFO - 
+----------------------------------------------------------------------
+
+2026-01-27 18:07:33,401 - INFO - 
+[INFO] table_cities:
+2026-01-27 18:07:33,401 - INFO -   → Lignes: 12
+2026-01-27 18:07:33,401 - INFO -   → Colonnes: City_ID, City_Name, Region
+2026-01-27 18:07:33,401 - INFO - [EXTRACTION] Table: table_cities
+2026-01-27 18:07:33,542 - INFO -   → 12 lignes extraites
+2026-01-27 18:07:33,542 - INFO -   → Fichier: data/extracted/cities.csv
+2026-01-27 18:07:33,542 - INFO - 
+----------------------------------------------------------------------
+
+2026-01-27 18:07:33,811 - INFO - 
+[INFO] table_categories:
+2026-01-27 18:07:33,811 - INFO -   → Lignes: 5
+2026-01-27 18:07:33,811 - INFO -   → Colonnes: Category_ID, Category_Name
+2026-01-27 18:07:33,811 - INFO - [EXTRACTION] Table: table_categories
+2026-01-27 18:07:33,944 - INFO -   → 5 lignes extraites
+2026-01-27 18:07:33,944 - INFO -   → Fichier: data/extracted/categories.csv
+2026-01-27 18:07:33,945 - INFO - 
+----------------------------------------------------------------------
+
+2026-01-27 18:07:34,192 - INFO - 
+[INFO] table_subcategories:
+2026-01-27 18:07:34,192 - INFO -   → Lignes: 15
+2026-01-27 18:07:34,192 - INFO -   → Colonnes: SubCat_ID, SubCat_Name, Category_ID
+2026-01-27 18:07:34,192 - INFO - [EXTRACTION] Table: table_subcategories
+2026-01-27 18:07:34,341 - INFO -   → 15 lignes extraites
+2026-01-27 18:07:34,341 - INFO -   → Fichier: data/extracted/subcategories.csv
+2026-01-27 18:07:34,341 - INFO - 
+----------------------------------------------------------------------
+
+2026-01-27 18:07:34,341 - INFO - 
+======================================================================
+2026-01-27 18:07:34,341 - INFO -  RÉSUMÉ DE L'EXTRACTION
+2026-01-27 18:07:34,341 - INFO - ======================================================================
+
+2026-01-27 18:07:34,341 - INFO - 
+              Table  Lignes  Colonnes   Statut
+        table_sales   25000         7 ✓ Succès
+     table_products      38         5 ✓ Succès
+      table_reviews    3000         5 ✓ Succès
+    table_customers    1200         3 ✓ Succès
+       table_stores      12         3 ✓ Succès
+       table_cities      12         3 ✓ Succès
+   table_categories       5         2 ✓ Succès
+table_subcategories      15         3 ✓ Succès
+
+2026-01-27 18:07:34,356 - INFO - [REQUÊTE PERSONNALISÉE] Ventes avec détails complets (1000 premières lignes)
+2026-01-27 18:07:34,586 - INFO -   → 1000 lignes extraites
+2026-01-27 18:07:34,586 - INFO -   → Fichier: data/extracted/sales_detailed.csv
+2026-01-27 18:07:34,643 - INFO - ✓ Connexion fermée
+2026-01-27 18:07:34,643 - INFO - 
+======================================================================
+2026-01-27 18:07:34,643 - INFO - ✓ EXTRACTION TERMINÉE AVEC SUCCÈS
+2026-01-27 18:07:34,643 - INFO - ======================================================================

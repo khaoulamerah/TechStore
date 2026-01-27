@@ -1,854 +1,162 @@
-2025-12-24 11:55:47,454 - INFO - 
+2026-01-26 11:18:29,823 - INFO - 
 ======================================================================
-2025-12-24 11:55:47,460 - INFO - ======================================================================
+2026-01-26 11:18:29,823 - INFO - WEB SCRAPING - COMPETITOR PRICES
+2026-01-26 11:18:29,823 - INFO - ======================================================================
 
-2025-12-24 11:55:47,460 - INFO - 
-============================================================
-2025-12-24 11:55:47,469 - INFO - ============================================================
-
-2025-12-24 11:55:47,481 - INFO - ------------------------------------------------------------
-2025-12-24 11:55:48,255 - INFO - 
-============================================================
-2025-12-24 11:55:48,259 - INFO - ============================================================
-
-2025-12-24 16:10:58,857 - INFO - ======================================================================
-2025-12-24 16:10:58,874 - INFO - WEB SCRAPING - COMPETITOR PRICES
-2025-12-24 16:10:58,874 - INFO - ======================================================================
-2025-12-24 16:10:58,874 - INFO - ============================================================
-2025-12-24 16:10:58,874 - INFO - Starting web scraping process
-2025-12-24 16:10:58,874 - INFO - ============================================================
-2025-12-24 16:10:58,874 - INFO - Processing page 1/5
-2025-12-24 16:10:58,874 - INFO - ------------------------------------------------------------
-2025-12-24 16:10:58,874 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-24 16:11:01,035 - INFO - Page successfully retrieved
-2025-12-24 16:11:01,035 - INFO - Found 0 products on page
-2025-12-24 16:11:01,035 - INFO - No products found on page, stopping pagination
-2025-12-24 16:11:01,035 - INFO - ============================================================
-2025-12-24 16:11:01,035 - INFO - Scraping completed: 0 products extracted
-2025-12-24 16:11:01,035 - INFO - ============================================================
-2025-12-24 16:11:01,035 - WARNING - No products to save
-2025-12-24 16:11:01,035 - WARNING - Scraping failed, using mock data instead
-2025-12-24 16:11:01,076 - INFO - Mock data created successfully
-2025-12-24 16:11:01,076 - INFO - COMPETITOR PRICE EXTRACTION COMPLETED
-2025-12-24 16:11:01,076 - INFO - 10 products available for analysis
-2025-12-24 16:19:00,351 - INFO - ======================================================================
-2025-12-24 16:19:00,353 - INFO - WEB SCRAPING - COMPETITOR PRICES
-2025-12-24 16:19:00,353 - INFO - ======================================================================
-2025-12-24 16:19:00,353 - INFO - ============================================================
-2025-12-24 16:19:00,353 - INFO - Starting web scraping process
-2025-12-24 16:19:00,353 - INFO - ============================================================
-2025-12-24 16:19:00,355 - INFO - Processing page 1/5
-2025-12-24 16:19:00,355 - INFO - ------------------------------------------------------------
-2025-12-24 16:19:00,355 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-24 16:19:00,725 - INFO - Page successfully retrieved
-2025-12-24 16:19:00,727 - INFO - Found 13 potential product containers on page
-2025-12-24 16:19:00,733 - INFO - No products found on page, stopping pagination
-2025-12-24 16:19:00,733 - INFO - ============================================================
-2025-12-24 16:19:00,733 - INFO - Scraping completed: 0 products extracted
-2025-12-24 16:19:00,733 - INFO - ============================================================
-2025-12-24 16:19:00,733 - WARNING - No products to save
-2025-12-24 16:19:00,733 - WARNING - Scraping failed, using mock data instead
-2025-12-24 16:19:00,745 - INFO - Mock data created successfully
-2025-12-24 16:19:00,746 - INFO - COMPETITOR PRICE EXTRACTION COMPLETED
-2025-12-24 16:19:00,746 - INFO - 10 products available for analysis
-2025-12-24 16:19:08,387 - INFO - ======================================================================
-2025-12-24 16:19:08,387 - INFO - WEB SCRAPING - COMPETITOR PRICES
-2025-12-24 16:19:08,387 - INFO - ======================================================================
-2025-12-24 16:19:08,387 - INFO - ============================================================
-2025-12-24 16:19:08,387 - INFO - Starting web scraping process
-2025-12-24 16:19:08,398 - INFO - ============================================================
-2025-12-24 16:19:08,398 - INFO - Processing page 1/5
-2025-12-24 16:19:08,398 - INFO - ------------------------------------------------------------
-2025-12-24 16:19:08,398 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-24 16:19:08,908 - INFO - Page successfully retrieved
-2025-12-24 16:19:08,911 - INFO - Found 13 potential product containers on page
-2025-12-24 16:19:08,923 - INFO - No products found on page, stopping pagination
-2025-12-24 16:19:08,923 - INFO - ============================================================
-2025-12-24 16:19:08,923 - INFO - Scraping completed: 0 products extracted
-2025-12-24 16:19:08,925 - INFO - ============================================================
-2025-12-24 16:19:08,925 - WARNING - No products to save
-2025-12-24 16:19:08,925 - WARNING - Scraping failed, using mock data instead
-2025-12-24 16:19:08,939 - INFO - Mock data created successfully
-2025-12-24 16:19:08,941 - INFO - COMPETITOR PRICE EXTRACTION COMPLETED
-2025-12-24 16:19:08,943 - INFO - 10 products available for analysis
-2025-12-24 16:19:24,570 - INFO - ======================================================================
-2025-12-24 16:19:24,586 - INFO - WEB SCRAPING - COMPETITOR PRICES
-2025-12-24 16:19:24,586 - INFO - ======================================================================
-2025-12-24 16:19:24,586 - INFO - ============================================================
-2025-12-24 16:19:24,586 - INFO - Starting web scraping process
-2025-12-24 16:19:24,586 - INFO - ============================================================
-2025-12-24 16:19:24,586 - INFO - Processing page 1/5
-2025-12-24 16:19:24,586 - INFO - ------------------------------------------------------------
-2025-12-24 16:19:24,586 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-24 16:19:24,943 - INFO - Page successfully retrieved
-2025-12-24 16:19:24,943 - INFO - Found 0 products on page
-2025-12-24 16:19:24,943 - INFO - No products found on page, stopping pagination
-2025-12-24 16:19:24,943 - INFO - ============================================================
-2025-12-24 16:19:24,943 - INFO - Scraping completed: 0 products extracted
-2025-12-24 16:19:24,943 - INFO - ============================================================
-2025-12-24 16:19:24,943 - WARNING - No products to save
-2025-12-24 16:19:24,943 - WARNING - Scraping failed, using mock data instead
-2025-12-24 16:19:24,953 - INFO - Mock data created successfully
-2025-12-24 16:19:24,957 - INFO - COMPETITOR PRICE EXTRACTION COMPLETED
-2025-12-24 16:19:24,957 - INFO - 10 products available for analysis
-2025-12-24 16:19:42,770 - INFO - 
-======================================================================
-2025-12-24 16:19:42,770 - INFO - WEB SCRAPING - COMPETITOR PRICES
-2025-12-24 16:19:42,770 - INFO - ======================================================================
-
-2025-12-24 16:19:42,770 - INFO - ============================================================
-2025-12-24 16:19:42,770 - INFO - Starting web scraping process
-2025-12-24 16:19:42,770 - INFO - ============================================================
-2025-12-24 16:19:42,770 - INFO - 
-Page 1/5
-2025-12-24 16:19:42,770 - INFO - ------------------------------------------------------------
-2025-12-24 16:19:42,770 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-24 16:19:43,622 - INFO - Page successfully retrieved
-2025-12-24 16:19:43,625 - INFO - Found 13 potential product containers
-2025-12-24 16:19:45,710 - INFO - 
-Page 2/5
-2025-12-24 16:19:45,710 - INFO - ------------------------------------------------------------
-2025-12-24 16:19:45,710 - INFO - Fetching page: https://boughida.com/competitor/?page=2
-2025-12-24 16:19:46,042 - INFO - Page successfully retrieved
-2025-12-24 16:19:46,044 - INFO - Found 13 potential product containers
-2025-12-24 16:19:48,113 - INFO - 
-Page 3/5
-2025-12-24 16:19:48,113 - INFO - ------------------------------------------------------------
-2025-12-24 16:19:48,113 - INFO - Fetching page: https://boughida.com/competitor/?page=3
-2025-12-24 16:19:48,452 - INFO - Page successfully retrieved
-2025-12-24 16:19:48,454 - INFO - Found 13 potential product containers
-2025-12-24 16:19:50,519 - INFO - 
-Page 4/5
-2025-12-24 16:19:50,519 - INFO - ------------------------------------------------------------
-2025-12-24 16:19:50,521 - INFO - Fetching page: https://boughida.com/competitor/?page=4
-2025-12-24 16:19:51,559 - INFO - Page successfully retrieved
-2025-12-24 16:19:51,559 - INFO - Found 13 potential product containers
-2025-12-24 16:19:53,625 - INFO - 
-Page 5/5
-2025-12-24 16:19:53,625 - INFO - ------------------------------------------------------------
-2025-12-24 16:19:53,627 - INFO - Fetching page: https://boughida.com/competitor/?page=5
-2025-12-24 16:19:54,070 - INFO - Page successfully retrieved
-2025-12-24 16:19:54,072 - INFO - Found 13 potential product containers
-2025-12-24 16:19:54,147 - INFO - ============================================================
-2025-12-24 16:19:54,147 - INFO - Scraping completed: 65 total products
-2025-12-24 16:19:54,147 - INFO - ============================================================
-2025-12-24 16:19:54,149 - INFO - 
-Data saved to: data/extracted/competitor_prices.csv
-2025-12-24 16:19:54,149 - INFO - Statistics:
-2025-12-24 16:19:54,149 - INFO -   Total products: 65
-2025-12-24 16:19:54,149 - INFO -   Average price: 78070.92 DZD
-2025-12-24 16:19:54,158 - INFO -   Price range: 6094 - 290600 DZD
-2025-12-24 16:19:54,158 - INFO - 
-======================================================================
-2025-12-24 16:19:54,158 - INFO - COMPETITOR PRICE EXTRACTION COMPLETED
-2025-12-24 16:19:54,158 - INFO - 65 products available for analysis
-2025-12-24 16:19:54,158 - INFO - ======================================================================
-2025-12-24 16:23:02,531 - INFO - 
-======================================================================
-2025-12-24 16:23:02,531 - INFO - WEB SCRAPING - COMPETITOR PRICES
-2025-12-24 16:23:02,531 - INFO - ======================================================================
-
-2025-12-24 16:23:02,531 - INFO - ============================================================
-2025-12-24 16:23:02,531 - INFO - Starting web scraping process
-2025-12-24 16:23:02,531 - INFO - ============================================================
-2025-12-24 16:23:02,531 - INFO - 
-Page 1/5
-2025-12-24 16:23:02,531 - INFO - ------------------------------------------------------------
-2025-12-24 16:23:02,531 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-24 16:23:03,282 - INFO - Page successfully retrieved
-2025-12-24 16:23:03,282 - INFO - Found 13 potential product containers
-2025-12-24 16:23:05,329 - INFO - 
-Page 2/5
-2025-12-24 16:23:05,329 - INFO - ------------------------------------------------------------
-2025-12-24 16:23:05,329 - INFO - Fetching page: https://boughida.com/competitor/?page=2
-2025-12-24 16:23:05,637 - INFO - Page successfully retrieved
-2025-12-24 16:23:05,639 - INFO - Found 13 potential product containers
-2025-12-24 16:23:07,697 - INFO - 
-Page 3/5
-2025-12-24 16:23:07,697 - INFO - ------------------------------------------------------------
-2025-12-24 16:23:07,697 - INFO - Fetching page: https://boughida.com/competitor/?page=3
-2025-12-24 16:23:10,293 - INFO - Page successfully retrieved
-2025-12-24 16:23:10,305 - INFO - Found 13 potential product containers
-2025-12-24 16:23:12,492 - INFO - 
-Page 4/5
-2025-12-24 16:23:12,492 - INFO - ------------------------------------------------------------
-2025-12-24 16:23:12,494 - INFO - Fetching page: https://boughida.com/competitor/?page=4
-2025-12-24 16:23:12,817 - INFO - Page successfully retrieved
-2025-12-24 16:23:12,819 - INFO - Found 13 potential product containers
-2025-12-24 16:23:15,000 - INFO - 
-Page 5/5
-2025-12-24 16:23:15,000 - INFO - ------------------------------------------------------------
-2025-12-24 16:23:15,000 - INFO - Fetching page: https://boughida.com/competitor/?page=5
-2025-12-24 16:23:15,676 - INFO - Page successfully retrieved
-2025-12-24 16:23:15,683 - INFO - Found 13 potential product containers
-2025-12-24 16:23:15,868 - INFO - ============================================================
-2025-12-24 16:23:15,870 - INFO - Scraping completed: 65 total products
-2025-12-24 16:23:15,870 - INFO - ============================================================
-2025-12-24 16:23:15,888 - INFO - 
-Data saved to: data/extracted/competitor_prices.csv
-2025-12-24 16:23:15,888 - INFO - Statistics:
-2025-12-24 16:23:15,899 - INFO -   Total products: 65
-2025-12-24 16:23:15,904 - INFO -   Average price: 78070.92 DZD
-2025-12-24 16:23:15,904 - INFO -   Price range: 6094 - 290600 DZD
-2025-12-24 16:23:15,907 - INFO - 
-======================================================================
-2025-12-24 16:23:15,907 - INFO - COMPETITOR PRICE EXTRACTION COMPLETED
-2025-12-24 16:23:15,911 - INFO - 65 products available for analysis
-2025-12-24 16:23:15,913 - INFO - ======================================================================
-2025-12-24 16:36:19,089 - INFO - 
-======================================================================
-2025-12-24 16:36:19,089 - INFO - WEB SCRAPING - COMPETITOR PRICES
-2025-12-24 16:36:19,089 - INFO - ======================================================================
-
-2025-12-24 16:36:19,092 - INFO - ============================================================
-2025-12-24 16:36:19,092 - INFO - Starting web scraping process
-2025-12-24 16:36:19,092 - INFO - ============================================================
-2025-12-24 16:36:19,092 - INFO - 
-Page 1/5
-2025-12-24 16:36:19,092 - INFO - ------------------------------------------------------------
-2025-12-24 16:36:19,092 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-24 16:36:19,802 - INFO - Page successfully retrieved
-2025-12-24 16:36:19,805 - INFO - Found 13 potential product containers
-2025-12-24 16:36:21,862 - INFO - 
-Page 2/5
-2025-12-24 16:36:21,864 - INFO - ------------------------------------------------------------
-2025-12-24 16:36:21,864 - INFO - Fetching page: https://boughida.com/competitor/?page=2
-2025-12-24 16:36:22,464 - INFO - Page successfully retrieved
-2025-12-24 16:36:22,464 - INFO - Found 13 potential product containers
-2025-12-24 16:36:24,539 - INFO - 
-Page 3/5
-2025-12-24 16:36:24,539 - INFO - ------------------------------------------------------------
-2025-12-24 16:36:24,539 - INFO - Fetching page: https://boughida.com/competitor/?page=3
-2025-12-24 16:36:25,207 - INFO - Page successfully retrieved
-2025-12-24 16:36:25,207 - INFO - Found 13 potential product containers
-2025-12-24 16:36:27,276 - INFO - 
-Page 4/5
-2025-12-24 16:36:27,276 - INFO - ------------------------------------------------------------
-2025-12-24 16:36:27,277 - INFO - Fetching page: https://boughida.com/competitor/?page=4
-2025-12-24 16:36:27,778 - INFO - Page successfully retrieved
-2025-12-24 16:36:27,778 - INFO - Found 13 potential product containers
-2025-12-24 16:36:29,847 - INFO - 
-Page 5/5
-2025-12-24 16:36:29,849 - INFO - ------------------------------------------------------------
-2025-12-24 16:36:29,850 - INFO - Fetching page: https://boughida.com/competitor/?page=5
-2025-12-24 16:36:30,450 - INFO - Page successfully retrieved
-2025-12-24 16:36:30,455 - INFO - Found 13 potential product containers
-2025-12-24 16:36:30,512 - INFO - ============================================================
-2025-12-24 16:36:30,512 - INFO - Scraping completed: 65 total products
-2025-12-24 16:36:30,512 - INFO - ============================================================
-2025-12-24 16:36:30,519 - INFO - 
-Data saved to: data/extracted/competitor_prices.csv
-2025-12-24 16:36:30,519 - INFO - Statistics:
-2025-12-24 16:36:30,519 - INFO -   Total products: 65
-2025-12-24 16:36:30,519 - INFO -   Average price: 78070.92 DZD
-2025-12-24 16:36:30,523 - INFO -   Price range: 6094 - 290600 DZD
-2025-12-24 16:36:30,523 - INFO - 
-======================================================================
-2025-12-24 16:36:30,523 - INFO - COMPETITOR PRICE EXTRACTION COMPLETED
-2025-12-24 16:36:30,523 - INFO - 65 products available for analysis
-2025-12-24 16:36:30,523 - INFO - ======================================================================
-2025-12-24 16:40:19,701 - INFO - 
-======================================================================
-2025-12-24 16:40:19,701 - INFO - WEB SCRAPING - COMPETITOR PRICES
-2025-12-24 16:40:19,701 - INFO - ======================================================================
-
-2025-12-24 16:40:19,703 - INFO - ============================================================
-2025-12-24 16:40:19,703 - INFO - Starting web scraping process
-2025-12-24 16:40:19,703 - INFO - ============================================================
-2025-12-24 16:40:19,703 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-24 16:40:20,058 - INFO - Page successfully retrieved
-2025-12-24 16:40:20,058 - INFO - Detected 3 pages
-2025-12-24 16:40:20,058 - INFO - 
-Page 1
-2025-12-24 16:40:20,058 - INFO - ------------------------------------------------------------
-2025-12-24 16:40:20,058 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-24 16:40:20,417 - INFO - Page successfully retrieved
-2025-12-24 16:40:20,417 - INFO - Found 13 potential product containers
-2025-12-24 16:40:20,488 - INFO - 
-Page 2/3
-2025-12-24 16:40:20,488 - INFO - ------------------------------------------------------------
-2025-12-24 16:40:20,488 - INFO - Fetching page: https://boughida.com/competitor/?page=2
-2025-12-24 16:40:20,815 - INFO - Page successfully retrieved
-2025-12-24 16:40:20,815 - INFO - Found 13 potential product containers
-2025-12-24 16:40:22,868 - INFO - 
-Page 3/3
-2025-12-24 16:40:22,868 - INFO - ------------------------------------------------------------
-2025-12-24 16:40:22,868 - INFO - Fetching page: https://boughida.com/competitor/?page=3
-2025-12-24 16:40:23,199 - INFO - Page successfully retrieved
-2025-12-24 16:40:23,201 - INFO - Found 13 potential product containers
-2025-12-24 16:40:25,266 - INFO - ============================================================
-2025-12-24 16:40:25,266 - INFO - Scraping completed: 39 total products
-2025-12-24 16:40:25,266 - INFO - ============================================================
-2025-12-24 16:40:25,273 - INFO - 
-Data saved to: data/extracted/competitor_prices.csv
-2025-12-24 16:40:25,273 - INFO - Statistics:
-2025-12-24 16:40:25,273 - INFO -   Total products: 39
-2025-12-24 16:40:25,282 - INFO -   Average price: 78070.92 DZD
-2025-12-24 16:40:25,284 - INFO -   Price range: 6094 - 290600 DZD
-2025-12-24 16:40:25,284 - INFO - 
-======================================================================
-2025-12-24 16:40:25,284 - INFO - COMPETITOR PRICE EXTRACTION COMPLETED
-2025-12-24 16:40:25,284 - INFO - 39 products available for analysis
-2025-12-24 16:40:25,286 - INFO - ======================================================================
-2025-12-24 16:43:33,904 - INFO - 
-======================================================================
-2025-12-24 16:43:33,904 - INFO - WEB SCRAPING - COMPETITOR PRICES
-2025-12-24 16:43:33,904 - INFO - ======================================================================
-
-2025-12-24 16:43:33,904 - INFO - ============================================================
-2025-12-24 16:43:33,904 - INFO - Starting web scraping process
-2025-12-24 16:43:33,904 - INFO - ============================================================
-2025-12-24 16:43:33,904 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-24 16:43:34,228 - INFO - Page successfully retrieved
-2025-12-24 16:43:34,231 - INFO - Detected 3 pages
-2025-12-24 16:43:34,231 - INFO - 
-Page 1
-2025-12-24 16:43:34,231 - INFO - ------------------------------------------------------------
-2025-12-24 16:43:34,231 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-24 16:43:34,505 - INFO - Page successfully retrieved
-2025-12-24 16:43:34,514 - INFO - Found 13 potential product containers
-2025-12-24 16:43:34,577 - INFO - 
-Page 2/3
-2025-12-24 16:43:34,577 - INFO - ------------------------------------------------------------
-2025-12-24 16:43:34,577 - INFO - Fetching page: https://boughida.com/competitor/?page=2
-2025-12-24 16:43:34,881 - INFO - Page successfully retrieved
-2025-12-24 16:43:34,881 - INFO - Found 13 potential product containers
-2025-12-24 16:43:36,941 - INFO - 
-Page 3/3
-2025-12-24 16:43:36,941 - INFO - ------------------------------------------------------------
-2025-12-24 16:43:36,941 - INFO - Fetching page: https://boughida.com/competitor/?page=3
-2025-12-24 16:43:37,477 - INFO - Page successfully retrieved
-2025-12-24 16:43:37,482 - INFO - Found 13 potential product containers
-2025-12-24 16:43:39,544 - INFO - ============================================================
-2025-12-24 16:43:39,545 - INFO - Scraping completed: 39 total products
-2025-12-24 16:43:39,546 - INFO - ============================================================
-2025-12-24 16:43:39,555 - INFO - 
-Data saved to: data/extracted/competitor_prices.csv
-2025-12-24 16:43:39,555 - INFO - Statistics:
-2025-12-24 16:43:39,555 - INFO -   Total products: 39
-2025-12-24 16:43:39,555 - INFO -   Average price: 78070.92 DZD
-2025-12-24 16:43:39,558 - INFO -   Price range: 6094 - 290600 DZD
-2025-12-24 16:43:39,558 - INFO - 
-======================================================================
-2025-12-24 16:43:39,558 - INFO - COMPETITOR PRICE EXTRACTION COMPLETED
-2025-12-24 16:43:39,558 - INFO - 39 products available for analysis
-2025-12-24 16:43:39,558 - INFO - ======================================================================
-2025-12-24 16:51:35,050 - INFO - 
-======================================================================
-2025-12-24 16:51:35,050 - INFO - WEB SCRAPING - COMPETITOR PRICES
-2025-12-24 16:51:35,050 - INFO - ======================================================================
-
-2025-12-24 16:51:35,050 - INFO - ============================================================
-2025-12-24 16:51:35,058 - INFO - Starting web scraping process
-2025-12-24 16:51:35,058 - INFO - ============================================================
-2025-12-24 16:51:35,058 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-24 16:51:35,697 - INFO - Page successfully retrieved
-2025-12-24 16:51:35,703 - ERROR - Error extracting page URLs: module 'requests' has no attribute 'urljoin'
-2025-12-24 16:51:35,703 - INFO - 
-Page 1/1: https://boughida.com/competitor/
-2025-12-24 16:51:35,703 - INFO - ------------------------------------------------------------
-2025-12-24 16:51:35,703 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-24 16:51:35,985 - INFO - Page successfully retrieved
-2025-12-24 16:51:35,985 - INFO - Found 13 potential product containers
-2025-12-24 16:51:35,991 - INFO - Extracted: Samsung S23 Ultra: 174800.0 DZD
-2025-12-24 16:51:35,991 - INFO - Extracted: HP LaserJet Pro: 46000.0 DZD
-2025-12-24 16:51:35,991 - INFO - Extracted: Dell 24 Monitor: 24200.0 DZD
-2025-12-24 16:51:35,991 - INFO - Extracted: Canon i-Sensys: 39000.0 DZD
-2025-12-24 16:51:35,991 - INFO - Extracted: Epson EcoTank: 27700.0 DZD
-2025-12-24 16:51:35,996 - INFO - Extracted: Nikon D3500: 69200.0 DZD
-2025-12-24 16:51:35,997 - INFO - Extracted: Xiaomi Redmi Note 12: 36800.0 DZD
-2025-12-24 16:51:35,997 - INFO - Extracted: HP Pavilion Desktop: 83000.0 DZD
-2025-12-24 16:51:35,998 - INFO - Extracted: Redmi Buds 4: 5300.0 DZD
-2025-12-24 16:51:35,999 - INFO - Extracted: DJI Mini 3: 126900.0 DZD
-2025-12-24 16:51:35,999 - INFO - Extracted: Sony SRS-XB13: 11100.0 DZD
-2025-12-24 16:51:36,001 - INFO - Extracted: ASUS ROG STRIX: 290600.0 DZD
-2025-12-24 16:51:36,001 - INFO - Extracted: LG UltraGear: 41700.0 DZD
-2025-12-24 16:51:36,001 - INFO - ============================================================
-2025-12-24 16:51:36,001 - INFO - Scraping completed: 13 total products
-2025-12-24 16:51:36,001 - INFO - ============================================================
-2025-12-24 16:51:36,014 - INFO - 
-Data saved to: data/extracted/competitor_prices.csv
-2025-12-24 16:51:36,015 - INFO - Statistics:
-2025-12-24 16:51:36,015 - INFO -   Total products: 13
-2025-12-24 16:51:36,015 - INFO -   Average price: 75100.00 DZD
-2025-12-24 16:51:36,018 - INFO -   Price range: 5300 - 290600 DZD
-2025-12-24 16:51:36,019 - INFO - 
-======================================================================
-2025-12-24 16:51:36,019 - INFO - COMPETITOR PRICE EXTRACTION COMPLETED
-2025-12-24 16:51:36,019 - INFO - 13 products available for analysis
-2025-12-24 16:51:36,019 - INFO - ======================================================================
-2025-12-24 16:53:10,136 - INFO - 
-======================================================================
-2025-12-24 16:53:10,136 - INFO - WEB SCRAPING - COMPETITOR PRICES
-2025-12-24 16:53:10,136 - INFO - ======================================================================
-
-2025-12-24 16:53:10,152 - INFO - ============================================================
-2025-12-24 16:53:10,152 - INFO - Starting web scraping process
-2025-12-24 16:53:10,152 - INFO - ============================================================
-2025-12-24 16:53:10,152 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-24 16:53:10,486 - INFO - Page successfully retrieved
-2025-12-24 16:53:10,488 - ERROR - Error extracting page URLs: module 'requests' has no attribute 'urljoin'
-2025-12-24 16:53:10,488 - INFO - 
-Page 1/1: https://boughida.com/competitor/
-2025-12-24 16:53:10,488 - INFO - ------------------------------------------------------------
-2025-12-24 16:53:10,488 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-24 16:53:10,791 - INFO - Page successfully retrieved
-2025-12-24 16:53:10,797 - INFO - Found 13 potential product containers
-2025-12-24 16:53:10,797 - INFO - Extracted: Samsung S23 Ultra: 174800.0 DZD
-2025-12-24 16:53:10,801 - INFO - Extracted: HP LaserJet Pro: 46000.0 DZD
-2025-12-24 16:53:10,801 - INFO - Extracted: Dell 24 Monitor: 24200.0 DZD
-2025-12-24 16:53:10,801 - INFO - Extracted: Canon i-Sensys: 39000.0 DZD
-2025-12-24 16:53:10,803 - INFO - Extracted: Epson EcoTank: 27700.0 DZD
-2025-12-24 16:53:10,805 - INFO - Extracted: Nikon D3500: 69200.0 DZD
-2025-12-24 16:53:10,806 - INFO - Extracted: Xiaomi Redmi Note 12: 36800.0 DZD
-2025-12-24 16:53:10,806 - INFO - Extracted: HP Pavilion Desktop: 83000.0 DZD
-2025-12-24 16:53:10,807 - INFO - Extracted: Redmi Buds 4: 5300.0 DZD
-2025-12-24 16:53:10,808 - INFO - Extracted: DJI Mini 3: 126900.0 DZD
-2025-12-24 16:53:10,810 - INFO - Extracted: Sony SRS-XB13: 11100.0 DZD
-2025-12-24 16:53:10,810 - INFO - Extracted: ASUS ROG STRIX: 290600.0 DZD
-2025-12-24 16:53:10,812 - INFO - Extracted: LG UltraGear: 41700.0 DZD
-2025-12-24 16:53:10,813 - INFO - ============================================================
-2025-12-24 16:53:10,813 - INFO - Scraping completed: 13 total products
-2025-12-24 16:53:10,815 - INFO - ============================================================
-2025-12-24 16:53:10,826 - INFO - 
-Data saved to: data/extracted/competitor_prices.csv
-2025-12-24 16:53:10,826 - INFO - Statistics:
-2025-12-24 16:53:10,826 - INFO -   Total products: 13
-2025-12-24 16:53:10,830 - INFO -   Average price: 75100.00 DZD
-2025-12-24 16:53:10,830 - INFO -   Price range: 5300 - 290600 DZD
-2025-12-24 16:53:10,830 - INFO - 
-======================================================================
-2025-12-24 16:53:10,830 - INFO - COMPETITOR PRICE EXTRACTION COMPLETED
-2025-12-24 16:53:10,830 - INFO - 13 products available for analysis
-2025-12-24 16:53:10,830 - INFO - ======================================================================
-2025-12-24 16:55:36,632 - INFO - 
-======================================================================
-2025-12-24 16:55:36,632 - INFO - WEB SCRAPING - COMPETITOR PRICES
-2025-12-24 16:55:36,632 - INFO - ======================================================================
-
-2025-12-24 16:55:36,632 - INFO - ============================================================
-2025-12-24 16:55:36,632 - INFO - Starting web scraping process
-2025-12-24 16:55:36,632 - INFO - ============================================================
-2025-12-24 16:55:36,632 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-24 16:55:36,955 - INFO - Page successfully retrieved
-2025-12-24 16:55:36,955 - INFO - Found additional pages: 2
-2025-12-24 16:55:36,955 - INFO - 
+2026-01-26 11:18:29,823 - INFO - ============================================================
+2026-01-26 11:18:29,823 - INFO - Starting web scraping process
+2026-01-26 11:18:29,823 - INFO - ============================================================
+2026-01-26 11:18:29,823 - INFO - Fetching page: https://boughida.com/competitor/
+2026-01-26 11:18:30,502 - INFO - Page successfully retrieved
+2026-01-26 11:18:30,502 - INFO - Found additional pages: 2
+2026-01-26 11:18:30,502 - INFO - 
 Page 1/3: https://boughida.com/competitor/
-2025-12-24 16:55:36,955 - INFO - ------------------------------------------------------------
-2025-12-24 16:55:36,955 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-24 16:55:37,277 - INFO - Page successfully retrieved
-2025-12-24 16:55:37,277 - INFO - Found 13 potential product containers
-2025-12-24 16:55:37,277 - INFO - Extracted: Samsung S23 Ultra: 174800.0 DZD
-2025-12-24 16:55:37,277 - INFO - Extracted: HP LaserJet Pro: 46000.0 DZD
-2025-12-24 16:55:37,277 - INFO - Extracted: Dell 24 Monitor: 24200.0 DZD
-2025-12-24 16:55:37,291 - INFO - Extracted: Canon i-Sensys: 39000.0 DZD
-2025-12-24 16:55:37,292 - INFO - Extracted: Epson EcoTank: 27700.0 DZD
-2025-12-24 16:55:37,292 - INFO - Extracted: Nikon D3500: 69200.0 DZD
-2025-12-24 16:55:37,292 - INFO - Extracted: Xiaomi Redmi Note 12: 36800.0 DZD
-2025-12-24 16:55:37,292 - INFO - Extracted: HP Pavilion Desktop: 83000.0 DZD
-2025-12-24 16:55:37,294 - INFO - Extracted: Redmi Buds 4: 5300.0 DZD
-2025-12-24 16:55:37,294 - INFO - Extracted: DJI Mini 3: 126900.0 DZD
-2025-12-24 16:55:37,294 - INFO - Extracted: Sony SRS-XB13: 11100.0 DZD
-2025-12-24 16:55:37,296 - INFO - Extracted: ASUS ROG STRIX: 290600.0 DZD
-2025-12-24 16:55:37,298 - INFO - Extracted: LG UltraGear: 41700.0 DZD
-2025-12-24 16:55:39,299 - INFO - 
+2026-01-26 11:18:30,502 - INFO - ------------------------------------------------------------
+2026-01-26 11:18:30,518 - INFO - Fetching page: https://boughida.com/competitor/
+2026-01-26 11:18:31,043 - INFO - Page successfully retrieved
+2026-01-26 11:18:31,043 - INFO - Found 13 potential product containers
+2026-01-26 11:18:31,048 - INFO - Extracted: Samsung S23 Ultra: 174800.0 DZD
+2026-01-26 11:18:31,048 - INFO - Extracted: HP LaserJet Pro: 46000.0 DZD
+2026-01-26 11:18:31,048 - INFO - Extracted: Dell 24 Monitor: 24200.0 DZD
+2026-01-26 11:18:31,048 - INFO - Extracted: Canon i-Sensys: 39000.0 DZD
+2026-01-26 11:18:31,048 - INFO - Extracted: Epson EcoTank: 27700.0 DZD
+2026-01-26 11:18:31,048 - INFO - Extracted: Nikon D3500: 69200.0 DZD
+2026-01-26 11:18:31,048 - INFO - Extracted: Xiaomi Redmi Note 12: 36800.0 DZD
+2026-01-26 11:18:31,048 - INFO - Extracted: HP Pavilion Desktop: 83000.0 DZD
+2026-01-26 11:18:31,048 - INFO - Extracted: Redmi Buds 4: 5300.0 DZD
+2026-01-26 11:18:31,048 - INFO - Extracted: DJI Mini 3: 126900.0 DZD
+2026-01-26 11:18:31,048 - INFO - Extracted: Sony SRS-XB13: 11100.0 DZD
+2026-01-26 11:18:31,048 - INFO - Extracted: ASUS ROG STRIX: 290600.0 DZD
+2026-01-26 11:18:31,048 - INFO - Extracted: LG UltraGear: 41700.0 DZD
+2026-01-26 11:18:33,053 - INFO - 
 Page 2/3: https://boughida.com/competitor/competitor_page_2.html
-2025-12-24 16:55:39,299 - INFO - ------------------------------------------------------------
-2025-12-24 16:55:39,300 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_2.html
-2025-12-24 16:55:39,592 - INFO - Page successfully retrieved
-2025-12-24 16:55:39,606 - INFO - Found 13 potential product containers
-2025-12-24 16:55:39,608 - INFO - Extracted: IPHONE CABLE: 3200.0 DZD
-2025-12-24 16:55:39,608 - INFO - Extracted: Lenovo ThinkPad: 94600.0 DZD
-2025-12-24 16:55:39,608 - INFO - Extracted: AirPods Pro: 47400.0 DZD
-2025-12-24 16:55:39,608 - INFO - Extracted: Phone Case Silicon: 1800.0 DZD
-2025-12-24 16:55:39,608 - INFO - Extracted: Sony WH-1000XM5: 65400.0 DZD
-2025-12-24 16:55:39,608 - INFO - Extracted: iPhone 13: 136900.0 DZD
-2025-12-24 16:55:39,608 - INFO - Extracted: Canon 445 Black: 2600.0 DZD
-2025-12-24 16:55:39,608 - INFO - Extracted: DJI Mavic 3: 350400.0 DZD
-2025-12-24 16:55:39,608 - INFO - Extracted: JBL Flip 6: 23500.0 DZD
-2025-12-24 16:55:39,614 - INFO - Extracted: HP VICTUS 15: 119700.0 DZD
-2025-12-24 16:55:39,615 - INFO - Extracted: HP 650 Black: 2900.0 DZD
-2025-12-24 16:55:39,618 - INFO - Extracted: Oppo Reno 8: 60200.0 DZD
-2025-12-24 16:55:39,618 - INFO - Extracted: SAMSUNG CHARGER 25W: 4200.0 DZD
-2025-12-24 16:55:41,621 - INFO - 
+2026-01-26 11:18:33,053 - INFO - ------------------------------------------------------------
+2026-01-26 11:18:33,053 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_2.html
+2026-01-26 11:18:33,569 - INFO - Page successfully retrieved
+2026-01-26 11:18:33,573 - INFO - Found 13 potential product containers
+2026-01-26 11:18:33,573 - INFO - Extracted: IPHONE CABLE: 3200.0 DZD
+2026-01-26 11:18:33,573 - INFO - Extracted: Lenovo ThinkPad: 94600.0 DZD
+2026-01-26 11:18:33,573 - INFO - Extracted: AirPods Pro: 47400.0 DZD
+2026-01-26 11:18:33,573 - INFO - Extracted: Phone Case Silicon: 1800.0 DZD
+2026-01-26 11:18:33,578 - INFO - Extracted: Sony WH-1000XM5: 65400.0 DZD
+2026-01-26 11:18:33,579 - INFO - Extracted: iPhone 13: 136900.0 DZD
+2026-01-26 11:18:33,579 - INFO - Extracted: Canon 445 Black: 2600.0 DZD
+2026-01-26 11:18:33,580 - INFO - Extracted: DJI Mavic 3: 350400.0 DZD
+2026-01-26 11:18:33,580 - INFO - Extracted: JBL Flip 6: 23500.0 DZD
+2026-01-26 11:18:33,582 - INFO - Extracted: HP VICTUS 15: 119700.0 DZD
+2026-01-26 11:18:33,583 - INFO - Extracted: HP 650 Black: 2900.0 DZD
+2026-01-26 11:18:33,583 - INFO - Extracted: Oppo Reno 8: 60200.0 DZD
+2026-01-26 11:18:33,585 - INFO - Extracted: SAMSUNG CHARGER 25W: 4200.0 DZD
+2026-01-26 11:18:35,586 - INFO - 
 Page 3/3: https://boughida.com/competitor/competitor_page_3.html
-2025-12-24 16:55:41,621 - INFO - ------------------------------------------------------------
-2025-12-24 16:55:41,621 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_3.html
-2025-12-24 16:55:41,922 - INFO - Page successfully retrieved
-2025-12-24 16:55:41,922 - INFO - Found 12 potential product containers
-2025-12-24 16:55:41,922 - INFO - Extracted: MacBook Air M2: 190500.0 DZD
-2025-12-24 16:55:41,922 - INFO - Extracted: Canon Pixma: 11600.0 DZD
-2025-12-24 16:55:41,922 - INFO - Extracted: Canon EOS 4000D: 60200.0 DZD
-2025-12-24 16:55:41,922 - INFO - Extracted: JBL Tune 510BT: 11200.0 DZD
-2025-12-24 16:55:41,922 - INFO - Extracted: Screen Protector: 930.0 DZD
-2025-12-24 16:55:41,922 - INFO - Extracted: Custom Gaming PC: 300000.0 DZD
-2025-12-24 16:55:41,922 - INFO - Extracted: Samsung Odyssey G5: 46700.0 DZD
-2025-12-24 16:55:41,922 - INFO - Extracted: Realme GT3: 71700.0 DZD
-2025-12-24 16:55:41,931 - INFO - Extracted: iPhone 14 Pro: 212700.0 DZD
-2025-12-24 16:55:41,931 - INFO - Extracted: IPHONE 15 PRO MAX: 281500.0 DZD
-2025-12-24 16:55:41,931 - INFO - Extracted: Dell XPS 13 5G: 242700.0 DZD
-2025-12-24 16:55:41,934 - INFO - Extracted: Dell OptiPlex: 64400.0 DZD
-2025-12-24 16:55:41,934 - INFO - ============================================================
-2025-12-24 16:55:41,934 - INFO - Scraping completed: 38 total products
-2025-12-24 16:55:41,934 - INFO - ============================================================
-2025-12-24 16:55:41,944 - INFO - 
+2026-01-26 11:18:35,587 - INFO - ------------------------------------------------------------
+2026-01-26 11:18:35,587 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_3.html
+2026-01-26 11:18:36,092 - INFO - Page successfully retrieved
+2026-01-26 11:18:36,092 - INFO - Found 12 potential product containers
+2026-01-26 11:18:36,092 - INFO - Extracted: MacBook Air M2: 190500.0 DZD
+2026-01-26 11:18:36,092 - INFO - Extracted: Canon Pixma: 11600.0 DZD
+2026-01-26 11:18:36,092 - INFO - Extracted: Canon EOS 4000D: 60200.0 DZD
+2026-01-26 11:18:36,092 - INFO - Extracted: JBL Tune 510BT: 11200.0 DZD
+2026-01-26 11:18:36,108 - INFO - Extracted: Screen Protector: 930.0 DZD
+2026-01-26 11:18:36,109 - INFO - Extracted: Custom Gaming PC: 300000.0 DZD
+2026-01-26 11:18:36,110 - INFO - Extracted: Samsung Odyssey G5: 46700.0 DZD
+2026-01-26 11:18:36,111 - INFO - Extracted: Realme GT3: 71700.0 DZD
+2026-01-26 11:18:36,111 - INFO - Extracted: iPhone 14 Pro: 212700.0 DZD
+2026-01-26 11:18:36,111 - INFO - Extracted: IPHONE 15 PRO MAX: 281500.0 DZD
+2026-01-26 11:18:36,111 - INFO - Extracted: Dell XPS 13 5G: 242700.0 DZD
+2026-01-26 11:18:36,111 - INFO - Extracted: Dell OptiPlex: 64400.0 DZD
+2026-01-26 11:18:36,111 - INFO - ============================================================
+2026-01-26 11:18:36,111 - INFO - Scraping completed: 38 total products
+2026-01-26 11:18:36,111 - INFO - ============================================================
+2026-01-26 11:18:36,129 - INFO - 
 Data saved to: data/extracted/competitor_prices.csv
-2025-12-24 16:55:41,944 - INFO - Statistics:
-2025-12-24 16:55:41,944 - INFO -   Total products: 38
-2025-12-24 16:55:41,949 - INFO -   Average price: 89032.37 DZD
-2025-12-24 16:55:41,949 - INFO -   Price range: 930 - 350400 DZD
-2025-12-24 16:55:41,952 - INFO - 
+2026-01-26 11:18:36,130 - INFO - Statistics:
+2026-01-26 11:18:36,130 - INFO -   Total products: 38
+2026-01-26 11:18:36,132 - INFO -   Average price: 89032.37 DZD
+2026-01-26 11:18:36,133 - INFO -   Price range: 930 - 350400 DZD
+2026-01-26 11:18:36,133 - INFO - 
 ======================================================================
-2025-12-24 16:55:41,952 - INFO - COMPETITOR PRICE EXTRACTION COMPLETED
-2025-12-24 16:55:41,952 - INFO - 38 products available for analysis
-2025-12-24 16:55:41,952 - INFO - ======================================================================
-2025-12-24 16:59:41,004 - INFO - 
+2026-01-26 11:18:36,133 - INFO - COMPETITOR PRICE EXTRACTION COMPLETED
+2026-01-26 11:18:36,133 - INFO - 38 products available for analysis
+2026-01-26 11:18:36,135 - INFO - ======================================================================
+2026-01-26 11:35:02,907 - INFO - 
 ======================================================================
-2025-12-24 16:59:41,004 - INFO - WEB SCRAPING - COMPETITOR PRICES
-2025-12-24 16:59:41,004 - INFO - ======================================================================
+2026-01-26 11:35:02,907 - INFO - WEB SCRAPING - COMPETITOR PRICES
+2026-01-26 11:35:02,907 - INFO - ======================================================================
 
-2025-12-24 16:59:41,004 - INFO - ============================================================
-2025-12-24 16:59:41,004 - INFO - Starting web scraping process
-2025-12-24 16:59:41,004 - INFO - ============================================================
-2025-12-24 16:59:41,004 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-24 16:59:43,608 - INFO - Page successfully retrieved
-2025-12-24 16:59:43,612 - INFO - Found additional pages: 2
-2025-12-24 16:59:43,612 - INFO - 
+2026-01-26 11:35:02,907 - INFO - ============================================================
+2026-01-26 11:35:02,907 - INFO - Starting web scraping process
+2026-01-26 11:35:02,907 - INFO - ============================================================
+2026-01-26 11:35:02,907 - INFO - Fetching page: https://boughida.com/competitor/
+2026-01-26 11:35:03,436 - INFO - Page successfully retrieved
+2026-01-26 11:35:03,439 - INFO - Found additional pages: 2
+2026-01-26 11:35:03,439 - INFO - 
 Page 1/3: https://boughida.com/competitor/
-2025-12-24 16:59:43,612 - INFO - ------------------------------------------------------------
-2025-12-24 16:59:43,614 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-24 16:59:43,916 - INFO - Page successfully retrieved
-2025-12-24 16:59:43,918 - INFO - Found 13 potential product containers
-2025-12-24 16:59:43,919 - INFO - Extracted: Samsung S23 Ultra: 174800.0 DZD
-2025-12-24 16:59:43,919 - INFO - Extracted: HP LaserJet Pro: 46000.0 DZD
-2025-12-24 16:59:43,921 - INFO - Extracted: Dell 24 Monitor: 24200.0 DZD
-2025-12-24 16:59:43,921 - INFO - Extracted: Canon i-Sensys: 39000.0 DZD
-2025-12-24 16:59:43,921 - INFO - Extracted: Epson EcoTank: 27700.0 DZD
-2025-12-24 16:59:43,921 - INFO - Extracted: Nikon D3500: 69200.0 DZD
-2025-12-24 16:59:43,923 - INFO - Extracted: Xiaomi Redmi Note 12: 36800.0 DZD
-2025-12-24 16:59:43,924 - INFO - Extracted: HP Pavilion Desktop: 83000.0 DZD
-2025-12-24 16:59:43,926 - INFO - Extracted: Redmi Buds 4: 5300.0 DZD
-2025-12-24 16:59:43,926 - INFO - Extracted: DJI Mini 3: 126900.0 DZD
-2025-12-24 16:59:43,927 - INFO - Extracted: Sony SRS-XB13: 11100.0 DZD
-2025-12-24 16:59:43,928 - INFO - Extracted: ASUS ROG STRIX: 290600.0 DZD
-2025-12-24 16:59:43,928 - INFO - Extracted: LG UltraGear: 41700.0 DZD
-2025-12-24 16:59:45,929 - INFO - 
+2026-01-26 11:35:03,439 - INFO - ------------------------------------------------------------
+2026-01-26 11:35:03,439 - INFO - Fetching page: https://boughida.com/competitor/
+2026-01-26 11:35:04,078 - INFO - Page successfully retrieved
+2026-01-26 11:35:04,089 - INFO - Found 13 potential product containers
+2026-01-26 11:35:04,090 - INFO - Extracted: Samsung S23 Ultra: 174800.0 DZD
+2026-01-26 11:35:04,091 - INFO - Extracted: HP LaserJet Pro: 46000.0 DZD
+2026-01-26 11:35:04,092 - INFO - Extracted: Dell 24 Monitor: 24200.0 DZD
+2026-01-26 11:35:04,093 - INFO - Extracted: Canon i-Sensys: 39000.0 DZD
+2026-01-26 11:35:04,094 - INFO - Extracted: Epson EcoTank: 27700.0 DZD
+2026-01-26 11:35:04,095 - INFO - Extracted: Nikon D3500: 69200.0 DZD
+2026-01-26 11:35:04,096 - INFO - Extracted: Xiaomi Redmi Note 12: 36800.0 DZD
+2026-01-26 11:35:04,097 - INFO - Extracted: HP Pavilion Desktop: 83000.0 DZD
+2026-01-26 11:35:04,098 - INFO - Extracted: Redmi Buds 4: 5300.0 DZD
+2026-01-26 11:35:04,099 - INFO - Extracted: DJI Mini 3: 126900.0 DZD
+2026-01-26 11:35:04,100 - INFO - Extracted: Sony SRS-XB13: 11100.0 DZD
+2026-01-26 11:35:04,101 - INFO - Extracted: ASUS ROG STRIX: 290600.0 DZD
+2026-01-26 11:35:04,102 - INFO - Extracted: LG UltraGear: 41700.0 DZD
+2026-01-26 11:35:06,103 - INFO - 
 Page 2/3: https://boughida.com/competitor/competitor_page_2.html
-2025-12-24 16:59:45,929 - INFO - ------------------------------------------------------------
-2025-12-24 16:59:45,931 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_2.html
-2025-12-24 16:59:55,937 - ERROR - Error fetching page: HTTPSConnectionPool(host='boughida.com', port=443): Max retries exceeded with url: /competitor/competitor_page_2.html (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x00000155780B7830>, 'Connection to boughida.com timed out. (connect timeout=10)'))
-2025-12-24 16:59:55,937 - INFO - No products found on this page
-2025-12-24 16:59:55,941 - INFO - 
+2026-01-26 11:35:06,103 - INFO - ------------------------------------------------------------
+2026-01-26 11:35:06,103 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_2.html
+2026-01-26 11:35:06,622 - INFO - Page successfully retrieved
+2026-01-26 11:35:06,622 - INFO - Found 13 potential product containers
+2026-01-26 11:35:06,622 - INFO - Extracted: IPHONE CABLE: 3200.0 DZD
+2026-01-26 11:35:06,622 - INFO - Extracted: Lenovo ThinkPad: 94600.0 DZD
+2026-01-26 11:35:06,637 - INFO - Extracted: AirPods Pro: 47400.0 DZD
+2026-01-26 11:35:06,637 - INFO - Extracted: Phone Case Silicon: 1800.0 DZD
+2026-01-26 11:35:06,639 - INFO - Extracted: Sony WH-1000XM5: 65400.0 DZD
+2026-01-26 11:35:06,639 - INFO - Extracted: iPhone 13: 136900.0 DZD
+2026-01-26 11:35:06,640 - INFO - Extracted: Canon 445 Black: 2600.0 DZD
+2026-01-26 11:35:06,641 - INFO - Extracted: DJI Mavic 3: 350400.0 DZD
+2026-01-26 11:35:06,642 - INFO - Extracted: JBL Flip 6: 23500.0 DZD
+2026-01-26 11:35:06,642 - INFO - Extracted: HP VICTUS 15: 119700.0 DZD
+2026-01-26 11:35:06,642 - INFO - Extracted: HP 650 Black: 2900.0 DZD
+2026-01-26 11:35:06,642 - INFO - Extracted: Oppo Reno 8: 60200.0 DZD
+2026-01-26 11:35:06,642 - INFO - Extracted: SAMSUNG CHARGER 25W: 4200.0 DZD
+2026-01-26 11:35:08,647 - INFO - 
 Page 3/3: https://boughida.com/competitor/competitor_page_3.html
-2025-12-24 16:59:55,941 - INFO - ------------------------------------------------------------
-2025-12-24 16:59:55,941 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_3.html
-2025-12-24 17:00:05,951 - ERROR - Error fetching page: HTTPSConnectionPool(host='boughida.com', port=443): Max retries exceeded with url: /competitor/competitor_page_3.html (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x00000155781028D0>, 'Connection to boughida.com timed out. (connect timeout=10)'))
-2025-12-24 17:00:05,953 - INFO - No products found on this page
-2025-12-24 17:00:05,953 - INFO - ============================================================
-2025-12-24 17:00:05,953 - INFO - Scraping completed: 13 total products
-2025-12-24 17:00:05,955 - INFO - ============================================================
-2025-12-24 17:00:05,961 - INFO - 
+2026-01-26 11:35:08,647 - INFO - ------------------------------------------------------------
+2026-01-26 11:35:08,647 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_3.html
+2026-01-26 11:35:09,141 - INFO - Page successfully retrieved
+2026-01-26 11:35:09,157 - INFO - Found 12 potential product containers
+2026-01-26 11:35:09,157 - INFO - Extracted: MacBook Air M2: 190500.0 DZD
+2026-01-26 11:35:09,157 - INFO - Extracted: Canon Pixma: 11600.0 DZD
+2026-01-26 11:35:09,157 - INFO - Extracted: Canon EOS 4000D: 60200.0 DZD
+2026-01-26 11:35:09,157 - INFO - Extracted: JBL Tune 510BT: 11200.0 DZD
+2026-01-26 11:35:09,157 - INFO - Extracted: Screen Protector: 930.0 DZD
+2026-01-26 11:35:09,164 - INFO - Extracted: Custom Gaming PC: 300000.0 DZD
+2026-01-26 11:35:09,165 - INFO - Extracted: Samsung Odyssey G5: 46700.0 DZD
+2026-01-26 11:35:09,166 - INFO - Extracted: Realme GT3: 71700.0 DZD
+2026-01-26 11:35:09,167 - INFO - Extracted: iPhone 14 Pro: 212700.0 DZD
+2026-01-26 11:35:09,167 - INFO - Extracted: IPHONE 15 PRO MAX: 281500.0 DZD
+2026-01-26 11:35:09,168 - INFO - Extracted: Dell XPS 13 5G: 242700.0 DZD
+2026-01-26 11:35:09,169 - INFO - Extracted: Dell OptiPlex: 64400.0 DZD
+2026-01-26 11:35:09,169 - INFO - ============================================================
+2026-01-26 11:35:09,171 - INFO - Scraping completed: 38 total products
+2026-01-26 11:35:09,171 - INFO - ============================================================
+2026-01-26 11:35:09,177 - INFO - 
 Data saved to: data/extracted/competitor_prices.csv
-2025-12-24 17:00:05,963 - INFO - Statistics:
-2025-12-24 17:00:05,963 - INFO -   Total products: 13
-2025-12-24 17:00:05,965 - INFO -   Average price: 75100.00 DZD
-2025-12-24 17:00:05,965 - INFO -   Price range: 5300 - 290600 DZD
-2025-12-24 17:00:05,965 - INFO - 
+2026-01-26 11:35:09,177 - INFO - Statistics:
+2026-01-26 11:35:09,177 - INFO -   Total products: 38
+2026-01-26 11:35:09,184 - INFO -   Average price: 89032.37 DZD
+2026-01-26 11:35:09,184 - INFO -   Price range: 930 - 350400 DZD
+2026-01-26 11:35:09,184 - INFO - 
 ======================================================================
-2025-12-24 17:00:05,967 - INFO - COMPETITOR PRICE EXTRACTION COMPLETED
-2025-12-24 17:00:05,967 - INFO - 13 products available for analysis
-2025-12-24 17:00:05,967 - INFO - ======================================================================
-2025-12-24 17:01:01,993 - INFO - 
-======================================================================
-2025-12-24 17:01:01,993 - INFO - WEB SCRAPING - COMPETITOR PRICES
-2025-12-24 17:01:01,997 - INFO - ======================================================================
-
-2025-12-24 17:01:01,997 - INFO - ============================================================
-2025-12-24 17:01:01,997 - INFO - Starting web scraping process
-2025-12-24 17:01:01,998 - INFO - ============================================================
-2025-12-24 17:01:01,998 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-24 17:01:03,855 - INFO - Page successfully retrieved
-2025-12-24 17:01:03,856 - INFO - Found additional pages: 2
-2025-12-24 17:01:03,859 - INFO - 
-Page 1/3: https://boughida.com/competitor/
-2025-12-24 17:01:03,859 - INFO - ------------------------------------------------------------
-2025-12-24 17:01:03,859 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-24 17:01:04,134 - INFO - Page successfully retrieved
-2025-12-24 17:01:04,134 - INFO - Found 13 potential product containers
-2025-12-24 17:01:04,134 - INFO - Extracted: Samsung S23 Ultra: 174800.0 DZD
-2025-12-24 17:01:04,134 - INFO - Extracted: HP LaserJet Pro: 46000.0 DZD
-2025-12-24 17:01:04,134 - INFO - Extracted: Dell 24 Monitor: 24200.0 DZD
-2025-12-24 17:01:04,134 - INFO - Extracted: Canon i-Sensys: 39000.0 DZD
-2025-12-24 17:01:04,134 - INFO - Extracted: Epson EcoTank: 27700.0 DZD
-2025-12-24 17:01:04,150 - INFO - Extracted: Nikon D3500: 69200.0 DZD
-2025-12-24 17:01:04,150 - INFO - Extracted: Xiaomi Redmi Note 12: 36800.0 DZD
-2025-12-24 17:01:04,152 - INFO - Extracted: HP Pavilion Desktop: 83000.0 DZD
-2025-12-24 17:01:04,155 - INFO - Extracted: Redmi Buds 4: 5300.0 DZD
-2025-12-24 17:01:04,155 - INFO - Extracted: DJI Mini 3: 126900.0 DZD
-2025-12-24 17:01:04,155 - INFO - Extracted: Sony SRS-XB13: 11100.0 DZD
-2025-12-24 17:01:04,158 - INFO - Extracted: ASUS ROG STRIX: 290600.0 DZD
-2025-12-24 17:01:04,158 - INFO - Extracted: LG UltraGear: 41700.0 DZD
-2025-12-24 17:01:06,160 - INFO - 
-Page 2/3: https://boughida.com/competitor/competitor_page_2.html
-2025-12-24 17:01:06,160 - INFO - ------------------------------------------------------------
-2025-12-24 17:01:06,160 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_2.html
-2025-12-24 17:01:06,594 - INFO - Page successfully retrieved
-2025-12-24 17:01:06,594 - INFO - Found 13 potential product containers
-2025-12-24 17:01:06,594 - INFO - Extracted: IPHONE CABLE: 3200.0 DZD
-2025-12-24 17:01:06,594 - INFO - Extracted: Lenovo ThinkPad: 94600.0 DZD
-2025-12-24 17:01:06,594 - INFO - Extracted: AirPods Pro: 47400.0 DZD
-2025-12-24 17:01:06,594 - INFO - Extracted: Phone Case Silicon: 1800.0 DZD
-2025-12-24 17:01:06,594 - INFO - Extracted: Sony WH-1000XM5: 65400.0 DZD
-2025-12-24 17:01:06,594 - INFO - Extracted: iPhone 13: 136900.0 DZD
-2025-12-24 17:01:06,594 - INFO - Extracted: Canon 445 Black: 2600.0 DZD
-2025-12-24 17:01:06,606 - INFO - Extracted: DJI Mavic 3: 350400.0 DZD
-2025-12-24 17:01:06,606 - INFO - Extracted: JBL Flip 6: 23500.0 DZD
-2025-12-24 17:01:06,607 - INFO - Extracted: HP VICTUS 15: 119700.0 DZD
-2025-12-24 17:01:06,608 - INFO - Extracted: HP 650 Black: 2900.0 DZD
-2025-12-24 17:01:06,608 - INFO - Extracted: Oppo Reno 8: 60200.0 DZD
-2025-12-24 17:01:06,608 - INFO - Extracted: SAMSUNG CHARGER 25W: 4200.0 DZD
-2025-12-24 17:01:08,611 - INFO - 
-Page 3/3: https://boughida.com/competitor/competitor_page_3.html
-2025-12-24 17:01:08,612 - INFO - ------------------------------------------------------------
-2025-12-24 17:01:08,613 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_3.html
-2025-12-24 17:01:08,930 - INFO - Page successfully retrieved
-2025-12-24 17:01:08,937 - INFO - Found 12 potential product containers
-2025-12-24 17:01:08,937 - INFO - Extracted: MacBook Air M2: 190500.0 DZD
-2025-12-24 17:01:08,939 - INFO - Extracted: Canon Pixma: 11600.0 DZD
-2025-12-24 17:01:08,939 - INFO - Extracted: Canon EOS 4000D: 60200.0 DZD
-2025-12-24 17:01:08,939 - INFO - Extracted: JBL Tune 510BT: 11200.0 DZD
-2025-12-24 17:01:08,939 - INFO - Extracted: Screen Protector: 930.0 DZD
-2025-12-24 17:01:08,939 - INFO - Extracted: Custom Gaming PC: 300000.0 DZD
-2025-12-24 17:01:08,943 - INFO - Extracted: Samsung Odyssey G5: 46700.0 DZD
-2025-12-24 17:01:08,943 - INFO - Extracted: Realme GT3: 71700.0 DZD
-2025-12-24 17:01:08,946 - INFO - Extracted: iPhone 14 Pro: 212700.0 DZD
-2025-12-24 17:01:08,946 - INFO - Extracted: IPHONE 15 PRO MAX: 281500.0 DZD
-2025-12-24 17:01:08,948 - INFO - Extracted: Dell XPS 13 5G: 242700.0 DZD
-2025-12-24 17:01:08,948 - INFO - Extracted: Dell OptiPlex: 64400.0 DZD
-2025-12-24 17:01:08,949 - INFO - ============================================================
-2025-12-24 17:01:08,950 - INFO - Scraping completed: 38 total products
-2025-12-24 17:01:08,950 - INFO - ============================================================
-2025-12-24 17:01:08,958 - INFO - 
-Data saved to: data/extracted/competitor_prices.csv
-2025-12-24 17:01:08,958 - INFO - Statistics:
-2025-12-24 17:01:08,958 - INFO -   Total products: 38
-2025-12-24 17:01:08,958 - INFO -   Average price: 89032.37 DZD
-2025-12-24 17:01:08,960 - INFO -   Price range: 930 - 350400 DZD
-2025-12-24 17:01:08,960 - INFO - 
-======================================================================
-2025-12-24 17:01:08,960 - INFO - COMPETITOR PRICE EXTRACTION COMPLETED
-2025-12-24 17:01:08,960 - INFO - 38 products available for analysis
-2025-12-24 17:01:08,960 - INFO - ======================================================================
-2025-12-29 14:05:45,250 - INFO - ============================================================
-2025-12-29 14:05:45,251 - INFO - Starting web scraping process
-2025-12-29 14:05:45,252 - INFO - ============================================================
-2025-12-29 14:05:45,252 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-29 14:05:45,901 - INFO - Page successfully retrieved
-2025-12-29 14:05:45,904 - INFO - Found additional pages: 2
-2025-12-29 14:05:45,905 - INFO - 
-Page 1/3: https://boughida.com/competitor/
-2025-12-29 14:05:45,907 - INFO - ------------------------------------------------------------
-2025-12-29 14:05:45,909 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-29 14:05:46,899 - INFO - Page successfully retrieved
-2025-12-29 14:05:46,903 - INFO - Found 13 potential product containers
-2025-12-29 14:05:46,906 - INFO - Extracted: Samsung S23 Ultra: 174800.0 DZD
-2025-12-29 14:05:46,907 - INFO - Extracted: HP LaserJet Pro: 46000.0 DZD
-2025-12-29 14:05:46,907 - INFO - Extracted: Dell 24 Monitor: 24200.0 DZD
-2025-12-29 14:05:46,908 - INFO - Extracted: Canon i-Sensys: 39000.0 DZD
-2025-12-29 14:05:46,909 - INFO - Extracted: Epson EcoTank: 27700.0 DZD
-2025-12-29 14:05:46,910 - INFO - Extracted: Nikon D3500: 69200.0 DZD
-2025-12-29 14:05:46,911 - INFO - Extracted: Xiaomi Redmi Note 12: 36800.0 DZD
-2025-12-29 14:05:46,911 - INFO - Extracted: HP Pavilion Desktop: 83000.0 DZD
-2025-12-29 14:05:46,912 - INFO - Extracted: Redmi Buds 4: 5300.0 DZD
-2025-12-29 14:05:46,914 - INFO - Extracted: DJI Mini 3: 126900.0 DZD
-2025-12-29 14:05:46,915 - INFO - Extracted: Sony SRS-XB13: 11100.0 DZD
-2025-12-29 14:05:46,916 - INFO - Extracted: ASUS ROG STRIX: 290600.0 DZD
-2025-12-29 14:05:46,916 - INFO - Extracted: LG UltraGear: 41700.0 DZD
-2025-12-29 14:05:48,918 - INFO - 
-Page 2/3: https://boughida.com/competitor/competitor_page_2.html
-2025-12-29 14:05:48,920 - INFO - ------------------------------------------------------------
-2025-12-29 14:05:48,921 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_2.html
-2025-12-29 14:05:50,163 - INFO - Page successfully retrieved
-2025-12-29 14:05:50,166 - INFO - Found 13 potential product containers
-2025-12-29 14:05:50,167 - INFO - Extracted: IPHONE CABLE: 3200.0 DZD
-2025-12-29 14:05:50,168 - INFO - Extracted: Lenovo ThinkPad: 94600.0 DZD
-2025-12-29 14:05:50,169 - INFO - Extracted: AirPods Pro: 47400.0 DZD
-2025-12-29 14:05:50,170 - INFO - Extracted: Phone Case Silicon: 1800.0 DZD
-2025-12-29 14:05:50,171 - INFO - Extracted: Sony WH-1000XM5: 65400.0 DZD
-2025-12-29 14:05:50,173 - INFO - Extracted: iPhone 13: 136900.0 DZD
-2025-12-29 14:05:50,173 - INFO - Extracted: Canon 445 Black: 2600.0 DZD
-2025-12-29 14:05:50,174 - INFO - Extracted: DJI Mavic 3: 350400.0 DZD
-2025-12-29 14:05:50,175 - INFO - Extracted: JBL Flip 6: 23500.0 DZD
-2025-12-29 14:05:50,176 - INFO - Extracted: HP VICTUS 15: 119700.0 DZD
-2025-12-29 14:05:50,177 - INFO - Extracted: HP 650 Black: 2900.0 DZD
-2025-12-29 14:05:50,180 - INFO - Extracted: Oppo Reno 8: 60200.0 DZD
-2025-12-29 14:05:50,181 - INFO - Extracted: SAMSUNG CHARGER 25W: 4200.0 DZD
-2025-12-29 14:05:52,182 - INFO - 
-Page 3/3: https://boughida.com/competitor/competitor_page_3.html
-2025-12-29 14:05:52,184 - INFO - ------------------------------------------------------------
-2025-12-29 14:05:52,185 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_3.html
-2025-12-29 14:05:54,395 - INFO - Page successfully retrieved
-2025-12-29 14:05:54,398 - INFO - Found 12 potential product containers
-2025-12-29 14:05:54,401 - INFO - Extracted: MacBook Air M2: 190500.0 DZD
-2025-12-29 14:05:54,403 - INFO - Extracted: Canon Pixma: 11600.0 DZD
-2025-12-29 14:05:54,405 - INFO - Extracted: Canon EOS 4000D: 60200.0 DZD
-2025-12-29 14:05:54,406 - INFO - Extracted: JBL Tune 510BT: 11200.0 DZD
-2025-12-29 14:05:54,408 - INFO - Extracted: Screen Protector: 930.0 DZD
-2025-12-29 14:05:54,409 - INFO - Extracted: Custom Gaming PC: 300000.0 DZD
-2025-12-29 14:05:54,410 - INFO - Extracted: Samsung Odyssey G5: 46700.0 DZD
-2025-12-29 14:05:54,412 - INFO - Extracted: Realme GT3: 71700.0 DZD
-2025-12-29 14:05:54,413 - INFO - Extracted: iPhone 14 Pro: 212700.0 DZD
-2025-12-29 14:05:54,415 - INFO - Extracted: IPHONE 15 PRO MAX: 281500.0 DZD
-2025-12-29 14:05:54,417 - INFO - Extracted: Dell XPS 13 5G: 242700.0 DZD
-2025-12-29 14:05:54,419 - INFO - Extracted: Dell OptiPlex: 64400.0 DZD
-2025-12-29 14:05:54,420 - INFO - ============================================================
-2025-12-29 14:05:54,422 - INFO - Scraping completed: 38 total products
-2025-12-29 14:05:54,423 - INFO - ============================================================
-2025-12-29 14:05:54,428 - INFO - 
-Data saved to: data/extracted/competitor_prices.csv
-2025-12-29 14:05:54,429 - INFO - Statistics:
-2025-12-29 14:05:54,431 - INFO -   Total products: 38
-2025-12-29 14:05:54,434 - INFO -   Average price: 89032.37 DZD
-2025-12-29 14:05:54,437 - INFO -   Price range: 930 - 350400 DZD
-2025-12-29 20:45:23,016 - INFO - ============================================================
-2025-12-29 20:45:23,017 - INFO - Starting web scraping process
-2025-12-29 20:45:23,017 - INFO - ============================================================
-2025-12-29 20:45:23,018 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-29 20:45:25,665 - INFO - Page successfully retrieved
-2025-12-29 20:45:25,668 - INFO - Found additional pages: 2
-2025-12-29 20:45:25,668 - INFO - 
-Page 1/3: https://boughida.com/competitor/
-2025-12-29 20:45:25,669 - INFO - ------------------------------------------------------------
-2025-12-29 20:45:25,669 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-29 20:45:27,100 - INFO - Page successfully retrieved
-2025-12-29 20:45:27,106 - INFO - Found 13 potential product containers
-2025-12-29 20:45:27,107 - INFO - Extracted: Samsung S23 Ultra: 174800.0 DZD
-2025-12-29 20:45:27,108 - INFO - Extracted: HP LaserJet Pro: 46000.0 DZD
-2025-12-29 20:45:27,108 - INFO - Extracted: Dell 24 Monitor: 24200.0 DZD
-2025-12-29 20:45:27,109 - INFO - Extracted: Canon i-Sensys: 39000.0 DZD
-2025-12-29 20:45:27,110 - INFO - Extracted: Epson EcoTank: 27700.0 DZD
-2025-12-29 20:45:27,110 - INFO - Extracted: Nikon D3500: 69200.0 DZD
-2025-12-29 20:45:27,111 - INFO - Extracted: Xiaomi Redmi Note 12: 36800.0 DZD
-2025-12-29 20:45:27,111 - INFO - Extracted: HP Pavilion Desktop: 83000.0 DZD
-2025-12-29 20:45:27,112 - INFO - Extracted: Redmi Buds 4: 5300.0 DZD
-2025-12-29 20:45:27,113 - INFO - Extracted: DJI Mini 3: 126900.0 DZD
-2025-12-29 20:45:27,113 - INFO - Extracted: Sony SRS-XB13: 11100.0 DZD
-2025-12-29 20:45:27,114 - INFO - Extracted: ASUS ROG STRIX: 290600.0 DZD
-2025-12-29 20:45:27,115 - INFO - Extracted: LG UltraGear: 41700.0 DZD
-2025-12-29 20:45:29,116 - INFO - 
-Page 2/3: https://boughida.com/competitor/competitor_page_2.html
-2025-12-29 20:45:29,119 - INFO - ------------------------------------------------------------
-2025-12-29 20:45:29,120 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_2.html
-2025-12-29 20:45:29,905 - INFO - Page successfully retrieved
-2025-12-29 20:45:29,907 - INFO - Found 13 potential product containers
-2025-12-29 20:45:29,908 - INFO - Extracted: IPHONE CABLE: 3200.0 DZD
-2025-12-29 20:45:29,908 - INFO - Extracted: Lenovo ThinkPad: 94600.0 DZD
-2025-12-29 20:45:29,909 - INFO - Extracted: AirPods Pro: 47400.0 DZD
-2025-12-29 20:45:29,910 - INFO - Extracted: Phone Case Silicon: 1800.0 DZD
-2025-12-29 20:45:29,913 - INFO - Extracted: Sony WH-1000XM5: 65400.0 DZD
-2025-12-29 20:45:29,915 - INFO - Extracted: iPhone 13: 136900.0 DZD
-2025-12-29 20:45:29,916 - INFO - Extracted: Canon 445 Black: 2600.0 DZD
-2025-12-29 20:45:29,917 - INFO - Extracted: DJI Mavic 3: 350400.0 DZD
-2025-12-29 20:45:29,918 - INFO - Extracted: JBL Flip 6: 23500.0 DZD
-2025-12-29 20:45:29,918 - INFO - Extracted: HP VICTUS 15: 119700.0 DZD
-2025-12-29 20:45:29,919 - INFO - Extracted: HP 650 Black: 2900.0 DZD
-2025-12-29 20:45:29,920 - INFO - Extracted: Oppo Reno 8: 60200.0 DZD
-2025-12-29 20:45:29,920 - INFO - Extracted: SAMSUNG CHARGER 25W: 4200.0 DZD
-2025-12-29 20:45:31,921 - INFO - 
-Page 3/3: https://boughida.com/competitor/competitor_page_3.html
-2025-12-29 20:45:31,924 - INFO - ------------------------------------------------------------
-2025-12-29 20:45:31,926 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_3.html
-2025-12-29 20:45:32,767 - INFO - Page successfully retrieved
-2025-12-29 20:45:32,772 - INFO - Found 12 potential product containers
-2025-12-29 20:45:32,774 - INFO - Extracted: MacBook Air M2: 190500.0 DZD
-2025-12-29 20:45:32,775 - INFO - Extracted: Canon Pixma: 11600.0 DZD
-2025-12-29 20:45:32,776 - INFO - Extracted: Canon EOS 4000D: 60200.0 DZD
-2025-12-29 20:45:32,776 - INFO - Extracted: JBL Tune 510BT: 11200.0 DZD
-2025-12-29 20:45:32,777 - INFO - Extracted: Screen Protector: 930.0 DZD
-2025-12-29 20:45:32,778 - INFO - Extracted: Custom Gaming PC: 300000.0 DZD
-2025-12-29 20:45:32,778 - INFO - Extracted: Samsung Odyssey G5: 46700.0 DZD
-2025-12-29 20:45:32,779 - INFO - Extracted: Realme GT3: 71700.0 DZD
-2025-12-29 20:45:32,780 - INFO - Extracted: iPhone 14 Pro: 212700.0 DZD
-2025-12-29 20:45:32,781 - INFO - Extracted: IPHONE 15 PRO MAX: 281500.0 DZD
-2025-12-29 20:45:32,782 - INFO - Extracted: Dell XPS 13 5G: 242700.0 DZD
-2025-12-29 20:45:32,782 - INFO - Extracted: Dell OptiPlex: 64400.0 DZD
-2025-12-29 20:45:32,783 - INFO - ============================================================
-2025-12-29 20:45:32,783 - INFO - Scraping completed: 38 total products
-2025-12-29 20:45:32,784 - INFO - ============================================================
-2025-12-29 20:45:32,790 - INFO - 
-Data saved to: data/extracted/competitor_prices.csv
-2025-12-29 20:45:32,791 - INFO - Statistics:
-2025-12-29 20:45:32,792 - INFO -   Total products: 38
-2025-12-29 20:45:32,793 - INFO -   Average price: 89032.37 DZD
-2025-12-29 20:45:32,794 - INFO -   Price range: 930 - 350400 DZD
-2025-12-29 20:46:19,506 - INFO - ============================================================
-2025-12-29 20:46:19,507 - INFO - Starting web scraping process
-2025-12-29 20:46:19,508 - INFO - ============================================================
-2025-12-29 20:46:19,509 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-29 20:46:21,583 - INFO - Page successfully retrieved
-2025-12-29 20:46:21,587 - INFO - Found additional pages: 2
-2025-12-29 20:46:21,590 - INFO - 
-Page 1/3: https://boughida.com/competitor/
-2025-12-29 20:46:21,593 - INFO - ------------------------------------------------------------
-2025-12-29 20:46:21,595 - INFO - Fetching page: https://boughida.com/competitor/
-2025-12-29 20:46:22,796 - INFO - Page successfully retrieved
-2025-12-29 20:46:22,800 - INFO - Found 13 potential product containers
-2025-12-29 20:46:22,804 - INFO - Extracted: Samsung S23 Ultra: 174800.0 DZD
-2025-12-29 20:46:22,806 - INFO - Extracted: HP LaserJet Pro: 46000.0 DZD
-2025-12-29 20:46:22,807 - INFO - Extracted: Dell 24 Monitor: 24200.0 DZD
-2025-12-29 20:46:22,808 - INFO - Extracted: Canon i-Sensys: 39000.0 DZD
-2025-12-29 20:46:22,808 - INFO - Extracted: Epson EcoTank: 27700.0 DZD
-2025-12-29 20:46:22,809 - INFO - Extracted: Nikon D3500: 69200.0 DZD
-2025-12-29 20:46:22,811 - INFO - Extracted: Xiaomi Redmi Note 12: 36800.0 DZD
-2025-12-29 20:46:22,812 - INFO - Extracted: HP Pavilion Desktop: 83000.0 DZD
-2025-12-29 20:46:22,813 - INFO - Extracted: Redmi Buds 4: 5300.0 DZD
-2025-12-29 20:46:22,814 - INFO - Extracted: DJI Mini 3: 126900.0 DZD
-2025-12-29 20:46:22,815 - INFO - Extracted: Sony SRS-XB13: 11100.0 DZD
-2025-12-29 20:46:22,817 - INFO - Extracted: ASUS ROG STRIX: 290600.0 DZD
-2025-12-29 20:46:22,819 - INFO - Extracted: LG UltraGear: 41700.0 DZD
-2025-12-29 20:46:24,821 - INFO - 
-Page 2/3: https://boughida.com/competitor/competitor_page_2.html
-2025-12-29 20:46:24,823 - INFO - ------------------------------------------------------------
-2025-12-29 20:46:24,827 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_2.html
-2025-12-29 20:46:25,706 - INFO - Page successfully retrieved
-2025-12-29 20:46:25,710 - INFO - Found 13 potential product containers
-2025-12-29 20:46:25,713 - INFO - Extracted: IPHONE CABLE: 3200.0 DZD
-2025-12-29 20:46:25,714 - INFO - Extracted: Lenovo ThinkPad: 94600.0 DZD
-2025-12-29 20:46:25,715 - INFO - Extracted: AirPods Pro: 47400.0 DZD
-2025-12-29 20:46:25,715 - INFO - Extracted: Phone Case Silicon: 1800.0 DZD
-2025-12-29 20:46:25,716 - INFO - Extracted: Sony WH-1000XM5: 65400.0 DZD
-2025-12-29 20:46:25,716 - INFO - Extracted: iPhone 13: 136900.0 DZD
-2025-12-29 20:46:25,717 - INFO - Extracted: Canon 445 Black: 2600.0 DZD
-2025-12-29 20:46:25,718 - INFO - Extracted: DJI Mavic 3: 350400.0 DZD
-2025-12-29 20:46:25,718 - INFO - Extracted: JBL Flip 6: 23500.0 DZD
-2025-12-29 20:46:25,719 - INFO - Extracted: HP VICTUS 15: 119700.0 DZD
-2025-12-29 20:46:25,720 - INFO - Extracted: HP 650 Black: 2900.0 DZD
-2025-12-29 20:46:25,721 - INFO - Extracted: Oppo Reno 8: 60200.0 DZD
-2025-12-29 20:46:25,721 - INFO - Extracted: SAMSUNG CHARGER 25W: 4200.0 DZD
-2025-12-29 20:46:27,722 - INFO - 
-Page 3/3: https://boughida.com/competitor/competitor_page_3.html
-2025-12-29 20:46:27,725 - INFO - ------------------------------------------------------------
-2025-12-29 20:46:27,727 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_3.html
-2025-12-29 20:46:28,734 - INFO - Page successfully retrieved
-2025-12-29 20:46:28,740 - INFO - Found 12 potential product containers
-2025-12-29 20:46:28,741 - INFO - Extracted: MacBook Air M2: 190500.0 DZD
-2025-12-29 20:46:28,742 - INFO - Extracted: Canon Pixma: 11600.0 DZD
-2025-12-29 20:46:28,743 - INFO - Extracted: Canon EOS 4000D: 60200.0 DZD
-2025-12-29 20:46:28,744 - INFO - Extracted: JBL Tune 510BT: 11200.0 DZD
-2025-12-29 20:46:28,745 - INFO - Extracted: Screen Protector: 930.0 DZD
-2025-12-29 20:46:28,746 - INFO - Extracted: Custom Gaming PC: 300000.0 DZD
-2025-12-29 20:46:28,747 - INFO - Extracted: Samsung Odyssey G5: 46700.0 DZD
-2025-12-29 20:46:28,748 - INFO - Extracted: Realme GT3: 71700.0 DZD
-2025-12-29 20:46:28,749 - INFO - Extracted: iPhone 14 Pro: 212700.0 DZD
-2025-12-29 20:46:28,751 - INFO - Extracted: IPHONE 15 PRO MAX: 281500.0 DZD
-2025-12-29 20:46:28,753 - INFO - Extracted: Dell XPS 13 5G: 242700.0 DZD
-2025-12-29 20:46:28,754 - INFO - Extracted: Dell OptiPlex: 64400.0 DZD
-2025-12-29 20:46:28,755 - INFO - ============================================================
-2025-12-29 20:46:28,756 - INFO - Scraping completed: 38 total products
-2025-12-29 20:46:28,757 - INFO - ============================================================
-2025-12-29 20:46:28,762 - INFO - 
-Data saved to: data/extracted/competitor_prices.csv
-2025-12-29 20:46:28,763 - INFO - Statistics:
-2025-12-29 20:46:28,764 - INFO -   Total products: 38
-2025-12-29 20:46:28,768 - INFO -   Average price: 89032.37 DZD
-2025-12-29 20:46:28,771 - INFO -   Price range: 930 - 350400 DZD
+2026-01-26 11:35:09,186 - INFO - COMPETITOR PRICE EXTRACTION COMPLETED
+2026-01-26 11:35:09,186 - INFO - 38 products available for analysis
+2026-01-26 11:35:09,187 - INFO - ======================================================================

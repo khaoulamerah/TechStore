@@ -3,9 +3,7 @@ SQL Queries for TechStore Dashboard - CORRECTED VERSION
 All queries tested and working with techstore_dw.db
 """
 
-# ============================================
 # GLOBAL KPIs
-# ============================================
 
 QUERY_TOTAL_REVENUE = """
 SELECT ROUND(SUM(Total_Revenue), 2) as Total_Revenue
@@ -27,9 +25,7 @@ SELECT ROUND(AVG(Total_Revenue), 2) as Avg_Transaction_Value
 FROM Fact_Sales
 """
 
-# ============================================
 # TIME SERIES ANALYSIS
-# ============================================
 
 QUERY_DAILY_SALES = """
 SELECT 
@@ -61,9 +57,8 @@ GROUP BY dd.Year, dd.Month, dd.Month_Name
 ORDER BY dd.Year DESC, dd.Month DESC
 """
 
-# ============================================
 # PRODUCT ANALYSIS
-# ============================================
+
 
 QUERY_TOP_SELLING_PRODUCTS = """
 SELECT 
@@ -94,9 +89,7 @@ GROUP BY dp.Category_Name
 ORDER BY Total_Revenue DESC
 """
 
-# ============================================
 # STORE PERFORMANCE
-# ============================================
 
 QUERY_STORE_RANKING = """
 SELECT 
@@ -129,9 +122,7 @@ GROUP BY ds.Region
 ORDER BY Total_Revenue DESC
 """
 
-# ============================================
 # CUSTOMER ANALYSIS
-# ============================================
 
 QUERY_TOP_CUSTOMERS = """
 SELECT 
@@ -163,9 +154,7 @@ GROUP BY dc.Region, dc.City_Name
 ORDER BY Total_Revenue DESC
 """
 
-# ============================================
-# PROFITABILITY ANALYSIS - ✅ FIXED
-# ============================================
+# PROFITABILITY ANALYSIS 
 
 QUERY_PROFIT_MARGIN_BY_CATEGORY = """
 SELECT 
@@ -202,9 +191,7 @@ GROUP BY dp.Category_Name
 ORDER BY ROI_Percentage DESC
 """
 
-# ============================================
 # SENTIMENT ANALYSIS
-# ============================================
 
 QUERY_SENTIMENT_VS_SALES = """
 SELECT 
@@ -223,9 +210,8 @@ ORDER BY Units_Sold DESC
 LIMIT 15
 """
 
-# ============================================
 # BUSINESS OVERVIEW DASHBOARD
-# ============================================
+
 
 QUERY_DASHBOARD_SUMMARY = """
 SELECT 

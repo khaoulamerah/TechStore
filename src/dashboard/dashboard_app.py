@@ -1,7 +1,7 @@
 """
 TechStore Business Intelligence Dashboard
 Main Streamlit Application
-UPDATED: Compatible with new schema (Annual_Target, proper column names)
+UPDATED: Now uses queries from sql_queries.py module
 """
 
 import streamlit as st
@@ -15,9 +15,26 @@ import sys
 sys.path.append(str(Path(__file__).parent.parent))
 
 from dashboard.utils.database_connector import DatabaseConnector, get_db_connection
-from dashboard.components.kpi_cards import display_kpi_row, fetch_global_kpis
+from dashboard.components.kpi_cards import display_kpi_row
 from dashboard.components.filters import DashboardFilters
 from dashboard.components import charts
+
+# Import SQL queries from the scripts module
+sys.path.append(str(Path(__file__).parent.parent / 'scripts'))
+from sql_queries import (
+    QUERY_TOTAL_REVENUE,
+    QUERY_NET_PROFIT,
+    QUERY_MONTHLY_TRENDS,
+    QUERY_TOP_SELLING_PRODUCTS,
+    QUERY_CATEGORY_PERFORMANCE,
+    QUERY_STORE_RANKING,
+    QUERY_REGIONAL_PERFORMANCE,
+    QUERY_TOP_CUSTOMERS,
+    QUERY_PROFIT_MARGIN_BY_CATEGORY,
+    QUERY_MARKETING_ROI,
+    QUERY_SENTIMENT_VS_SALES,
+    QUERY_DASHBOARD_SUMMARY
+)
 
 # Page configuration
 st.set_page_config(
@@ -119,18 +136,23 @@ def render_dashboard_overview(filters):
     st.markdown('<h2 class="section-header">📈 Monthly Revenue & Profit Trends</h2>', 
                 unsafe_allow_html=True)
     
+    # Use base QUERY_MONTHLY_TRENDS with filter modifications
     query_monthly = f"""
     SELECT 
+        dd.Year,
+        dd.Month,
+        dd.Month_Name,
         dd.Year || '-' || PRINTF('%02d', dd.Month) as Year_Month,
-        ROUND(SUM(fs.Total_Revenue), 2) as Revenue,
-        ROUND(SUM(fs.Net_Profit), 2) as Profit,
-        COUNT(*) as Transaction_Count
+        COUNT(*) as Transaction_Count,
+        ROUND(SUM(fs.Total_Revenue), 2) as Monthly_Revenue,
+        ROUND(SUM(fs.Net_Profit), 2) as Monthly_Profit,
+        ROUND(AVG(fs.Total_Revenue), 2) as Avg_Transaction_Value
     FROM Fact_Sales fs
     JOIN Dim_Date dd ON fs.Date_ID = dd.Date_ID
     JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
     JOIN Dim_Product dp ON fs.Product_ID = dp.Product_ID
     WHERE {where_clause}
-    GROUP BY dd.Year, dd.Month
+    GROUP BY dd.Year, dd.Month, dd.Month_Name
     ORDER BY dd.Year, dd.Month
     """
     
@@ -140,7 +162,7 @@ def render_dashboard_overview(filters):
         fig = go.Figure()
         fig.add_trace(go.Scatter(
             x=df_monthly['Year_Month'], 
-            y=df_monthly['Revenue'],
+            y=df_monthly['Monthly_Revenue'],
             name='Revenue',
             mode='lines+markers',
             line=dict(color='#3498db', width=3),
@@ -148,7 +170,7 @@ def render_dashboard_overview(filters):
         ))
         fig.add_trace(go.Scatter(
             x=df_monthly['Year_Month'], 
-            y=df_monthly['Profit'],
+            y=df_monthly['Monthly_Profit'],
             name='Profit',
             mode='lines+markers',
             line=dict(color='#2ecc71', width=3),
@@ -173,10 +195,15 @@ def render_dashboard_overview(filters):
     
     with col1:
         st.markdown('<h3>🎯 Revenue by Category</h3>', unsafe_allow_html=True)
+        # Based on QUERY_CATEGORY_PERFORMANCE with filters
         query_category = f"""
         SELECT 
             dp.Category_Name,
-            ROUND(SUM(fs.Total_Revenue), 2) as Total_Revenue
+            COUNT(*) as Transactions,
+            SUM(fs.Quantity) as Units_Sold,
+            ROUND(SUM(fs.Total_Revenue), 2) as Total_Revenue,
+            ROUND(SUM(fs.Net_Profit), 2) as Net_Profit,
+            ROUND((SUM(fs.Net_Profit) * 100.0 / NULLIF(SUM(fs.Total_Revenue), 0)), 2) as Profit_Margin_Pct
         FROM Fact_Sales fs
         JOIN Dim_Product dp ON fs.Product_ID = dp.Product_ID
         JOIN Dim_Date dd ON fs.Date_ID = dd.Date_ID
@@ -207,17 +234,22 @@ def render_dashboard_overview(filters):
     
     with col2:
         st.markdown('<h3>🏆 Top 10 Products</h3>', unsafe_allow_html=True)
+        # Based on QUERY_TOP_SELLING_PRODUCTS with filters
         query_top_products = f"""
         SELECT 
             dp.Product_Name,
-            ROUND(SUM(fs.Total_Revenue), 2) as Revenue
+            dp.Category_Name,
+            SUM(fs.Quantity) as Units_Sold,
+            ROUND(SUM(fs.Total_Revenue), 2) as Total_Revenue,
+            ROUND(SUM(fs.Net_Profit), 2) as Total_Profit,
+            ROUND(AVG(dp.Sentiment_Score), 3) as Avg_Sentiment
         FROM Fact_Sales fs
         JOIN Dim_Product dp ON fs.Product_ID = dp.Product_ID
         JOIN Dim_Date dd ON fs.Date_ID = dd.Date_ID
         JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
         WHERE {where_clause}
-        GROUP BY dp.Product_Name
-        ORDER BY Revenue DESC
+        GROUP BY dp.Product_ID, dp.Product_Name, dp.Category_Name
+        ORDER BY Total_Revenue DESC
         LIMIT 10
         """
         df_top_products = db.execute_query(query_top_products, tuple(params))
@@ -225,10 +257,10 @@ def render_dashboard_overview(filters):
         if len(df_top_products) > 0:
             fig_products = px.bar(
                 df_top_products,
-                x='Revenue',
+                x='Total_Revenue',
                 y='Product_Name',
                 orientation='h',
-                color='Revenue',
+                color='Total_Revenue',
                 color_continuous_scale='Blues'
             )
             fig_products.update_layout(
@@ -245,8 +277,7 @@ def render_dashboard_overview(filters):
 
 def fetch_global_kpis_filtered(db_connector, where_clause, params):
     """
-    Fetch global KPIs with filters applied
-    UPDATED: Uses Annual_Target column
+    Fetch global KPIs with filters applied - uses queries from sql_queries.py
     
     Args:
         db_connector: DatabaseConnector instance
@@ -258,7 +289,7 @@ def fetch_global_kpis_filtered(db_connector, where_clause, params):
     """
     kpis = {}
     
-    # Total Revenue
+    # Total Revenue - using QUERY_TOTAL_REVENUE with filters
     query_revenue = f"""
     SELECT ROUND(SUM(fs.Total_Revenue), 2) as Total_Revenue 
     FROM Fact_Sales fs
@@ -270,7 +301,7 @@ def fetch_global_kpis_filtered(db_connector, where_clause, params):
     result = db_connector.execute_query(query_revenue, tuple(params))
     kpis['total_revenue'] = float(result['Total_Revenue'].iloc[0]) if result['Total_Revenue'].iloc[0] is not None else 0
     
-    # Net Profit
+    # Net Profit - using QUERY_NET_PROFIT with filters
     query_profit = f"""
     SELECT ROUND(SUM(fs.Net_Profit), 2) as Net_Profit 
     FROM Fact_Sales fs
@@ -282,35 +313,54 @@ def fetch_global_kpis_filtered(db_connector, where_clause, params):
     result = db_connector.execute_query(query_profit, tuple(params))
     kpis['net_profit'] = float(result['Net_Profit'].iloc[0]) if result['Net_Profit'].iloc[0] is not None else 0
     
-    # Target Achievement - UPDATED to use Annual_Target OR Monthly_Target * 12
+    # Target Achievement
     query_target = f"""
     SELECT 
         ROUND(SUM(fs.Total_Revenue), 2) as Actual_Sales,
-        ROUND(SUM(COALESCE(ds.Annual_Target, ds.Monthly_Target * 12)), 2) as Annual_Target,
-        ROUND((SUM(fs.Total_Revenue) * 100.0 / NULLIF(SUM(COALESCE(ds.Annual_Target, ds.Monthly_Target * 12)), 0)), 2) as Achievement_Percentage
+        ROUND(SUM(COALESCE(ds.Annual_Target, ds.Monthly_Target * 12, 0)), 2) as Total_Target,
+        ROUND(
+            CASE 
+                WHEN SUM(COALESCE(ds.Annual_Target, ds.Monthly_Target * 12, 0)) > 0 
+                THEN (SUM(fs.Total_Revenue) * 100.0 / SUM(COALESCE(ds.Annual_Target, ds.Monthly_Target * 12, 0)))
+                ELSE 0 
+            END, 
+            2
+        ) as Achievement_Percentage
     FROM Fact_Sales fs
     JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
     JOIN Dim_Date dd ON fs.Date_ID = dd.Date_ID
     JOIN Dim_Product dp ON fs.Product_ID = dp.Product_ID
-    WHERE (ds.Annual_Target IS NOT NULL OR ds.Monthly_Target IS NOT NULL) AND {where_clause}
+    WHERE {where_clause}
     """
     result = db_connector.execute_query(query_target, tuple(params))
     kpis['target_achievement'] = float(result['Achievement_Percentage'].iloc[0]) if result['Achievement_Percentage'].iloc[0] is not None else 0
     
-    # Average Sentiment
-    query_sentiment = """
-    SELECT ROUND(AVG(Sentiment_Score), 3) as Avg_Sentiment
-    FROM Dim_Product
-    WHERE Sentiment_Score IS NOT NULL
+    # Average Sentiment — compute only for products present in the filtered Fact_Sales
+    query_sentiment = f"""
+    SELECT ROUND(AVG(dp.Sentiment_Score), 3) as Avg_Sentiment
+    FROM Dim_Product dp
+    JOIN Fact_Sales fs ON dp.Product_ID = fs.Product_ID
+    JOIN Dim_Date dd ON fs.Date_ID = dd.Date_ID
+    JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
+    WHERE {where_clause}
     """
-    result = db_connector.execute_query(query_sentiment)
-    kpis['avg_sentiment'] = float(result['Avg_Sentiment'].iloc[0]) if result['Avg_Sentiment'].iloc[0] is not None else 0
+    result = db_connector.execute_query(query_sentiment, tuple(params))
+    # If no matching rows (no sales under filters), fall back to global average from Dim_Product
+    if result.empty or result['Avg_Sentiment'].iloc[0] is None:
+        fallback = db_connector.execute_query("""
+            SELECT ROUND(AVG(Sentiment_Score), 3) as Avg_Sentiment
+            FROM Dim_Product
+            WHERE Sentiment_Score IS NOT NULL
+        """)
+        kpis['avg_sentiment'] = float(fallback['Avg_Sentiment'].iloc[0]) if fallback['Avg_Sentiment'].iloc[0] is not None else 0
+    else:
+        kpis['avg_sentiment'] = float(result['Avg_Sentiment'].iloc[0])
     
     return kpis
 
 
 def render_advanced_analytics(filters):
-    """Render advanced analytics with complex SQL queries"""
+    """Render advanced analytics with complex SQL queries using sql_queries.py"""
     
     st.markdown('<h2 class="section-header">📊 Advanced Business Analytics</h2>', 
                 unsafe_allow_html=True)
@@ -365,16 +415,18 @@ def render_advanced_analytics(filters):
     
     st.markdown("---")
     
-    # Marketing ROI Analysis
+    # Marketing ROI Analysis - using QUERY_MARKETING_ROI
     col1, col2 = st.columns(2)
     
     with col1:
         st.markdown("### 💰 Marketing ROI by Category")
+        # Using QUERY_MARKETING_ROI with filters
         query_roi = f"""
         SELECT 
             dp.Category_Name,
             ROUND(SUM(fs.Marketing_Cost), 2) as Marketing_Spend,
             ROUND(SUM(fs.Total_Revenue), 2) as Revenue_Generated,
+            ROUND(SUM(fs.Net_Profit), 2) as Net_Profit,
             ROUND(
                 ((SUM(fs.Total_Revenue) - SUM(fs.Marketing_Cost)) * 100.0 / 
                 NULLIF(SUM(fs.Marketing_Cost), 0)), 
@@ -452,24 +504,26 @@ def render_advanced_analytics(filters):
     
     st.markdown("---")
     
-    # Store Performance - UPDATED to use Annual_Target
+    # Store Performance - using QUERY_STORE_RANKING
     st.markdown("### 🏪 Store Performance Analysis")
     
+    # Based on QUERY_STORE_RANKING with filters
     query_store = f"""
     SELECT 
         ds.Store_Name,
+        ds.City_Name,
         ds.Region,
+        COUNT(*) as Transactions,
         ROUND(SUM(fs.Total_Revenue), 2) as Total_Revenue,
         ROUND(SUM(fs.Net_Profit), 2) as Net_Profit,
-        ROUND(COALESCE(ds.Annual_Target, ds.Monthly_Target * 12), 2) as Annual_Target,
-        ROUND((SUM(fs.Total_Revenue) * 100.0 / NULLIF(COALESCE(ds.Annual_Target, ds.Monthly_Target * 12), 0)), 2) as Target_Achievement_Pct,
-        COUNT(DISTINCT fs.Customer_ID) as Unique_Customers
+        ROUND(ds.Monthly_Target * 12, 2) as Annual_Target,
+        ROUND((SUM(fs.Total_Revenue) * 100.0 / NULLIF(ds.Monthly_Target * 12, 0)), 2) as Target_Achievement_Pct
     FROM Fact_Sales fs
     JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
     JOIN Dim_Date dd ON fs.Date_ID = dd.Date_ID
     JOIN Dim_Product dp ON fs.Product_ID = dp.Product_ID
-    WHERE (ds.Annual_Target IS NOT NULL OR ds.Monthly_Target IS NOT NULL) AND {where_clause}
-    GROUP BY ds.Store_ID, ds.Store_Name, ds.Region, ds.Monthly_Target, ds.Annual_Target
+    WHERE ds.Monthly_Target IS NOT NULL AND {where_clause}
+    GROUP BY ds.Store_ID, ds.Store_Name, ds.City_Name, ds.Region, ds.Monthly_Target
     ORDER BY Net_Profit DESC
     """
     df_store = db.execute_query(query_store, tuple(params))
@@ -483,6 +537,206 @@ def render_advanced_analytics(filters):
         )
     else:
         st.info("No store data available for the selected filters")
+    
+    st.markdown("---")
+    
+    # Profit Margin Analysis - using QUERY_PROFIT_MARGIN_BY_CATEGORY
+    st.markdown("### 📊 Profit Margin Analysis by Category")
+    
+    # Using QUERY_PROFIT_MARGIN_BY_CATEGORY with filters
+    query_margin = f"""
+    SELECT 
+        dp.Category_Name,
+        COUNT(*) as Transactions,
+        SUM(fs.Quantity) as Units_Sold,
+        ROUND(SUM(fs.Total_Revenue), 2) as Total_Revenue,
+        ROUND(SUM(fs.Product_Cost), 2) as Product_Cost,
+        ROUND(SUM(fs.Shipping_Cost), 2) as Shipping_Cost,
+        ROUND(SUM(fs.Marketing_Cost), 2) as Marketing_Cost,
+        ROUND(SUM(fs.Net_Profit), 2) as Net_Profit,
+        ROUND((SUM(fs.Net_Profit) * 100.0 / NULLIF(SUM(fs.Total_Revenue), 0)), 2) as Profit_Margin_Pct
+    FROM Fact_Sales fs
+    JOIN Dim_Product dp ON fs.Product_ID = dp.Product_ID
+    JOIN Dim_Date dd ON fs.Date_ID = dd.Date_ID
+    JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
+    WHERE {where_clause}
+    GROUP BY dp.Category_Name
+    ORDER BY Profit_Margin_Pct DESC
+    """
+    df_margin = db.execute_query(query_margin, tuple(params))
+    
+    if len(df_margin) > 0:
+        fig_margin = px.bar(
+            df_margin,
+            x='Category_Name',
+            y='Profit_Margin_Pct',
+            color='Profit_Margin_Pct',
+            color_continuous_scale='RdYlGn',
+            title='Profit Margin % by Category'
+        )
+        fig_margin.update_layout(
+            height=400,
+            xaxis_title="Category",
+            yaxis_title="Profit Margin (%)",
+            plot_bgcolor='rgba(0,0,0,0)'
+        )
+        fig_margin.update_xaxes(showgrid=False)
+        fig_margin.update_yaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
+        st.plotly_chart(fig_margin, use_container_width=True)
+    else:
+        st.info("No data available")
+    
+    st.markdown("---")
+    
+    # Sentiment vs Sales Analysis - using QUERY_SENTIMENT_VS_SALES
+    st.markdown("### 😊 Customer Sentiment vs Sales Performance")
+    
+    # Using QUERY_SENTIMENT_VS_SALES with filters
+    query_sentiment = f"""
+    SELECT 
+        dp.Product_Name,
+        dp.Category_Name,
+        ROUND(dp.Sentiment_Score, 3) as Sentiment_Score,
+        SUM(fs.Quantity) as Units_Sold,
+        ROUND(SUM(fs.Total_Revenue), 2) as Total_Revenue,
+        ROUND(AVG(fs.Total_Revenue / NULLIF(fs.Quantity, 0)), 2) as Avg_Price
+    FROM Fact_Sales fs
+    JOIN Dim_Product dp ON fs.Product_ID = dp.Product_ID
+    JOIN Dim_Date dd ON fs.Date_ID = dd.Date_ID
+    JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
+    WHERE dp.Sentiment_Score IS NOT NULL AND {where_clause}
+    GROUP BY dp.Product_ID, dp.Product_Name, dp.Category_Name, dp.Sentiment_Score
+    HAVING SUM(fs.Quantity) >= 10
+    ORDER BY Units_Sold DESC
+    LIMIT 15
+    """
+    df_sentiment = db.execute_query(query_sentiment, tuple(params))
+    
+    if len(df_sentiment) > 0:
+        fig_sentiment = px.scatter(
+            df_sentiment,
+            x='Sentiment_Score',
+            y='Units_Sold',
+            size='Total_Revenue',
+            color='Category_Name',
+            hover_data=['Product_Name', 'Total_Revenue'],
+            title='Sentiment Score vs Units Sold (bubble size = revenue)'
+        )
+        fig_sentiment.update_layout(
+            height=500,
+            xaxis_title="Sentiment Score",
+            yaxis_title="Units Sold",
+            plot_bgcolor='rgba(0,0,0,0)'
+        )
+        fig_sentiment.update_xaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
+        fig_sentiment.update_yaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
+        st.plotly_chart(fig_sentiment, use_container_width=True)
+    else:
+        st.info("No sentiment data available for the selected filters")
+    
+    st.markdown("---")
+    
+    # Regional Performance - using QUERY_REGIONAL_PERFORMANCE
+    st.markdown("### 🌍 Regional Performance Comparison")
+    
+    # Using QUERY_REGIONAL_PERFORMANCE with filters
+    query_regional = f"""
+    SELECT 
+        ds.Region,
+        COUNT(DISTINCT ds.Store_ID) as Store_Count,
+        COUNT(*) as Transactions,
+        ROUND(SUM(fs.Total_Revenue), 2) as Total_Revenue,
+        ROUND(SUM(fs.Net_Profit), 2) as Net_Profit,
+        ROUND(AVG(fs.Total_Revenue), 2) as Avg_Transaction_Value
+    FROM Fact_Sales fs
+    JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
+    JOIN Dim_Date dd ON fs.Date_ID = dd.Date_ID
+    JOIN Dim_Product dp ON fs.Product_ID = dp.Product_ID
+    WHERE {where_clause}
+    GROUP BY ds.Region
+    ORDER BY Total_Revenue DESC
+    """
+    df_regional = db.execute_query(query_regional, tuple(params))
+    
+    if len(df_regional) > 0:
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            fig_regional_revenue = px.bar(
+                df_regional,
+                x='Region',
+                y='Total_Revenue',
+                color='Total_Revenue',
+                color_continuous_scale='Blues',
+                title='Revenue by Region'
+            )
+            fig_regional_revenue.update_layout(
+                height=350,
+                showlegend=False,
+                plot_bgcolor='rgba(0,0,0,0)'
+            )
+            fig_regional_revenue.update_xaxes(showgrid=False)
+            fig_regional_revenue.update_yaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
+            st.plotly_chart(fig_regional_revenue, use_container_width=True)
+        
+        with col2:
+            fig_regional_profit = px.bar(
+                df_regional,
+                x='Region',
+                y='Net_Profit',
+                color='Net_Profit',
+                color_continuous_scale='Greens',
+                title='Profit by Region'
+            )
+            fig_regional_profit.update_layout(
+                height=350,
+                showlegend=False,
+                plot_bgcolor='rgba(0,0,0,0)'
+            )
+            fig_regional_profit.update_xaxes(showgrid=False)
+            fig_regional_profit.update_yaxes(showgrid=True, gridwidth=1, gridcolor='lightgray')
+            st.plotly_chart(fig_regional_profit, use_container_width=True)
+        
+        # Display regional table
+        st.dataframe(df_regional, use_container_width=True)
+    else:
+        st.info("No regional data available")
+    
+    st.markdown("---")
+    
+    # Top Customers Analysis - using QUERY_TOP_CUSTOMERS
+    st.markdown("### 👥 Top Customers")
+    
+    # Using QUERY_TOP_CUSTOMERS with filters
+    query_customers = f"""
+    SELECT 
+        dc.Customer_Name,
+        dc.City_Name,
+        dc.Region,
+        COUNT(fs.Sale_ID) as Purchase_Count,
+        ROUND(SUM(fs.Total_Revenue), 2) as Total_Spent,
+        ROUND(AVG(fs.Total_Revenue), 2) as Avg_Transaction_Value,
+        MAX(dd.Full_Date) as Last_Purchase_Date
+    FROM Fact_Sales fs
+    JOIN Dim_Customer dc ON fs.Customer_ID = dc.Customer_ID
+    JOIN Dim_Date dd ON fs.Date_ID = dd.Date_ID
+    JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
+    JOIN Dim_Product dp ON fs.Product_ID = dp.Product_ID
+    WHERE {where_clause}
+    GROUP BY dc.Customer_ID, dc.Customer_Name, dc.City_Name, dc.Region
+    ORDER BY Total_Spent DESC
+    LIMIT 20
+    """
+    df_customers = db.execute_query(query_customers, tuple(params))
+    
+    if len(df_customers) > 0:
+        st.dataframe(
+            df_customers.style.background_gradient(subset=['Total_Spent'], cmap='YlOrRd'),
+            use_container_width=True,
+            height=400
+        )
+    else:
+        st.info("No customer data available")
 
 
 def render_raw_data_explorer():
@@ -575,27 +829,23 @@ def render_about_page():
     - **OLAP Capabilities**: Multi-dimensional filtering and drill-down
     
     ### 👥 Project Team
-    - **Member 1**: Data Extraction Engineer (MySQL + Web Scraping)
-    - **Member 2**: ETL & Transformation Specialist (Pandas + OCR)
-    - **Member 3**: Database Architect (Star Schema + SQL)
-    - **Member 4**: Dashboard Developer (Streamlit + Visualization)
+    - **Sarah Djerrab & Khaoula Merah**: Data Extraction & Frontend Development
+    - **Hadjer Hanani**: ETL & Transformation Specialist
+    - **Tasnim Bagha**: Database Architecture & SQL
     
     ### 🛠️ Technology Stack
-    - Python 3.x
-    - Pandas, NumPy
-    - MySQL Connector
-    - BeautifulSoup (Web Scraping)
-    - Tesseract OCR
-    - VADER Sentiment Analysis
-    - SQLite3
-    - Streamlit
-    - Plotly
+    - Python 3.x, Pandas, NumPy
+    - MySQL Connector, BeautifulSoup (Web Scraping)
+    - Tesseract OCR, VADER Sentiment Analysis
+    - SQLite3, Streamlit, Plotly
     
     ---
     
     **Course**: Business Intelligence (BI)  
     **Level**: 4th Year Artificial Intelligence Engineering  
     **Institution**: University of 8 Mai 1945 Guelma
+    
+    **GitHub**: [https://github.com/khaoulamerah/TechStore.git](https://github.com/khaoulamerah/TechStore.git)
     """)
 
 
