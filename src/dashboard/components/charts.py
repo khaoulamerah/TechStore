@@ -1,8 +1,3 @@
-"""
-Chart Generation Functions
-Reusable chart components for dashboard visualizations
-"""
-
 import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
@@ -310,7 +305,6 @@ def create_heatmap(df: pd.DataFrame,
     Returns:
         Plotly Figure object
     """
-    # Pivot data for heatmap
     pivot_df = df.pivot(index=y_col, columns=x_col, values=value_col)
     
     fig = go.Figure(data=go.Heatmap(
@@ -347,7 +341,6 @@ def create_gauge_chart(value: float,
     Returns:
         Plotly Figure object
     """
-    # Determine color based on value
     if value >= max_value * 0.9:
         color = "#2ecc71"
     elif value >= max_value * 0.7:

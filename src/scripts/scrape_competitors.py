@@ -7,7 +7,6 @@ import re
 import os
 from urllib.parse import urljoin
 
-# Configure logging with UTF-8 encoding
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
@@ -18,7 +17,6 @@ logging.basicConfig(
 )
 
 class CompetitorScraper:
-    """Scraper class for extracting competitor product prices"""
     
     def __init__(self, base_url):
         """
@@ -69,40 +67,28 @@ class CompetitorScraper:
             dict: Product information dictionary or None if extraction fails
         """
         try:
-            # Look for the product name (blue heading)
-            # Try different possible selectors
             name_element = product_element.find('a', href=True, string=re.compile(r'\S+'))
             if not name_element:
                 name_element = product_element.find(['h2', 'h3', 'h4', 'h5'])
             if not name_element:
-                # Find any prominent link
                 name_element = product_element.find('a', class_=re.compile(r'.*'))
             
             product_name = name_element.get_text(strip=True) if name_element else None
-            
-            # Clean product name (remove "Promo: " if present)
             if product_name:
                 product_name = product_name.replace('Promo: ', '').replace('Best Deal: ', '').strip()
-            
-            # Extract reference (like "Ref: P-3677")
             ref_text = product_element.find(string=re.compile(r'Ref:\s*P-\d+'))
             product_ref = ref_text.strip() if ref_text else None
-            
-            # Extract price (red text with DZD)
-            # Look for price pattern: numbers followed by DZD
             price_text = ''.join(product_element.find_all(string=re.compile(r'\d+\s*DZD')))
             
             if price_text:
-                # Extract all prices
                 price_matches = re.findall(r'(\d+)\s*DZD', price_text)
                 if price_matches:
-                    product_price = float(price_matches[-1])  # Take the last price (discounted if present)
+                    product_price = float(price_matches[-1]) 
                 else:
                     product_price = None
             else:
                 product_price = None
-            
-            # Only return if we have both name and price
+
             if product_name and product_price:
                 return {
                     'Competitor_Product_Name': product_name,
@@ -132,28 +118,21 @@ class CompetitorScraper:
             return []
         
         page_products = []
-        
-        # Improved container selection: Look for divs with class containing 'col-' (Bootstrap grid)
         product_containers = soup.find_all('div', class_=re.compile(r'col-'))
         
         if not product_containers:
-            # Fallback: try 'card' class
             product_containers = soup.find_all('div', class_='card')
         
         if not product_containers:
-            # Fallback: divs with 'product' in class
             product_containers = soup.find_all('div', class_=re.compile(r'product'))
         
         if not product_containers:
-            # Last resort: find divs containing both Ref and DZD
             all_divs = soup.find_all('div')
             product_containers = [div for div in all_divs 
                                   if div.find(string=re.compile(r'Ref:')) and 
                                      div.find(string=re.compile(r'DZD'))]
         
         logging.info(f"Found {len(product_containers)} potential product containers")
-        
-        # Extract from each container
         for container in product_containers:
             product_info = self.extract_product_info(container)
             if product_info:
@@ -175,10 +154,8 @@ class CompetitorScraper:
         page_urls = [self.base_url]
         
         try:
-            # Find pagination container
             pagination = soup.find('div', class_=re.compile(r'pagination')) or soup.find('ul', class_='pagination')
             if not pagination:
-                # Look for any container with 'Previous' and 'Next'
                 pagination = soup.find(string=re.compile(r'Previous|Next'))
                 if pagination:
                     pagination = pagination.find_parent(['div', 'ul', 'nav'])
@@ -210,13 +187,9 @@ class CompetitorScraper:
         logging.info("="*60)
         logging.info("Starting web scraping process")
         logging.info("="*60)
-        
-        # Fetch first page
         soup = self.fetch_page(self.base_url)
         if not soup:
             return []
-        
-        # Get all page URLs
         page_urls = self.get_page_urls(soup)
         
         all_products = []
@@ -232,8 +205,6 @@ class CompetitorScraper:
                 continue
             
             all_products.extend(page_products)
-            
-            # Delay between requests
             if idx < len(page_urls):
                 time.sleep(2)
         
@@ -254,17 +225,10 @@ class CompetitorScraper:
         if not products:
             logging.warning("No products to save")
             return None
-        
-        # Create DataFrame
+
         df = pd.DataFrame(products)
-        
-        # Create output directory
         os.makedirs(os.path.dirname(output_file), exist_ok=True)
-        
-        # Save to CSV
         df.to_csv(output_file, index=False, encoding='utf-8')
-        
-        # Log statistics
         logging.info(f"\nData saved to: {output_file}")
         logging.info(f"Statistics:")
         logging.info(f"  Total products: {len(df)}")
@@ -291,7 +255,6 @@ def scrape_with_fallback():
     scraper = CompetitorScraper(base_url)
     
     try:
-        # Attempt scraping
         df = scraper.scrape_and_save()
         
         if df is not None and len(df) > 0:
@@ -308,7 +271,7 @@ def scrape_with_fallback():
 
 def create_mock_data():
     """
-    Create mock competitor data based on typical Algerian electronics prices
+    Create mock competitor data 
     """
     mock_products = [
         {'Competitor_Product_Name': 'iPhone 14 Pro', 'Competitor_Price': 180000, 'Product_Reference': 'P-1001', 'Currency': 'DZD'},
@@ -326,8 +289,7 @@ def create_mock_data():
     ]
     
     df = pd.DataFrame(mock_products)
-    
-    # Save to file
+
     os.makedirs('data/extracted', exist_ok=True)
     df.to_csv('data/extracted/competitor_prices.csv', index=False, encoding='utf-8')
     
@@ -341,8 +303,6 @@ def main():
     logging.info("\n" + "="*70)
     logging.info("WEB SCRAPING - COMPETITOR PRICES")
     logging.info("="*70 + "\n")
-    
-    # Execute scraping
     df = scrape_with_fallback()
     
     if df is not None:

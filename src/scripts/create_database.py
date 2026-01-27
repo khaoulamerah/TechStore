@@ -26,6 +26,7 @@ print("\n[1/4] Loading transformed Star Schema files...")
 
 try:
     dim_customer_raw = pd.read_csv(transformed_dir / 'Dim_Customer.csv')
+    dim_customer_raw = pd.read_csv(transformed_dir / 'Dim_Customer.csv')
     dim_date_raw = pd.read_csv(transformed_dir / 'Dim_Date.csv')
     dim_product_raw = pd.read_csv(transformed_dir / 'Dim_Product.csv')
     dim_store_raw = pd.read_csv(transformed_dir / 'Dim_Store.csv')
@@ -189,7 +190,6 @@ CREATE TABLE Dim_Date (
 ''')
 print("    Dim_Date created")
 
-# Dim_Product - flexible schema based on available columns
 product_schema = "CREATE TABLE Dim_Product (\n"
 product_schema += "    Product_ID TEXT PRIMARY KEY,\n"
 product_schema += "    Product_Name TEXT NOT NULL"
@@ -209,7 +209,6 @@ product_schema += "\n)"
 cursor.execute(product_schema)
 print("    Dim_Product created")
 
-# Dim_Store - with Manager_Name
 store_schema = "CREATE TABLE Dim_Store (\n"
 store_schema += "    Store_ID INTEGER PRIMARY KEY,\n"
 store_schema += "    Store_Name TEXT NOT NULL"
@@ -366,7 +365,13 @@ print(f"Transactions: {summary['Total_Transactions'][0]:,}")
 
 print("\n" + "="*70)
 print("STAR SCHEMA TABLES (5)")
+print("STAR SCHEMA TABLES (5)")
 print("="*70)
+print("1. Fact_Sales (Fact Table)")
+print("2. Dim_Date (Time Dimension)")
+print("3. Dim_Product (Product Dimension)")
+print("4. Dim_Store (Store Dimension)")
+print("5. Dim_Customer (Customer Dimension)")
 print("1. Fact_Sales (Fact Table)")
 print("2. Dim_Date (Time Dimension)")
 print("3. Dim_Product (Product Dimension)")

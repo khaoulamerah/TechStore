@@ -1,87 +1,99 @@
-2025-12-24 11:55:11,754 - INFO - Connexion r�ussie � techstore_erp
-2025-12-24 11:55:11,798 - INFO - 
+2026-01-27 16:31:10,500 - ERROR - Erreur de connexion: 2005 (HY000): Unknown MySQL server host 'boughida.com' (11001)
+2026-01-27 16:31:10,500 - ERROR - Impossible de se connecter � la base de donn�es
+2026-01-27 16:31:27,124 - INFO - Connexion r�ussie � techstore_erp
+2026-01-27 16:31:27,124 - INFO - 
 ============================================================
-2025-12-24 11:55:11,798 - INFO -  D�BUT DE L'EXTRACTION COMPL�TE
-2025-12-24 11:55:11,798 - INFO - ============================================================
+2026-01-27 16:31:27,124 - INFO -  D�BUT DE L'EXTRACTION COMPL�TE
+2026-01-27 16:31:27,124 - INFO - ============================================================
 
-2025-12-24 11:55:12,594 - INFO - 
+2026-01-27 16:31:29,661 - INFO - 
 Informations sur table_sales:
-2025-12-24 11:55:12,596 - INFO -    Nombre de lignes: 25000
-2025-12-24 11:55:12,596 - INFO -    Colonnes: Trans_ID, Date, Store_ID, Product_ID, Customer_ID, Quantity, Total_Revenue
-2025-12-24 11:55:20,238 - INFO - 25000 lignes extraites de table_sales
-2025-12-24 11:55:20,251 - INFO - Fichier sauvegard�: data/extracted/sales.csv
-2025-12-24 11:55:20,251 - INFO - 
-------------------------------------------------------------
-
-2025-12-24 11:55:20,813 - INFO - 
-Informations sur table_products:
-2025-12-24 11:55:20,821 - INFO -    Nombre de lignes: 38
-2025-12-24 11:55:20,821 - INFO -    Colonnes: Product_ID, Product_Name, SubCat_ID, Unit_Price, Unit_Cost
-2025-12-24 11:55:21,177 - INFO - 38 lignes extraites de table_products
-2025-12-24 11:55:21,179 - INFO - Fichier sauvegard�: data/extracted/products.csv
-2025-12-24 11:55:21,180 - INFO - 
-------------------------------------------------------------
-
-2025-12-24 11:55:21,777 - INFO - 
-Informations sur table_reviews:
-2025-12-24 11:55:21,780 - INFO -    Nombre de lignes: 3000
-2025-12-24 11:55:21,780 - INFO -    Colonnes: Review_ID, Product_ID, Customer_ID, Rating, Review_Text
-2025-12-24 11:55:23,456 - INFO - 3000 lignes extraites de table_reviews
-2025-12-24 11:55:23,456 - INFO - Fichier sauvegard�: data/extracted/reviews.csv
-2025-12-24 11:55:23,456 - INFO - 
-------------------------------------------------------------
-
-2025-12-24 11:55:24,554 - INFO - 
-Informations sur table_customers:
-2025-12-24 11:55:24,554 - INFO -    Nombre de lignes: 1200
-2025-12-24 11:55:24,554 - INFO -    Colonnes: Customer_ID, Full_Name, City_ID
-2025-12-24 11:55:24,921 - INFO - 1200 lignes extraites de table_customers
-2025-12-24 11:55:24,922 - INFO - Fichier sauvegard�: data/extracted/customers.csv
-2025-12-24 11:55:24,922 - INFO - 
-------------------------------------------------------------
-
-2025-12-24 11:55:25,582 - INFO - 
-Informations sur table_stores:
-2025-12-24 11:55:25,582 - INFO -    Nombre de lignes: 12
-2025-12-24 11:55:25,582 - INFO -    Colonnes: Store_ID, Store_Name, City_ID
-2025-12-24 11:55:25,759 - INFO - 12 lignes extraites de table_stores
-2025-12-24 11:55:25,760 - INFO - Fichier sauvegard�: data/extracted/stores.csv
-2025-12-24 11:55:25,760 - INFO - 
-------------------------------------------------------------
-
-2025-12-24 11:55:26,176 - INFO - 
-Informations sur table_cities:
-2025-12-24 11:55:26,176 - INFO -    Nombre de lignes: 12
-2025-12-24 11:55:26,176 - INFO -    Colonnes: City_ID, City_Name, Region
-2025-12-24 11:55:26,400 - INFO - 12 lignes extraites de table_cities
-2025-12-24 11:55:26,403 - INFO - Fichier sauvegard�: data/extracted/cities.csv
-2025-12-24 11:55:26,404 - INFO - 
-------------------------------------------------------------
-
-2025-12-24 11:55:27,227 - INFO - 
-Informations sur table_categories:
-2025-12-24 11:55:27,227 - INFO -    Nombre de lignes: 5
-2025-12-24 11:55:27,227 - INFO -    Colonnes: Category_ID, Category_Name
-2025-12-24 11:55:27,512 - INFO - 5 lignes extraites de table_categories
-2025-12-24 11:55:27,512 - INFO - Fichier sauvegard�: data/extracted/categories.csv
-2025-12-24 11:55:27,512 - INFO - 
-------------------------------------------------------------
-
-2025-12-24 11:55:28,343 - INFO - 
-Informations sur table_subcategories:
-2025-12-24 11:55:28,343 - INFO -    Nombre de lignes: 15
-2025-12-24 11:55:28,347 - INFO -    Colonnes: SubCat_ID, SubCat_Name, Category_ID
-2025-12-24 11:55:28,872 - INFO - 15 lignes extraites de table_subcategories
-2025-12-24 11:55:28,872 - INFO - Fichier sauvegard�: data/extracted/subcategories.csv
-2025-12-24 11:55:28,872 - INFO - 
-------------------------------------------------------------
-
-2025-12-24 11:55:28,872 - INFO - 
+2026-01-27 16:31:29,669 - INFO -    Nombre de lignes: 25000
+2026-01-27 16:31:29,669 - INFO -    Colonnes: Trans_ID, Date, Store_ID, Product_ID, Customer_ID, Quantity, Total_Revenue
+2026-01-27 16:36:57,963 - INFO - Connexion r�ussie � techstore_erp
+2026-01-27 16:36:57,968 - INFO - 
 ============================================================
-2025-12-24 11:55:28,872 - INFO -  R�SUM� DE L'EXTRACTION
-2025-12-24 11:55:28,872 - INFO - ============================================================
+2026-01-27 16:36:57,968 - INFO -  D�BUT DE L'EXTRACTION COMPL�TE
+2026-01-27 16:36:57,968 - INFO - ============================================================
 
-2025-12-24 11:55:28,876 - INFO - 
+2026-01-27 16:36:58,644 - INFO - 
+Informations sur table_sales:
+2026-01-27 16:36:58,644 - INFO -    Nombre de lignes: 25000
+2026-01-27 16:36:58,644 - INFO -    Colonnes: Trans_ID, Date, Store_ID, Product_ID, Customer_ID, Quantity, Total_Revenue
+2026-01-27 16:37:02,562 - INFO - 25000 lignes extraites de table_sales
+2026-01-27 16:37:02,562 - INFO - Fichier sauvegard�: data/extracted/sales.csv
+2026-01-27 16:37:02,562 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 16:37:02,927 - INFO - 
+Informations sur table_products:
+2026-01-27 16:37:02,927 - INFO -    Nombre de lignes: 38
+2026-01-27 16:37:02,927 - INFO -    Colonnes: Product_ID, Product_Name, SubCat_ID, Unit_Price, Unit_Cost
+2026-01-27 16:37:03,113 - INFO - 38 lignes extraites de table_products
+2026-01-27 16:37:03,113 - INFO - Fichier sauvegard�: data/extracted/products.csv
+2026-01-27 16:37:03,113 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 16:37:03,477 - INFO - 
+Informations sur table_reviews:
+2026-01-27 16:37:03,488 - INFO -    Nombre de lignes: 3000
+2026-01-27 16:37:03,488 - INFO -    Colonnes: Review_ID, Product_ID, Customer_ID, Rating, Review_Text
+2026-01-27 16:37:04,262 - INFO - 3000 lignes extraites de table_reviews
+2026-01-27 16:37:04,262 - INFO - Fichier sauvegard�: data/extracted/reviews.csv
+2026-01-27 16:37:04,262 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 16:37:04,622 - INFO - 
+Informations sur table_customers:
+2026-01-27 16:37:04,625 - INFO -    Nombre de lignes: 1200
+2026-01-27 16:37:04,625 - INFO -    Colonnes: Customer_ID, Full_Name, City_ID
+2026-01-27 16:37:05,136 - INFO - 1200 lignes extraites de table_customers
+2026-01-27 16:37:05,136 - INFO - Fichier sauvegard�: data/extracted/customers.csv
+2026-01-27 16:37:05,136 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 16:37:05,497 - INFO - 
+Informations sur table_stores:
+2026-01-27 16:37:05,499 - INFO -    Nombre de lignes: 12
+2026-01-27 16:37:05,501 - INFO -    Colonnes: Store_ID, Store_Name, City_ID
+2026-01-27 16:37:05,689 - INFO - 12 lignes extraites de table_stores
+2026-01-27 16:37:05,689 - INFO - Fichier sauvegard�: data/extracted/stores.csv
+2026-01-27 16:37:05,692 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 16:37:06,050 - INFO - 
+Informations sur table_cities:
+2026-01-27 16:37:06,050 - INFO -    Nombre de lignes: 12
+2026-01-27 16:37:06,052 - INFO -    Colonnes: City_ID, City_Name, Region
+2026-01-27 16:37:06,233 - INFO - 12 lignes extraites de table_cities
+2026-01-27 16:37:06,233 - INFO - Fichier sauvegard�: data/extracted/cities.csv
+2026-01-27 16:37:06,233 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 16:37:06,661 - INFO - 
+Informations sur table_categories:
+2026-01-27 16:37:06,661 - INFO -    Nombre de lignes: 5
+2026-01-27 16:37:06,661 - INFO -    Colonnes: Category_ID, Category_Name
+2026-01-27 16:37:06,880 - INFO - 5 lignes extraites de table_categories
+2026-01-27 16:37:06,882 - INFO - Fichier sauvegard�: data/extracted/categories.csv
+2026-01-27 16:37:06,882 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 16:37:07,367 - INFO - 
+Informations sur table_subcategories:
+2026-01-27 16:37:07,369 - INFO -    Nombre de lignes: 15
+2026-01-27 16:37:07,369 - INFO -    Colonnes: SubCat_ID, SubCat_Name, Category_ID
+2026-01-27 16:37:07,565 - INFO - 15 lignes extraites de table_subcategories
+2026-01-27 16:37:07,567 - INFO - Fichier sauvegard�: data/extracted/subcategories.csv
+2026-01-27 16:37:07,567 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 16:37:07,567 - INFO - 
+============================================================
+2026-01-27 16:37:07,569 - INFO -  R�SUM� DE L'EXTRACTION
+2026-01-27 16:37:07,569 - INFO - ============================================================
+
+2026-01-27 16:37:07,573 - INFO - 
               Table  Lignes  Colonnes Statut
         table_sales   25000         7 Succ�s
      table_products      38         5 Succ�s
@@ -92,8 +104,8 @@ Informations sur table_subcategories:
    table_categories       5         2 Succ�s
 table_subcategories      15         3 Succ�s
 
-2025-12-24 11:55:28,876 - INFO - Extraction personnalis�e: Ventes avec d�tails complets
-2025-12-24 11:55:29,401 - ERROR - Erreur: Execution failed on sql '
+2026-01-27 16:37:07,573 - INFO - Extraction personnalis�e: Ventes avec d�tails complets
+2026-01-27 16:37:07,841 - ERROR - Erreur: Execution failed on sql '
         SELECT 
             s.Sale_ID,
             s.Date,
@@ -111,907 +123,1118 @@ table_subcategories      15         3 Succ�s
         JOIN table_customers cu ON s.Customer_ID = cu.Customer_ID
         LIMIT 1000
         ': 1054 (42S22): Unknown column 's.Sale_ID' in 'SELECT'
-2025-12-24 11:55:29,497 - INFO - Connexion ferm�e
-2025-12-24 11:55:29,497 - INFO - 
+2026-01-27 16:37:07,938 - INFO - Connexion ferm�e
+2026-01-27 16:37:07,938 - INFO - 
 ============================================================
-2025-12-24 11:55:29,497 - INFO - EXTRACTION TERMIN�E AVEC SUCC�S
-2025-12-24 11:55:29,513 - INFO - ============================================================
-2026-01-26 11:00:23,965 - INFO - Connexion réussie à techstore_erp
-2026-01-26 11:00:23,968 - INFO - 
+2026-01-27 16:37:07,938 - INFO - EXTRACTION TERMIN�E AVEC SUCC�S
+2026-01-27 16:37:07,938 - INFO - ============================================================
+2026-01-27 16:42:52,771 - INFO - Connexion r�ussie � techstore_erp
+2026-01-27 16:42:52,787 - INFO - 
 ============================================================
-2026-01-26 11:00:23,968 - INFO -  DÉBUT DE L'EXTRACTION COMPLÈTE
-2026-01-26 11:00:23,968 - INFO - ============================================================
+2026-01-27 16:42:52,787 - INFO -  D�BUT DE L'EXTRACTION COMPL�TE
+2026-01-27 16:42:52,787 - INFO - ============================================================
 
-2026-01-26 11:00:24,344 - INFO - 
+2026-01-27 16:42:54,603 - INFO - 
 Informations sur table_sales:
-2026-01-26 11:00:24,346 - INFO -    Nombre de lignes: 25000
-2026-01-26 11:00:24,346 - INFO -    Colonnes: Trans_ID, Date, Store_ID, Product_ID, Customer_ID, Quantity, Total_Revenue
-2026-01-26 11:00:24,348 - INFO - 📊 Extraction de la table: table_sales
-2026-01-26 11:00:26,288 - INFO - 25000 lignes extraites de table_sales
-2026-01-26 11:00:26,288 - INFO - Fichier sauvegardé: data/extracted/sales.csv
-2026-01-26 11:00:26,288 - INFO - 
+2026-01-27 16:42:54,603 - INFO -    Nombre de lignes: 25000
+2026-01-27 16:42:54,603 - INFO -    Colonnes: Trans_ID, Date, Store_ID, Product_ID, Customer_ID, Quantity, Total_Revenue
+2026-01-27 16:42:54,603 - INFO -  Extraction de la table: table_sales
+2026-01-27 16:43:17,566 - INFO - 25000 lignes extraites de table_sales
+2026-01-27 16:43:17,570 - INFO - Fichier sauvegard�: data/extracted/sales.csv
+2026-01-27 16:43:17,570 - INFO - 
 ------------------------------------------------------------
 
-2026-01-26 11:00:26,714 - INFO - 
+2026-01-27 16:43:18,584 - INFO - 
 Informations sur table_products:
-2026-01-26 11:00:26,716 - INFO -    Nombre de lignes: 38
-2026-01-26 11:00:26,717 - INFO -    Colonnes: Product_ID, Product_Name, SubCat_ID, Unit_Price, Unit_Cost
-2026-01-26 11:00:26,718 - INFO - 📊 Extraction de la table: table_products
-2026-01-26 11:00:26,882 - INFO - 38 lignes extraites de table_products
-2026-01-26 11:00:26,884 - INFO - Fichier sauvegardé: data/extracted/products.csv
-2026-01-26 11:00:26,887 - INFO - 
+2026-01-27 16:43:18,584 - INFO -    Nombre de lignes: 38
+2026-01-27 16:43:18,584 - INFO -    Colonnes: Product_ID, Product_Name, SubCat_ID, Unit_Price, Unit_Cost
+2026-01-27 16:43:18,586 - INFO -  Extraction de la table: table_products
+2026-01-27 16:43:19,305 - INFO - 38 lignes extraites de table_products
+2026-01-27 16:43:19,311 - INFO - Fichier sauvegard�: data/extracted/products.csv
+2026-01-27 16:43:19,316 - INFO - 
 ------------------------------------------------------------
 
-2026-01-26 11:00:27,237 - INFO - 
+2026-01-27 16:43:21,163 - INFO - 
 Informations sur table_reviews:
-2026-01-26 11:00:27,237 - INFO -    Nombre de lignes: 3000
-2026-01-26 11:00:27,237 - INFO -    Colonnes: Review_ID, Product_ID, Customer_ID, Rating, Review_Text
-2026-01-26 11:00:27,237 - INFO - 📊 Extraction de la table: table_reviews
-2026-01-26 11:00:27,520 - INFO - 3000 lignes extraites de table_reviews
-2026-01-26 11:00:27,520 - INFO - Fichier sauvegardé: data/extracted/reviews.csv
-2026-01-26 11:00:27,531 - INFO - 
+2026-01-27 16:43:21,163 - INFO -    Nombre de lignes: 3000
+2026-01-27 16:43:21,163 - INFO -    Colonnes: Review_ID, Product_ID, Customer_ID, Rating, Review_Text
+2026-01-27 16:43:21,163 - INFO -  Extraction de la table: table_reviews
+2026-01-27 16:43:26,426 - INFO - 3000 lignes extraites de table_reviews
+2026-01-27 16:43:26,426 - INFO - Fichier sauvegard�: data/extracted/reviews.csv
+2026-01-27 16:43:26,426 - INFO - 
 ------------------------------------------------------------
 
-2026-01-26 11:00:27,884 - INFO - 
+2026-01-27 16:43:27,872 - INFO - 
 Informations sur table_customers:
-2026-01-26 11:00:27,885 - INFO -    Nombre de lignes: 1200
-2026-01-26 11:00:27,885 - INFO -    Colonnes: Customer_ID, Full_Name, City_ID
-2026-01-26 11:00:27,886 - INFO - 📊 Extraction de la table: table_customers
-2026-01-26 11:00:28,071 - INFO - 1200 lignes extraites de table_customers
-2026-01-26 11:00:28,071 - INFO - Fichier sauvegardé: data/extracted/customers.csv
-2026-01-26 11:00:28,071 - INFO - 
+2026-01-27 16:43:27,874 - INFO -    Nombre de lignes: 1200
+2026-01-27 16:43:27,874 - INFO -    Colonnes: Customer_ID, Full_Name, City_ID
+2026-01-27 16:43:27,874 - INFO -  Extraction de la table: table_customers
+2026-01-27 16:43:31,011 - INFO - 1200 lignes extraites de table_customers
+2026-01-27 16:43:31,013 - INFO - Fichier sauvegard�: data/extracted/customers.csv
+2026-01-27 16:43:31,013 - INFO - 
 ------------------------------------------------------------
 
-2026-01-26 11:00:28,417 - INFO - 
+2026-01-27 16:43:33,866 - INFO - 
 Informations sur table_stores:
-2026-01-26 11:00:28,417 - INFO -    Nombre de lignes: 12
-2026-01-26 11:00:28,417 - INFO -    Colonnes: Store_ID, Store_Name, City_ID
-2026-01-26 11:00:28,417 - INFO - 📊 Extraction de la table: table_stores
-2026-01-26 11:00:28,597 - INFO - 12 lignes extraites de table_stores
-2026-01-26 11:00:28,599 - INFO - Fichier sauvegardé: data/extracted/stores.csv
-2026-01-26 11:00:28,600 - INFO - 
+2026-01-27 16:43:33,868 - INFO -    Nombre de lignes: 12
+2026-01-27 16:43:33,868 - INFO -    Colonnes: Store_ID, Store_Name, City_ID
+2026-01-27 16:43:33,868 - INFO -  Extraction de la table: table_stores
+2026-01-27 16:43:34,502 - INFO - 12 lignes extraites de table_stores
+2026-01-27 16:43:34,502 - INFO - Fichier sauvegard�: data/extracted/stores.csv
+2026-01-27 16:43:34,506 - INFO - 
 ------------------------------------------------------------
 
-2026-01-26 11:00:28,932 - INFO - 
+2026-01-27 16:43:36,975 - INFO - 
 Informations sur table_cities:
-2026-01-26 11:00:28,934 - INFO -    Nombre de lignes: 12
-2026-01-26 11:00:28,935 - INFO -    Colonnes: City_ID, City_Name, Region
-2026-01-26 11:00:28,935 - INFO - 📊 Extraction de la table: table_cities
-2026-01-26 11:00:29,119 - INFO - 12 lignes extraites de table_cities
-2026-01-26 11:00:29,120 - INFO - Fichier sauvegardé: data/extracted/cities.csv
-2026-01-26 11:00:29,120 - INFO - 
+2026-01-27 16:43:36,975 - INFO -    Nombre de lignes: 12
+2026-01-27 16:43:36,977 - INFO -    Colonnes: City_ID, City_Name, Region
+2026-01-27 16:43:36,977 - INFO -  Extraction de la table: table_cities
+2026-01-27 16:43:38,302 - INFO - 12 lignes extraites de table_cities
+2026-01-27 16:43:38,302 - INFO - Fichier sauvegard�: data/extracted/cities.csv
+2026-01-27 16:43:38,302 - INFO - 
 ------------------------------------------------------------
 
-2026-01-26 11:00:29,467 - INFO - 
+2026-01-27 16:43:40,849 - INFO - 
 Informations sur table_categories:
-2026-01-26 11:00:29,467 - INFO -    Nombre de lignes: 5
-2026-01-26 11:00:29,467 - INFO -    Colonnes: Category_ID, Category_Name
-2026-01-26 11:00:29,467 - INFO - 📊 Extraction de la table: table_categories
-2026-01-26 11:00:29,664 - INFO - 5 lignes extraites de table_categories
-2026-01-26 11:00:29,664 - INFO - Fichier sauvegardé: data/extracted/categories.csv
-2026-01-26 11:00:29,664 - INFO - 
+2026-01-27 16:43:40,849 - INFO -    Nombre de lignes: 5
+2026-01-27 16:43:40,854 - INFO -    Colonnes: Category_ID, Category_Name
+2026-01-27 16:43:40,854 - INFO -  Extraction de la table: table_categories
+2026-01-27 16:43:41,738 - INFO - 5 lignes extraites de table_categories
+2026-01-27 16:43:41,752 - INFO - Fichier sauvegard�: data/extracted/categories.csv
+2026-01-27 16:43:41,752 - INFO - 
 ------------------------------------------------------------
 
-2026-01-26 11:00:30,016 - INFO - 
+2026-01-27 16:43:43,514 - INFO - 
 Informations sur table_subcategories:
-2026-01-26 11:00:30,018 - INFO -    Nombre de lignes: 15
-2026-01-26 11:00:30,019 - INFO -    Colonnes: SubCat_ID, SubCat_Name, Category_ID
-2026-01-26 11:00:30,021 - INFO - 📊 Extraction de la table: table_subcategories
-2026-01-26 11:00:30,202 - INFO - 15 lignes extraites de table_subcategories
-2026-01-26 11:00:30,204 - INFO - Fichier sauvegardé: data/extracted/subcategories.csv
-2026-01-26 11:00:30,204 - INFO - 
+2026-01-27 16:43:43,514 - INFO -    Nombre de lignes: 15
+2026-01-27 16:43:43,514 - INFO -    Colonnes: SubCat_ID, SubCat_Name, Category_ID
+2026-01-27 16:43:43,514 - INFO -  Extraction de la table: table_subcategories
+2026-01-27 16:43:44,478 - INFO - 15 lignes extraites de table_subcategories
+2026-01-27 16:43:44,478 - INFO - Fichier sauvegard�: data/extracted/subcategories.csv
+2026-01-27 16:43:44,478 - INFO - 
 ------------------------------------------------------------
 
-2026-01-26 11:00:30,204 - INFO - 
+2026-01-27 16:43:44,478 - INFO - 
 ============================================================
-2026-01-26 11:00:30,204 - INFO -  RÉSUMÉ DE L'EXTRACTION
-2026-01-26 11:00:30,204 - INFO - ============================================================
+2026-01-27 16:43:44,478 - INFO -  R�SUM� DE L'EXTRACTION
+2026-01-27 16:43:44,478 - INFO - ============================================================
 
-2026-01-26 11:00:30,219 - INFO - 
+2026-01-27 16:43:44,485 - INFO - 
               Table  Lignes  Colonnes Statut
-        table_sales   25000         7 Succès
-     table_products      38         5 Succès
-      table_reviews    3000         5 Succès
-    table_customers    1200         3 Succès
-       table_stores      12         3 Succès
-       table_cities      12         3 Succès
-   table_categories       5         2 Succès
-table_subcategories      15         3 Succès
+        table_sales   25000         7 Succ�s
+     table_products      38         5 Succ�s
+      table_reviews    3000         5 Succ�s
+    table_customers    1200         3 Succ�s
+       table_stores      12         3 Succ�s
+       table_cities      12         3 Succ�s
+   table_categories       5         2 Succ�s
+table_subcategories      15         3 Succ�s
 
-2026-01-26 11:00:30,316 - INFO - Connexion fermée
-2026-01-26 11:00:30,587 - INFO - ============================================================
-2026-01-26 11:00:30,587 - INFO - Starting web scraping process
-2026-01-26 11:00:30,587 - INFO - ============================================================
-2026-01-26 11:00:30,587 - INFO - Fetching page: https://boughida.com/competitor/
-2026-01-26 11:00:31,167 - INFO - Page successfully retrieved
-2026-01-26 11:00:31,170 - INFO - Found additional pages: 2
-2026-01-26 11:00:31,170 - INFO - 
-Page 1/3: https://boughida.com/competitor/
-2026-01-26 11:00:31,170 - INFO - ------------------------------------------------------------
-2026-01-26 11:00:31,170 - INFO - Fetching page: https://boughida.com/competitor/
-2026-01-26 11:00:31,669 - INFO - Page successfully retrieved
-2026-01-26 11:00:31,669 - INFO - Found 13 potential product containers
-2026-01-26 11:00:31,669 - INFO - Extracted: Samsung S23 Ultra: 174800.0 DZD
-2026-01-26 11:00:31,669 - INFO - Extracted: HP LaserJet Pro: 46000.0 DZD
-2026-01-26 11:00:31,669 - INFO - Extracted: Dell 24 Monitor: 24200.0 DZD
-2026-01-26 11:00:31,684 - INFO - Extracted: Canon i-Sensys: 39000.0 DZD
-2026-01-26 11:00:31,684 - INFO - Extracted: Epson EcoTank: 27700.0 DZD
-2026-01-26 11:00:31,684 - INFO - Extracted: Nikon D3500: 69200.0 DZD
-2026-01-26 11:00:31,684 - INFO - Extracted: Xiaomi Redmi Note 12: 36800.0 DZD
-2026-01-26 11:00:31,690 - INFO - Extracted: HP Pavilion Desktop: 83000.0 DZD
-2026-01-26 11:00:31,693 - INFO - Extracted: Redmi Buds 4: 5300.0 DZD
-2026-01-26 11:00:31,693 - INFO - Extracted: DJI Mini 3: 126900.0 DZD
-2026-01-26 11:00:31,694 - INFO - Extracted: Sony SRS-XB13: 11100.0 DZD
-2026-01-26 11:00:31,694 - INFO - Extracted: ASUS ROG STRIX: 290600.0 DZD
-2026-01-26 11:00:31,694 - INFO - Extracted: LG UltraGear: 41700.0 DZD
-2026-01-26 11:00:33,698 - INFO - 
-Page 2/3: https://boughida.com/competitor/competitor_page_2.html
-2026-01-26 11:00:33,698 - INFO - ------------------------------------------------------------
-2026-01-26 11:00:33,698 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_2.html
-2026-01-26 11:00:34,288 - INFO - Page successfully retrieved
-2026-01-26 11:00:34,288 - INFO - Found 13 potential product containers
-2026-01-26 11:00:34,288 - INFO - Extracted: IPHONE CABLE: 3200.0 DZD
-2026-01-26 11:00:34,288 - INFO - Extracted: Lenovo ThinkPad: 94600.0 DZD
-2026-01-26 11:00:34,288 - INFO - Extracted: AirPods Pro: 47400.0 DZD
-2026-01-26 11:00:34,288 - INFO - Extracted: Phone Case Silicon: 1800.0 DZD
-2026-01-26 11:00:34,296 - INFO - Extracted: Sony WH-1000XM5: 65400.0 DZD
-2026-01-26 11:00:34,297 - INFO - Extracted: iPhone 13: 136900.0 DZD
-2026-01-26 11:00:34,297 - INFO - Extracted: Canon 445 Black: 2600.0 DZD
-2026-01-26 11:00:34,297 - INFO - Extracted: DJI Mavic 3: 350400.0 DZD
-2026-01-26 11:00:34,297 - INFO - Extracted: JBL Flip 6: 23500.0 DZD
-2026-01-26 11:00:34,297 - INFO - Extracted: HP VICTUS 15: 119700.0 DZD
-2026-01-26 11:00:34,302 - INFO - Extracted: HP 650 Black: 2900.0 DZD
-2026-01-26 11:00:34,304 - INFO - Extracted: Oppo Reno 8: 60200.0 DZD
-2026-01-26 11:00:34,305 - INFO - Extracted: SAMSUNG CHARGER 25W: 4200.0 DZD
-2026-01-26 11:00:36,306 - INFO - 
-Page 3/3: https://boughida.com/competitor/competitor_page_3.html
-2026-01-26 11:00:36,306 - INFO - ------------------------------------------------------------
-2026-01-26 11:00:36,306 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_3.html
-2026-01-26 11:00:36,866 - INFO - Page successfully retrieved
-2026-01-26 11:00:36,869 - INFO - Found 12 potential product containers
-2026-01-26 11:00:36,869 - INFO - Extracted: MacBook Air M2: 190500.0 DZD
-2026-01-26 11:00:36,869 - INFO - Extracted: Canon Pixma: 11600.0 DZD
-2026-01-26 11:00:36,869 - INFO - Extracted: Canon EOS 4000D: 60200.0 DZD
-2026-01-26 11:00:36,881 - INFO - Extracted: JBL Tune 510BT: 11200.0 DZD
-2026-01-26 11:00:36,883 - INFO - Extracted: Screen Protector: 930.0 DZD
-2026-01-26 11:00:36,885 - INFO - Extracted: Custom Gaming PC: 300000.0 DZD
-2026-01-26 11:00:36,889 - INFO - Extracted: Samsung Odyssey G5: 46700.0 DZD
-2026-01-26 11:00:36,889 - INFO - Extracted: Realme GT3: 71700.0 DZD
-2026-01-26 11:00:36,889 - INFO - Extracted: iPhone 14 Pro: 212700.0 DZD
-2026-01-26 11:00:36,889 - INFO - Extracted: IPHONE 15 PRO MAX: 281500.0 DZD
-2026-01-26 11:00:36,897 - INFO - Extracted: Dell XPS 13 5G: 242700.0 DZD
-2026-01-26 11:00:36,899 - INFO - Extracted: Dell OptiPlex: 64400.0 DZD
-2026-01-26 11:00:36,901 - INFO - ============================================================
-2026-01-26 11:00:36,902 - INFO - Scraping completed: 38 total products
-2026-01-26 11:00:36,902 - INFO - ============================================================
-2026-01-26 11:00:36,902 - INFO - 
-Data saved to: data/extracted/competitor_prices.csv
-2026-01-26 11:00:36,902 - INFO - Statistics:
-2026-01-26 11:00:36,902 - INFO -   Total products: 38
-2026-01-26 11:00:36,902 - INFO -   Average price: 89032.37 DZD
-2026-01-26 11:00:36,914 - INFO -   Price range: 930 - 350400 DZD
-2026-01-26 11:00:37,133 - INFO - ======================================================================
-2026-01-26 11:00:37,134 - INFO - STARTING OCR INVOICE PROCESSING
-2026-01-26 11:00:37,135 - INFO - ======================================================================
-2026-01-26 11:00:37,136 - INFO - Found 5 invoice images to process
-
-2026-01-26 11:00:37,137 - INFO - 
-======================================================================
-2026-01-26 11:00:37,138 - INFO - PROCESSING [1/5]: order_001.jpg
-2026-01-26 11:00:37,138 - INFO - ======================================================================
-2026-01-26 11:00:37,206 - WARNING - No text extracted from order_001.jpg
-2026-01-26 11:00:37,207 - INFO - 
-======================================================================
-2026-01-26 11:00:37,208 - INFO - PROCESSING [2/5]: order_002.jpg
-2026-01-26 11:00:37,208 - INFO - ======================================================================
-2026-01-26 11:00:37,252 - WARNING - No text extracted from order_002.jpg
-2026-01-26 11:00:37,252 - INFO - 
-======================================================================
-2026-01-26 11:00:37,252 - INFO - PROCESSING [3/5]: order_003.jpg
-2026-01-26 11:00:37,252 - INFO - ======================================================================
-2026-01-26 11:00:37,298 - WARNING - No text extracted from order_003.jpg
-2026-01-26 11:00:37,299 - INFO - 
-======================================================================
-2026-01-26 11:00:37,300 - INFO - PROCESSING [4/5]: order_004.jpg
-2026-01-26 11:00:37,300 - INFO - ======================================================================
-2026-01-26 11:00:37,336 - WARNING - No text extracted from order_004.jpg
-2026-01-26 11:00:37,336 - INFO - 
-======================================================================
-2026-01-26 11:00:37,336 - INFO - PROCESSING [5/5]: order_005.jpg
-2026-01-26 11:00:37,346 - INFO - ======================================================================
-2026-01-26 11:00:37,386 - WARNING - No text extracted from order_005.jpg
-2026-01-26 11:00:37,386 - INFO - 
-======================================================================
-2026-01-26 11:00:37,386 - INFO - OCR PROCESSING COMPLETED
-2026-01-26 11:00:37,386 - INFO - Successfully processed: 0/5 invoices
-2026-01-26 11:00:37,386 - INFO - ======================================================================
-2026-01-26 11:00:37,386 - ERROR - No data was extracted!
-2026-01-26 12:01:52,551 - INFO - Connexion réussie à techstore_erp
-2026-01-26 12:01:52,551 - INFO - 
+2026-01-27 16:43:44,485 - INFO - Extraction personnalis�e: Ventes avec d�tails complets
+2026-01-27 16:43:46,168 - ERROR - Erreur: Execution failed on sql '
+        SELECT 
+            s.Trans_ID,
+            s.Date,
+            s.Quantity,
+            s.Total_Revenue,
+            p.Product_Name,
+            p.Unit_Cost,
+            c.Category_Name,
+            st.Store_Name,
+            cu.Customer_Name
+        FROM table_sales s
+        JOIN table_products p ON s.Product_ID = p.Product_ID
+        JOIN table_categories c ON p.Category_ID = c.Category_ID
+        JOIN table_stores st ON s.Store_ID = st.Store_ID
+        JOIN table_customers cu ON s.Customer_ID = cu.Customer_ID
+        LIMIT 1000
+        ': 1054 (42S22): Unknown column 'cu.Customer_Name' in 'SELECT'
+2026-01-27 16:43:46,625 - INFO - Connexion ferm�e
+2026-01-27 16:43:46,626 - INFO - 
 ============================================================
-2026-01-26 12:01:52,551 - INFO -  DÉBUT DE L'EXTRACTION COMPLÈTE
-2026-01-26 12:01:52,551 - INFO - ============================================================
+2026-01-27 16:43:46,626 - INFO - EXTRACTION TERMIN�E AVEC SUCC�S
+2026-01-27 16:43:46,626 - INFO - ============================================================
+2026-01-27 16:46:07,133 - INFO - Connexion r�ussie � techstore_erp
+2026-01-27 16:46:07,133 - INFO - 
+============================================================
+2026-01-27 16:46:07,137 - INFO -  D�BUT DE L'EXTRACTION COMPL�TE
+2026-01-27 16:46:07,137 - INFO - ============================================================
 
-2026-01-26 12:01:52,895 - INFO - 
+2026-01-27 16:46:10,411 - INFO - 
 Informations sur table_sales:
-2026-01-26 12:01:52,895 - INFO -    Nombre de lignes: 25000
-2026-01-26 12:01:52,908 - INFO -    Colonnes: Trans_ID, Date, Store_ID, Product_ID, Customer_ID, Quantity, Total_Revenue
-2026-01-26 12:01:52,912 - INFO - 📊 Extraction de la table: table_sales
-2026-01-26 12:01:55,439 - INFO - 25000 lignes extraites de table_sales
-2026-01-26 12:01:55,446 - INFO - Fichier sauvegardé: data/extracted/sales.csv
-2026-01-26 12:01:55,446 - INFO - 
+2026-01-27 16:46:10,417 - INFO -    Nombre de lignes: 25000
+2026-01-27 16:46:10,417 - INFO -    Colonnes: Trans_ID, Date, Store_ID, Product_ID, Customer_ID, Quantity, Total_Revenue
+2026-01-27 16:46:10,419 - INFO -  Extraction de la table: table_sales
+2026-01-27 16:46:19,999 - INFO - 25000 lignes extraites de table_sales
+2026-01-27 16:46:19,999 - INFO - Fichier sauvegard�: data/extracted/sales.csv
+2026-01-27 16:46:19,999 - INFO - 
 ------------------------------------------------------------
 
-2026-01-26 12:01:55,829 - INFO - 
+2026-01-27 16:46:21,860 - INFO - 
 Informations sur table_products:
-2026-01-26 12:01:55,829 - INFO -    Nombre de lignes: 38
-2026-01-26 12:01:55,829 - INFO -    Colonnes: Product_ID, Product_Name, SubCat_ID, Unit_Price, Unit_Cost
-2026-01-26 12:01:55,829 - INFO - 📊 Extraction de la table: table_products
-2026-01-26 12:01:56,019 - INFO - 38 lignes extraites de table_products
-2026-01-26 12:01:56,026 - INFO - Fichier sauvegardé: data/extracted/products.csv
-2026-01-26 12:01:56,029 - INFO - 
+2026-01-27 16:46:21,860 - INFO -    Nombre de lignes: 38
+2026-01-27 16:46:21,860 - INFO -    Colonnes: Product_ID, Product_Name, SubCat_ID, Unit_Price, Unit_Cost
+2026-01-27 16:46:21,860 - INFO -  Extraction de la table: table_products
+2026-01-27 16:46:22,945 - INFO - 38 lignes extraites de table_products
+2026-01-27 16:46:22,947 - INFO - Fichier sauvegard�: data/extracted/products.csv
+2026-01-27 16:46:22,951 - INFO - 
 ------------------------------------------------------------
 
-2026-01-26 12:01:56,399 - INFO - 
+2026-01-27 16:46:25,403 - INFO - 
 Informations sur table_reviews:
-2026-01-26 12:01:56,399 - INFO -    Nombre de lignes: 3000
-2026-01-26 12:01:56,412 - INFO -    Colonnes: Review_ID, Product_ID, Customer_ID, Rating, Review_Text
-2026-01-26 12:01:56,413 - INFO - 📊 Extraction de la table: table_reviews
-2026-01-26 12:01:56,734 - INFO - 3000 lignes extraites de table_reviews
-2026-01-26 12:01:56,739 - INFO - Fichier sauvegardé: data/extracted/reviews.csv
-2026-01-26 12:01:56,742 - INFO - 
+2026-01-27 16:46:25,403 - INFO -    Nombre de lignes: 3000
+2026-01-27 16:46:25,410 - INFO -    Colonnes: Review_ID, Product_ID, Customer_ID, Rating, Review_Text
+2026-01-27 16:46:25,410 - INFO -  Extraction de la table: table_reviews
+2026-01-27 16:46:30,830 - INFO - 3000 lignes extraites de table_reviews
+2026-01-27 16:46:30,830 - INFO - Fichier sauvegard�: data/extracted/reviews.csv
+2026-01-27 16:46:30,830 - INFO - 
 ------------------------------------------------------------
 
-2026-01-26 12:01:57,100 - INFO - 
+2026-01-27 16:46:31,851 - INFO - 
 Informations sur table_customers:
-2026-01-26 12:01:57,102 - INFO -    Nombre de lignes: 1200
-2026-01-26 12:01:57,102 - INFO -    Colonnes: Customer_ID, Full_Name, City_ID
-2026-01-26 12:01:57,102 - INFO - 📊 Extraction de la table: table_customers
-2026-01-26 12:01:57,295 - INFO - 1200 lignes extraites de table_customers
-2026-01-26 12:01:57,308 - INFO - Fichier sauvegardé: data/extracted/customers.csv
-2026-01-26 12:01:57,310 - INFO - 
+2026-01-27 16:46:31,851 - INFO -    Nombre de lignes: 1200
+2026-01-27 16:46:31,851 - INFO -    Colonnes: Customer_ID, Full_Name, City_ID
+2026-01-27 16:46:31,851 - INFO -  Extraction de la table: table_customers
+2026-01-27 16:46:33,378 - INFO - 1200 lignes extraites de table_customers
+2026-01-27 16:46:33,382 - INFO - Fichier sauvegard�: data/extracted/customers.csv
+2026-01-27 16:46:33,382 - INFO - 
 ------------------------------------------------------------
 
-2026-01-26 12:01:57,644 - INFO - 
+2026-01-27 16:46:34,926 - INFO - 
 Informations sur table_stores:
-2026-01-26 12:01:57,648 - INFO -    Nombre de lignes: 12
-2026-01-26 12:01:57,648 - INFO -    Colonnes: Store_ID, Store_Name, City_ID
-2026-01-26 12:01:57,653 - INFO - 📊 Extraction de la table: table_stores
-2026-01-26 12:01:57,858 - INFO - 12 lignes extraites de table_stores
-2026-01-26 12:01:57,862 - INFO - Fichier sauvegardé: data/extracted/stores.csv
-2026-01-26 12:01:57,864 - INFO - 
+2026-01-27 16:46:34,926 - INFO -    Nombre de lignes: 12
+2026-01-27 16:46:34,928 - INFO -    Colonnes: Store_ID, Store_Name, City_ID
+2026-01-27 16:46:34,928 - INFO -  Extraction de la table: table_stores
+2026-01-27 16:46:36,185 - INFO - 12 lignes extraites de table_stores
+2026-01-27 16:46:36,185 - INFO - Fichier sauvegard�: data/extracted/stores.csv
+2026-01-27 16:46:36,185 - INFO - 
 ------------------------------------------------------------
 
-2026-01-26 12:01:58,211 - INFO - 
+2026-01-27 16:46:38,382 - INFO - 
 Informations sur table_cities:
-2026-01-26 12:01:58,211 - INFO -    Nombre de lignes: 12
-2026-01-26 12:01:58,211 - INFO -    Colonnes: City_ID, City_Name, Region
-2026-01-26 12:01:58,225 - INFO - 📊 Extraction de la table: table_cities
-2026-01-26 12:01:58,398 - INFO - 12 lignes extraites de table_cities
-2026-01-26 12:01:58,398 - INFO - Fichier sauvegardé: data/extracted/cities.csv
-2026-01-26 12:01:58,403 - INFO - 
+2026-01-27 16:46:38,383 - INFO -    Nombre de lignes: 12
+2026-01-27 16:46:38,384 - INFO -    Colonnes: City_ID, City_Name, Region
+2026-01-27 16:46:38,384 - INFO -  Extraction de la table: table_cities
+2026-01-27 16:46:39,529 - INFO - 12 lignes extraites de table_cities
+2026-01-27 16:46:39,529 - INFO - Fichier sauvegard�: data/extracted/cities.csv
+2026-01-27 16:46:39,529 - INFO - 
 ------------------------------------------------------------
 
-2026-01-26 12:01:58,762 - INFO - 
+2026-01-27 16:46:42,063 - INFO - 
 Informations sur table_categories:
-2026-01-26 12:01:58,762 - INFO -    Nombre de lignes: 5
-2026-01-26 12:01:58,762 - INFO -    Colonnes: Category_ID, Category_Name
-2026-01-26 12:01:58,762 - INFO - 📊 Extraction de la table: table_categories
-2026-01-26 12:01:58,934 - INFO - 5 lignes extraites de table_categories
-2026-01-26 12:01:58,934 - INFO - Fichier sauvegardé: data/extracted/categories.csv
-2026-01-26 12:01:58,945 - INFO - 
+2026-01-27 16:46:42,064 - INFO -    Nombre de lignes: 5
+2026-01-27 16:46:42,064 - INFO -    Colonnes: Category_ID, Category_Name
+2026-01-27 16:46:42,064 - INFO -  Extraction de la table: table_categories
+2026-01-27 16:46:43,409 - INFO - 5 lignes extraites de table_categories
+2026-01-27 16:46:43,415 - INFO - Fichier sauvegard�: data/extracted/categories.csv
+2026-01-27 16:46:43,415 - INFO - 
 ------------------------------------------------------------
 
-2026-01-26 12:01:59,328 - INFO - 
+2026-01-27 16:46:47,285 - INFO - 
 Informations sur table_subcategories:
-2026-01-26 12:01:59,328 - INFO -    Nombre de lignes: 15
-2026-01-26 12:01:59,328 - INFO -    Colonnes: SubCat_ID, SubCat_Name, Category_ID
-2026-01-26 12:01:59,340 - INFO - 📊 Extraction de la table: table_subcategories
-2026-01-26 12:01:59,528 - INFO - 15 lignes extraites de table_subcategories
-2026-01-26 12:01:59,530 - INFO - Fichier sauvegardé: data/extracted/subcategories.csv
-2026-01-26 12:01:59,530 - INFO - 
+2026-01-27 16:46:47,285 - INFO -    Nombre de lignes: 15
+2026-01-27 16:46:47,285 - INFO -    Colonnes: SubCat_ID, SubCat_Name, Category_ID
+2026-01-27 16:46:47,285 - INFO -  Extraction de la table: table_subcategories
+2026-01-27 16:46:47,797 - INFO - 15 lignes extraites de table_subcategories
+2026-01-27 16:46:47,797 - INFO - Fichier sauvegard�: data/extracted/subcategories.csv
+2026-01-27 16:46:47,797 - INFO - 
 ------------------------------------------------------------
 
-2026-01-26 12:01:59,530 - INFO - 
+2026-01-27 16:46:47,797 - INFO - 
 ============================================================
-2026-01-26 12:01:59,530 - INFO -  RÉSUMÉ DE L'EXTRACTION
-2026-01-26 12:01:59,530 - INFO - ============================================================
+2026-01-27 16:46:47,797 - INFO -  R�SUM� DE L'EXTRACTION
+2026-01-27 16:46:47,797 - INFO - ============================================================
 
-2026-01-26 12:01:59,549 - INFO - 
+2026-01-27 16:46:47,797 - INFO - 
               Table  Lignes  Colonnes Statut
-        table_sales   25000         7 Succès
-     table_products      38         5 Succès
-      table_reviews    3000         5 Succès
-    table_customers    1200         3 Succès
-       table_stores      12         3 Succès
-       table_cities      12         3 Succès
-   table_categories       5         2 Succès
-table_subcategories      15         3 Succès
+        table_sales   25000         7 Succ�s
+     table_products      38         5 Succ�s
+      table_reviews    3000         5 Succ�s
+    table_customers    1200         3 Succ�s
+       table_stores      12         3 Succ�s
+       table_cities      12         3 Succ�s
+   table_categories       5         2 Succ�s
+table_subcategories      15         3 Succ�s
 
-2026-01-26 12:01:59,645 - INFO - Connexion fermée
-2026-01-26 12:01:59,658 - INFO - ============================================================
-2026-01-26 12:01:59,662 - INFO - Starting web scraping process
-2026-01-26 12:01:59,664 - INFO - ============================================================
-2026-01-26 12:01:59,668 - INFO - Fetching page: https://boughida.com/competitor/
-2026-01-26 12:02:00,478 - INFO - Page successfully retrieved
-2026-01-26 12:02:00,495 - INFO - Found additional pages: 2
-2026-01-26 12:02:00,495 - INFO - 
-Page 1/3: https://boughida.com/competitor/
-2026-01-26 12:02:00,495 - INFO - ------------------------------------------------------------
-2026-01-26 12:02:00,495 - INFO - Fetching page: https://boughida.com/competitor/
-2026-01-26 12:02:01,466 - INFO - Page successfully retrieved
-2026-01-26 12:02:01,466 - INFO - Found 13 potential product containers
-2026-01-26 12:02:01,477 - INFO - Extracted: Samsung S23 Ultra: 174800.0 DZD
-2026-01-26 12:02:01,478 - INFO - Extracted: HP LaserJet Pro: 46000.0 DZD
-2026-01-26 12:02:01,478 - INFO - Extracted: Dell 24 Monitor: 24200.0 DZD
-2026-01-26 12:02:01,478 - INFO - Extracted: Canon i-Sensys: 39000.0 DZD
-2026-01-26 12:02:01,485 - INFO - Extracted: Epson EcoTank: 27700.0 DZD
-2026-01-26 12:02:01,489 - INFO - Extracted: Nikon D3500: 69200.0 DZD
-2026-01-26 12:02:01,489 - INFO - Extracted: Xiaomi Redmi Note 12: 36800.0 DZD
-2026-01-26 12:02:01,494 - INFO - Extracted: HP Pavilion Desktop: 83000.0 DZD
-2026-01-26 12:02:01,494 - INFO - Extracted: Redmi Buds 4: 5300.0 DZD
-2026-01-26 12:02:01,494 - INFO - Extracted: DJI Mini 3: 126900.0 DZD
-2026-01-26 12:02:01,502 - INFO - Extracted: Sony SRS-XB13: 11100.0 DZD
-2026-01-26 12:02:01,502 - INFO - Extracted: ASUS ROG STRIX: 290600.0 DZD
-2026-01-26 12:02:01,502 - INFO - Extracted: LG UltraGear: 41700.0 DZD
-2026-01-26 12:02:03,510 - INFO - 
-Page 2/3: https://boughida.com/competitor/competitor_page_2.html
-2026-01-26 12:02:03,512 - INFO - ------------------------------------------------------------
-2026-01-26 12:02:03,512 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_2.html
-2026-01-26 12:02:04,423 - INFO - Page successfully retrieved
-2026-01-26 12:02:04,431 - INFO - Found 13 potential product containers
-2026-01-26 12:02:04,432 - INFO - Extracted: IPHONE CABLE: 3200.0 DZD
-2026-01-26 12:02:04,432 - INFO - Extracted: Lenovo ThinkPad: 94600.0 DZD
-2026-01-26 12:02:04,432 - INFO - Extracted: AirPods Pro: 47400.0 DZD
-2026-01-26 12:02:04,432 - INFO - Extracted: Phone Case Silicon: 1800.0 DZD
-2026-01-26 12:02:04,444 - INFO - Extracted: Sony WH-1000XM5: 65400.0 DZD
-2026-01-26 12:02:04,447 - INFO - Extracted: iPhone 13: 136900.0 DZD
-2026-01-26 12:02:04,448 - INFO - Extracted: Canon 445 Black: 2600.0 DZD
-2026-01-26 12:02:04,448 - INFO - Extracted: DJI Mavic 3: 350400.0 DZD
-2026-01-26 12:02:04,448 - INFO - Extracted: JBL Flip 6: 23500.0 DZD
-2026-01-26 12:02:04,448 - INFO - Extracted: HP VICTUS 15: 119700.0 DZD
-2026-01-26 12:02:04,459 - INFO - Extracted: HP 650 Black: 2900.0 DZD
-2026-01-26 12:02:04,463 - INFO - Extracted: Oppo Reno 8: 60200.0 DZD
-2026-01-26 12:02:04,467 - INFO - Extracted: SAMSUNG CHARGER 25W: 4200.0 DZD
-2026-01-26 12:02:06,470 - INFO - 
-Page 3/3: https://boughida.com/competitor/competitor_page_3.html
-2026-01-26 12:02:06,470 - INFO - ------------------------------------------------------------
-2026-01-26 12:02:06,474 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_3.html
-2026-01-26 12:02:07,377 - INFO - Page successfully retrieved
-2026-01-26 12:02:07,377 - INFO - Found 12 potential product containers
-2026-01-26 12:02:07,390 - INFO - Extracted: MacBook Air M2: 190500.0 DZD
-2026-01-26 12:02:07,394 - INFO - Extracted: Canon Pixma: 11600.0 DZD
-2026-01-26 12:02:07,394 - INFO - Extracted: Canon EOS 4000D: 60200.0 DZD
-2026-01-26 12:02:07,394 - INFO - Extracted: JBL Tune 510BT: 11200.0 DZD
-2026-01-26 12:02:07,394 - INFO - Extracted: Screen Protector: 930.0 DZD
-2026-01-26 12:02:07,394 - INFO - Extracted: Custom Gaming PC: 300000.0 DZD
-2026-01-26 12:02:07,403 - INFO - Extracted: Samsung Odyssey G5: 46700.0 DZD
-2026-01-26 12:02:07,403 - INFO - Extracted: Realme GT3: 71700.0 DZD
-2026-01-26 12:02:07,409 - INFO - Extracted: iPhone 14 Pro: 212700.0 DZD
-2026-01-26 12:02:07,411 - INFO - Extracted: IPHONE 15 PRO MAX: 281500.0 DZD
-2026-01-26 12:02:07,414 - INFO - Extracted: Dell XPS 13 5G: 242700.0 DZD
-2026-01-26 12:02:07,418 - INFO - Extracted: Dell OptiPlex: 64400.0 DZD
-2026-01-26 12:02:07,418 - INFO - ============================================================
-2026-01-26 12:02:07,418 - INFO - Scraping completed: 38 total products
-2026-01-26 12:02:07,418 - INFO - ============================================================
-2026-01-26 12:02:07,433 - INFO - 
-Data saved to: data/extracted/competitor_prices.csv
-2026-01-26 12:02:07,435 - INFO - Statistics:
-2026-01-26 12:02:07,435 - INFO -   Total products: 38
-2026-01-26 12:02:07,435 - INFO -   Average price: 89032.37 DZD
-2026-01-26 12:02:07,442 - INFO -   Price range: 930 - 350400 DZD
-2026-01-26 12:02:07,451 - INFO - ======================================================================
-2026-01-26 12:02:07,451 - INFO - STARTING OCR INVOICE PROCESSING
-2026-01-26 12:02:07,451 - INFO - ======================================================================
-2026-01-26 12:02:07,459 - INFO - Found 5 invoice images to process
-
-2026-01-26 12:02:07,459 - INFO - 
-======================================================================
-2026-01-26 12:02:07,462 - INFO - PROCESSING [1/5]: order_001.jpg
-2026-01-26 12:02:07,466 - INFO - ======================================================================
-2026-01-26 12:02:07,561 - WARNING - No text extracted from order_001.jpg
-2026-01-26 12:02:07,566 - INFO - 
-======================================================================
-2026-01-26 12:02:07,566 - INFO - PROCESSING [2/5]: order_002.jpg
-2026-01-26 12:02:07,566 - INFO - ======================================================================
-2026-01-26 12:02:07,694 - WARNING - No text extracted from order_002.jpg
-2026-01-26 12:02:07,698 - INFO - 
-======================================================================
-2026-01-26 12:02:07,698 - INFO - PROCESSING [3/5]: order_003.jpg
-2026-01-26 12:02:07,698 - INFO - ======================================================================
-2026-01-26 12:02:07,934 - WARNING - No text extracted from order_003.jpg
-2026-01-26 12:02:07,935 - INFO - 
-======================================================================
-2026-01-26 12:02:07,938 - INFO - PROCESSING [4/5]: order_004.jpg
-2026-01-26 12:02:07,940 - INFO - ======================================================================
-2026-01-26 12:02:08,043 - WARNING - No text extracted from order_004.jpg
-2026-01-26 12:02:08,043 - INFO - 
-======================================================================
-2026-01-26 12:02:08,043 - INFO - PROCESSING [5/5]: order_005.jpg
-2026-01-26 12:02:08,054 - INFO - ======================================================================
-2026-01-26 12:02:08,143 - WARNING - No text extracted from order_005.jpg
-2026-01-26 12:02:08,143 - INFO - 
-======================================================================
-2026-01-26 12:02:08,143 - INFO - OCR PROCESSING COMPLETED
-2026-01-26 12:02:08,143 - INFO - Successfully processed: 0/5 invoices
-2026-01-26 12:02:08,151 - INFO - ======================================================================
-2026-01-26 12:02:08,151 - ERROR - No data was extracted!
-2026-01-26 12:10:28,818 - INFO - Connexion réussie à techstore_erp
-2026-01-26 12:10:28,818 - INFO - 
+2026-01-27 16:46:47,797 - INFO - Extraction personnalis�e: Ventes avec d�tails complets
+2026-01-27 16:46:49,080 - ERROR - Erreur: Execution failed on sql '
+        SELECT 
+            s.Trans_ID,
+            s.Date,
+            s.Quantity,
+            s.Total_Revenue,
+            p.Product_Name,
+            p.Unit_Cost,
+            c.Category_Name,
+            st.Store_Name,
+            cu.Customer_Name
+        FROM table_sales s
+        JOIN table_products p ON s.Product_ID = p.Product_ID
+        JOIN table_categories c ON p.Category_ID = c.Category_ID
+        JOIN table_stores st ON s.Store_ID = st.Store_ID
+        JOIN table_customers cu ON s.Customer_ID = cu.Customer_ID
+        LIMIT 1000
+        ': 1054 (42S22): Unknown column 'cu.Customer_Name' in 'SELECT'
+2026-01-27 16:46:49,728 - INFO - Connexion ferm�e
+2026-01-27 16:46:49,728 - INFO - 
 ============================================================
-2026-01-26 12:10:28,818 - INFO -  DÉBUT DE L'EXTRACTION COMPLÈTE
-2026-01-26 12:10:28,818 - INFO - ============================================================
+2026-01-27 16:46:49,728 - INFO - EXTRACTION TERMIN�E AVEC SUCC�S
+2026-01-27 16:46:49,728 - INFO - ============================================================
+2026-01-27 17:07:43,093 - INFO - Connexion r�ussie � techstore_erp
+2026-01-27 17:07:43,093 - INFO - 
+============================================================
+2026-01-27 17:07:43,110 - INFO - ============================================================
 
-2026-01-26 12:10:29,410 - INFO - 
+2026-01-27 17:07:48,321 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:07:49,596 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:07:51,428 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:07:53,167 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:07:54,448 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:07:55,673 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:07:56,910 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:07:58,158 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:07:58,159 - INFO - 
+============================================================
+2026-01-27 17:07:58,162 - INFO - ============================================================
+
+2026-01-27 17:07:58,344 - INFO - Colonnes de table_customers: ['Customer_ID', 'Full_Name', 'City_ID']
+2026-01-27 17:07:59,665 - INFO - 
+============================================================
+2026-01-27 17:07:59,674 - INFO - ============================================================
+2026-01-27 17:08:16,683 - INFO - Connexion r�ussie � techstore_erp
+2026-01-27 17:08:16,683 - INFO - 
+============================================================
+2026-01-27 17:08:16,683 - INFO -  D�BUT DE L'EXTRACTION COMPL�TE
+2026-01-27 17:08:16,689 - INFO - ============================================================
+
+2026-01-27 17:08:17,347 - INFO - 
 Informations sur table_sales:
-2026-01-26 12:10:29,410 - INFO -    Nombre de lignes: 25000
-2026-01-26 12:10:29,418 - INFO -    Colonnes: Trans_ID, Date, Store_ID, Product_ID, Customer_ID, Quantity, Total_Revenue
-2026-01-26 12:10:29,423 - INFO - 📊 Extraction de la table: table_sales
-2026-01-26 12:10:30,835 - INFO - 25000 lignes extraites de table_sales
-2026-01-26 12:10:30,835 - INFO - Fichier sauvegardé: data/extracted/sales.csv
-2026-01-26 12:10:30,835 - INFO - 
+2026-01-27 17:08:17,347 - INFO -    Nombre de lignes: 25000
+2026-01-27 17:08:17,347 - INFO -    Colonnes: Trans_ID, Date, Store_ID, Product_ID, Customer_ID, Quantity, Total_Revenue
+2026-01-27 17:08:17,347 - INFO -  Extraction de la table: table_sales
+2026-01-27 17:08:19,843 - INFO - 25000 lignes extraites de table_sales
+2026-01-27 17:08:19,843 - INFO - Fichier sauvegard�: data/extracted/sales.csv
+2026-01-27 17:08:19,843 - INFO - 
 ------------------------------------------------------------
 
-2026-01-26 12:10:31,264 - INFO - 
+2026-01-27 17:08:20,159 - INFO - 
 Informations sur table_products:
-2026-01-26 12:10:31,268 - INFO -    Nombre de lignes: 38
-2026-01-26 12:10:31,268 - INFO -    Colonnes: Product_ID, Product_Name, SubCat_ID, Unit_Price, Unit_Cost
-2026-01-26 12:10:31,268 - INFO - 📊 Extraction de la table: table_products
-2026-01-26 12:10:31,486 - INFO - 38 lignes extraites de table_products
-2026-01-26 12:10:31,486 - INFO - Fichier sauvegardé: data/extracted/products.csv
-2026-01-26 12:10:31,495 - INFO - 
+2026-01-27 17:08:20,159 - INFO -    Nombre de lignes: 38
+2026-01-27 17:08:20,159 - INFO -    Colonnes: Product_ID, Product_Name, SubCat_ID, Unit_Price, Unit_Cost
+2026-01-27 17:08:20,165 - INFO -  Extraction de la table: table_products
+2026-01-27 17:08:20,333 - INFO - 38 lignes extraites de table_products
+2026-01-27 17:08:20,339 - INFO - Fichier sauvegard�: data/extracted/products.csv
+2026-01-27 17:08:20,344 - INFO - 
 ------------------------------------------------------------
 
-2026-01-26 12:10:31,889 - INFO - 
+2026-01-27 17:08:20,721 - INFO - 
 Informations sur table_reviews:
-2026-01-26 12:10:31,889 - INFO -    Nombre de lignes: 3000
-2026-01-26 12:10:31,893 - INFO -    Colonnes: Review_ID, Product_ID, Customer_ID, Rating, Review_Text
-2026-01-26 12:10:31,897 - INFO - 📊 Extraction de la table: table_reviews
-2026-01-26 12:10:32,235 - INFO - 3000 lignes extraites de table_reviews
-2026-01-26 12:10:32,235 - INFO - Fichier sauvegardé: data/extracted/reviews.csv
-2026-01-26 12:10:32,235 - INFO - 
+2026-01-27 17:08:20,721 - INFO -    Nombre de lignes: 3000
+2026-01-27 17:08:20,723 - INFO -    Colonnes: Review_ID, Product_ID, Customer_ID, Rating, Review_Text
+2026-01-27 17:08:20,723 - INFO -  Extraction de la table: table_reviews
+2026-01-27 17:08:21,463 - INFO - 3000 lignes extraites de table_reviews
+2026-01-27 17:08:21,463 - INFO - Fichier sauvegard�: data/extracted/reviews.csv
+2026-01-27 17:08:21,463 - INFO - 
 ------------------------------------------------------------
 
-2026-01-26 12:10:32,801 - INFO - 
+2026-01-27 17:08:21,879 - INFO - 
 Informations sur table_customers:
-2026-01-26 12:10:32,809 - INFO -    Nombre de lignes: 1200
-2026-01-26 12:10:32,809 - INFO -    Colonnes: Customer_ID, Full_Name, City_ID
-2026-01-26 12:10:32,809 - INFO - 📊 Extraction de la table: table_customers
-2026-01-26 12:10:33,023 - INFO - 1200 lignes extraites de table_customers
-2026-01-26 12:10:33,023 - INFO - Fichier sauvegardé: data/extracted/customers.csv
-2026-01-26 12:10:33,023 - INFO - 
+2026-01-27 17:08:21,879 - INFO -    Nombre de lignes: 1200
+2026-01-27 17:08:21,879 - INFO -    Colonnes: Customer_ID, Full_Name, City_ID
+2026-01-27 17:08:21,881 - INFO -  Extraction de la table: table_customers
+2026-01-27 17:08:22,393 - INFO - 1200 lignes extraites de table_customers
+2026-01-27 17:08:22,393 - INFO - Fichier sauvegard�: data/extracted/customers.csv
+2026-01-27 17:08:22,393 - INFO - 
 ------------------------------------------------------------
 
-2026-01-26 12:10:33,467 - INFO - 
+2026-01-27 17:08:22,721 - INFO - 
 Informations sur table_stores:
-2026-01-26 12:10:33,467 - INFO -    Nombre de lignes: 12
-2026-01-26 12:10:33,467 - INFO -    Colonnes: Store_ID, Store_Name, City_ID
-2026-01-26 12:10:33,476 - INFO - 📊 Extraction de la table: table_stores
-2026-01-26 12:10:33,682 - INFO - 12 lignes extraites de table_stores
-2026-01-26 12:10:33,695 - INFO - Fichier sauvegardé: data/extracted/stores.csv
-2026-01-26 12:10:33,695 - INFO - 
+2026-01-27 17:08:22,721 - INFO -    Nombre de lignes: 12
+2026-01-27 17:08:22,721 - INFO -    Colonnes: Store_ID, Store_Name, City_ID
+2026-01-27 17:08:22,721 - INFO -  Extraction de la table: table_stores
+2026-01-27 17:08:22,881 - INFO - 12 lignes extraites de table_stores
+2026-01-27 17:08:22,881 - INFO - Fichier sauvegard�: data/extracted/stores.csv
+2026-01-27 17:08:22,881 - INFO - 
 ------------------------------------------------------------
 
-2026-01-26 12:10:34,151 - INFO - 
+2026-01-27 17:08:23,233 - INFO - 
 Informations sur table_cities:
-2026-01-26 12:10:34,152 - INFO -    Nombre de lignes: 12
-2026-01-26 12:10:34,154 - INFO -    Colonnes: City_ID, City_Name, Region
-2026-01-26 12:10:34,157 - INFO - 📊 Extraction de la table: table_cities
-2026-01-26 12:10:34,347 - INFO - 12 lignes extraites de table_cities
-2026-01-26 12:10:34,347 - INFO - Fichier sauvegardé: data/extracted/cities.csv
-2026-01-26 12:10:34,347 - INFO - 
+2026-01-27 17:08:23,233 - INFO -    Nombre de lignes: 12
+2026-01-27 17:08:23,233 - INFO -    Colonnes: City_ID, City_Name, Region
+2026-01-27 17:08:23,237 - INFO -  Extraction de la table: table_cities
+2026-01-27 17:08:23,403 - INFO - 12 lignes extraites de table_cities
+2026-01-27 17:08:23,403 - INFO - Fichier sauvegard�: data/extracted/cities.csv
+2026-01-27 17:08:23,403 - INFO - 
 ------------------------------------------------------------
 
-2026-01-26 12:10:34,850 - INFO - 
+2026-01-27 17:08:23,723 - INFO - 
 Informations sur table_categories:
-2026-01-26 12:10:34,865 - INFO -    Nombre de lignes: 5
-2026-01-26 12:10:34,865 - INFO -    Colonnes: Category_ID, Category_Name
-2026-01-26 12:10:34,865 - INFO - 📊 Extraction de la table: table_categories
-2026-01-26 12:10:35,265 - INFO - 5 lignes extraites de table_categories
-2026-01-26 12:10:35,265 - INFO - Fichier sauvegardé: data/extracted/categories.csv
-2026-01-26 12:10:35,265 - INFO - 
+2026-01-27 17:08:23,726 - INFO -    Nombre de lignes: 5
+2026-01-27 17:08:23,726 - INFO -    Colonnes: Category_ID, Category_Name
+2026-01-27 17:08:23,726 - INFO -  Extraction de la table: table_categories
+2026-01-27 17:08:23,893 - INFO - 5 lignes extraites de table_categories
+2026-01-27 17:08:23,893 - INFO - Fichier sauvegard�: data/extracted/categories.csv
+2026-01-27 17:08:23,893 - INFO - 
 ------------------------------------------------------------
 
-2026-01-26 12:10:35,833 - INFO - 
+2026-01-27 17:08:24,209 - INFO - 
 Informations sur table_subcategories:
-2026-01-26 12:10:35,835 - INFO -    Nombre de lignes: 15
-2026-01-26 12:10:35,835 - INFO -    Colonnes: SubCat_ID, SubCat_Name, Category_ID
-2026-01-26 12:10:35,835 - INFO - 📊 Extraction de la table: table_subcategories
-2026-01-26 12:10:36,084 - INFO - 15 lignes extraites de table_subcategories
-2026-01-26 12:10:36,094 - INFO - Fichier sauvegardé: data/extracted/subcategories.csv
-2026-01-26 12:10:36,100 - INFO - 
+2026-01-27 17:08:24,216 - INFO -    Nombre de lignes: 15
+2026-01-27 17:08:24,216 - INFO -    Colonnes: SubCat_ID, SubCat_Name, Category_ID
+2026-01-27 17:08:24,216 - INFO -  Extraction de la table: table_subcategories
+2026-01-27 17:08:24,379 - INFO - 15 lignes extraites de table_subcategories
+2026-01-27 17:08:24,381 - INFO - Fichier sauvegard�: data/extracted/subcategories.csv
+2026-01-27 17:08:24,381 - INFO - 
 ------------------------------------------------------------
 
-2026-01-26 12:10:36,104 - INFO - 
+2026-01-27 17:08:24,381 - INFO - 
 ============================================================
-2026-01-26 12:10:36,104 - INFO -  RÉSUMÉ DE L'EXTRACTION
-2026-01-26 12:10:36,110 - INFO - ============================================================
+2026-01-27 17:08:24,381 - INFO -  R�SUM� DE L'EXTRACTION
+2026-01-27 17:08:24,381 - INFO - ============================================================
 
-2026-01-26 12:10:36,114 - INFO - 
+2026-01-27 17:08:24,381 - INFO - 
               Table  Lignes  Colonnes Statut
-        table_sales   25000         7 Succès
-     table_products      38         5 Succès
-      table_reviews    3000         5 Succès
-    table_customers    1200         3 Succès
-       table_stores      12         3 Succès
-       table_cities      12         3 Succès
-   table_categories       5         2 Succès
-table_subcategories      15         3 Succès
+        table_sales   25000         7 Succ�s
+     table_products      38         5 Succ�s
+      table_reviews    3000         5 Succ�s
+    table_customers    1200         3 Succ�s
+       table_stores      12         3 Succ�s
+       table_cities      12         3 Succ�s
+   table_categories       5         2 Succ�s
+table_subcategories      15         3 Succ�s
 
-2026-01-26 12:10:36,245 - INFO - Connexion fermée
-2026-01-26 12:10:36,246 - INFO - ============================================================
-2026-01-26 12:10:36,251 - INFO - Starting web scraping process
-2026-01-26 12:10:36,254 - INFO - ============================================================
-2026-01-26 12:10:36,254 - INFO - Fetching page: https://boughida.com/competitor/
-2026-01-26 12:10:37,334 - INFO - Page successfully retrieved
-2026-01-26 12:10:37,344 - INFO - Found additional pages: 2
-2026-01-26 12:10:37,344 - INFO - 
-Page 1/3: https://boughida.com/competitor/
-2026-01-26 12:10:37,351 - INFO - ------------------------------------------------------------
-2026-01-26 12:10:37,354 - INFO - Fetching page: https://boughida.com/competitor/
-2026-01-26 12:10:38,457 - INFO - Page successfully retrieved
-2026-01-26 12:10:38,466 - INFO - Found 13 potential product containers
-2026-01-26 12:10:38,466 - INFO - Extracted: Samsung S23 Ultra: 174800.0 DZD
-2026-01-26 12:10:38,466 - INFO - Extracted: HP LaserJet Pro: 46000.0 DZD
-2026-01-26 12:10:38,466 - INFO - Extracted: Dell 24 Monitor: 24200.0 DZD
-2026-01-26 12:10:38,475 - INFO - Extracted: Canon i-Sensys: 39000.0 DZD
-2026-01-26 12:10:38,478 - INFO - Extracted: Epson EcoTank: 27700.0 DZD
-2026-01-26 12:10:38,485 - INFO - Extracted: Nikon D3500: 69200.0 DZD
-2026-01-26 12:10:38,485 - INFO - Extracted: Xiaomi Redmi Note 12: 36800.0 DZD
-2026-01-26 12:10:38,485 - INFO - Extracted: HP Pavilion Desktop: 83000.0 DZD
-2026-01-26 12:10:38,494 - INFO - Extracted: Redmi Buds 4: 5300.0 DZD
-2026-01-26 12:10:38,494 - INFO - Extracted: DJI Mini 3: 126900.0 DZD
-2026-01-26 12:10:38,502 - INFO - Extracted: Sony SRS-XB13: 11100.0 DZD
-2026-01-26 12:10:38,502 - INFO - Extracted: ASUS ROG STRIX: 290600.0 DZD
-2026-01-26 12:10:38,511 - INFO - Extracted: LG UltraGear: 41700.0 DZD
-2026-01-26 12:10:40,516 - INFO - 
-Page 2/3: https://boughida.com/competitor/competitor_page_2.html
-2026-01-26 12:10:40,516 - INFO - ------------------------------------------------------------
-2026-01-26 12:10:40,516 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_2.html
-2026-01-26 12:10:41,433 - INFO - Page successfully retrieved
-2026-01-26 12:10:41,444 - INFO - Found 13 potential product containers
-2026-01-26 12:10:41,451 - INFO - Extracted: IPHONE CABLE: 3200.0 DZD
-2026-01-26 12:10:41,451 - INFO - Extracted: Lenovo ThinkPad: 94600.0 DZD
-2026-01-26 12:10:41,451 - INFO - Extracted: AirPods Pro: 47400.0 DZD
-2026-01-26 12:10:41,458 - INFO - Extracted: Phone Case Silicon: 1800.0 DZD
-2026-01-26 12:10:41,458 - INFO - Extracted: Sony WH-1000XM5: 65400.0 DZD
-2026-01-26 12:10:41,466 - INFO - Extracted: iPhone 13: 136900.0 DZD
-2026-01-26 12:10:41,470 - INFO - Extracted: Canon 445 Black: 2600.0 DZD
-2026-01-26 12:10:41,475 - INFO - Extracted: DJI Mavic 3: 350400.0 DZD
-2026-01-26 12:10:41,481 - INFO - Extracted: JBL Flip 6: 23500.0 DZD
-2026-01-26 12:10:41,486 - INFO - Extracted: HP VICTUS 15: 119700.0 DZD
-2026-01-26 12:10:41,487 - INFO - Extracted: HP 650 Black: 2900.0 DZD
-2026-01-26 12:10:41,493 - INFO - Extracted: Oppo Reno 8: 60200.0 DZD
-2026-01-26 12:10:41,500 - INFO - Extracted: SAMSUNG CHARGER 25W: 4200.0 DZD
-2026-01-26 12:10:43,509 - INFO - 
-Page 3/3: https://boughida.com/competitor/competitor_page_3.html
-2026-01-26 12:10:43,509 - INFO - ------------------------------------------------------------
-2026-01-26 12:10:43,509 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_3.html
-2026-01-26 12:10:44,607 - INFO - Page successfully retrieved
-2026-01-26 12:10:44,619 - INFO - Found 12 potential product containers
-2026-01-26 12:10:44,619 - INFO - Extracted: MacBook Air M2: 190500.0 DZD
-2026-01-26 12:10:44,622 - INFO - Extracted: Canon Pixma: 11600.0 DZD
-2026-01-26 12:10:44,625 - INFO - Extracted: Canon EOS 4000D: 60200.0 DZD
-2026-01-26 12:10:44,625 - INFO - Extracted: JBL Tune 510BT: 11200.0 DZD
-2026-01-26 12:10:44,631 - INFO - Extracted: Screen Protector: 930.0 DZD
-2026-01-26 12:10:44,635 - INFO - Extracted: Custom Gaming PC: 300000.0 DZD
-2026-01-26 12:10:44,639 - INFO - Extracted: Samsung Odyssey G5: 46700.0 DZD
-2026-01-26 12:10:44,645 - INFO - Extracted: Realme GT3: 71700.0 DZD
-2026-01-26 12:10:44,647 - INFO - Extracted: iPhone 14 Pro: 212700.0 DZD
-2026-01-26 12:10:44,652 - INFO - Extracted: IPHONE 15 PRO MAX: 281500.0 DZD
-2026-01-26 12:10:44,654 - INFO - Extracted: Dell XPS 13 5G: 242700.0 DZD
-2026-01-26 12:10:44,657 - INFO - Extracted: Dell OptiPlex: 64400.0 DZD
-2026-01-26 12:10:44,657 - INFO - ============================================================
-2026-01-26 12:10:44,666 - INFO - Scraping completed: 38 total products
-2026-01-26 12:10:44,666 - INFO - ============================================================
-2026-01-26 12:10:44,674 - INFO - 
-Data saved to: data/extracted/competitor_prices.csv
-2026-01-26 12:10:44,674 - INFO - Statistics:
-2026-01-26 12:10:44,685 - INFO -   Total products: 38
-2026-01-26 12:10:44,685 - INFO -   Average price: 89032.37 DZD
-2026-01-26 12:10:44,685 - INFO -   Price range: 930 - 350400 DZD
-2026-01-26 12:10:44,702 - INFO - ======================================================================
-2026-01-26 12:10:44,705 - INFO - STARTING OCR INVOICE PROCESSING
-2026-01-26 12:10:44,706 - INFO - ======================================================================
-2026-01-26 12:10:44,708 - INFO - Found 5 invoice images to process
-
-2026-01-26 12:10:44,713 - INFO - 
-======================================================================
-2026-01-26 12:10:44,715 - INFO - PROCESSING [1/5]: order_001.jpg
-2026-01-26 12:10:44,715 - INFO - ======================================================================
-2026-01-26 12:10:44,815 - WARNING - No text extracted from order_001.jpg
-2026-01-26 12:10:44,815 - INFO - 
-======================================================================
-2026-01-26 12:10:44,815 - INFO - PROCESSING [2/5]: order_002.jpg
-2026-01-26 12:10:44,815 - INFO - ======================================================================
-2026-01-26 12:10:44,941 - WARNING - No text extracted from order_002.jpg
-2026-01-26 12:10:44,948 - INFO - 
-======================================================================
-2026-01-26 12:10:44,949 - INFO - PROCESSING [3/5]: order_003.jpg
-2026-01-26 12:10:44,952 - INFO - ======================================================================
-2026-01-26 12:10:45,055 - WARNING - No text extracted from order_003.jpg
-2026-01-26 12:10:45,056 - INFO - 
-======================================================================
-2026-01-26 12:10:45,056 - INFO - PROCESSING [4/5]: order_004.jpg
-2026-01-26 12:10:45,056 - INFO - ======================================================================
-2026-01-26 12:10:45,175 - WARNING - No text extracted from order_004.jpg
-2026-01-26 12:10:45,175 - INFO - 
-======================================================================
-2026-01-26 12:10:45,175 - INFO - PROCESSING [5/5]: order_005.jpg
-2026-01-26 12:10:45,175 - INFO - ======================================================================
-2026-01-26 12:10:45,293 - WARNING - No text extracted from order_005.jpg
-2026-01-26 12:10:45,295 - INFO - 
-======================================================================
-2026-01-26 12:10:45,299 - INFO - OCR PROCESSING COMPLETED
-2026-01-26 12:10:45,299 - INFO - Successfully processed: 0/5 invoices
-2026-01-26 12:10:45,299 - INFO - ======================================================================
-2026-01-26 12:10:45,299 - ERROR - No data was extracted!
-2026-01-27 16:42:54,560 - INFO - Connexion réussie à techstore_erp
-2026-01-27 16:42:54,560 - INFO - 
+2026-01-27 17:08:24,389 - INFO - Extraction personnalis�e: Ventes avec d�tails complets
+2026-01-27 17:08:24,633 - ERROR - Erreur: Execution failed on sql '
+        SELECT 
+            s.Trans_ID,
+            s.Date,
+            s.Quantity,
+            s.Total_Revenue,
+            p.Product_Name,
+            p.Unit_Cost,
+            c.Category_Name,
+            st.Store_Name,
+            cu.Customer_Name
+        FROM table_sales s
+        JOIN table_products p ON s.Product_ID = p.Product_ID
+        JOIN table_categories c ON p.Category_ID = c.Category_ID
+        JOIN table_stores st ON s.Store_ID = st.Store_ID
+        JOIN table_customers cu ON s.Customer_ID = cu.Customer_ID
+        LIMIT 1000
+        ': 1054 (42S22): Unknown column 'cu.Customer_Name' in 'SELECT'
+2026-01-27 17:08:24,769 - INFO - Connexion ferm�e
+2026-01-27 17:08:24,769 - INFO - 
 ============================================================
-2026-01-27 16:42:54,560 - INFO -  DÉBUT DE L'EXTRACTION COMPLÈTE
-2026-01-27 16:42:54,560 - INFO - ============================================================
+2026-01-27 17:08:24,769 - INFO - EXTRACTION TERMIN�E AVEC SUCC�S
+2026-01-27 17:08:24,769 - INFO - ============================================================
+2026-01-27 17:21:23,899 - INFO - Connexion r�ussie � techstore_erp
+2026-01-27 17:21:23,903 - INFO - 
+============================================================
+2026-01-27 17:21:23,903 - INFO -  D�BUT DE L'EXTRACTION COMPL�TE
+2026-01-27 17:21:23,903 - INFO - ============================================================
 
-2026-01-27 16:42:54,934 - INFO - 
+2026-01-27 17:21:26,007 - INFO - 
 Informations sur table_sales:
-2026-01-27 16:42:54,935 - INFO -    Nombre de lignes: 25000
-2026-01-27 16:42:54,935 - INFO -    Colonnes: Trans_ID, Date, Store_ID, Product_ID, Customer_ID, Quantity, Total_Revenue
-2026-01-27 16:42:54,935 - INFO -  Extraction de la table: table_sales
-2026-01-27 16:42:56,020 - INFO - 25000 lignes extraites de table_sales
-2026-01-27 16:42:56,020 - INFO - Fichier sauvegardé: data/extracted/sales.csv
-2026-01-27 16:42:56,020 - INFO - 
+2026-01-27 17:21:26,007 - INFO -    Nombre de lignes: 25000
+2026-01-27 17:21:26,007 - INFO -    Colonnes: Trans_ID, Date, Store_ID, Product_ID, Customer_ID, Quantity, Total_Revenue
+2026-01-27 17:21:26,007 - INFO -  Extraction de la table: table_sales
+2026-01-27 17:21:30,169 - INFO - 25000 lignes extraites de table_sales
+2026-01-27 17:21:30,169 - INFO - Fichier sauvegard�: data/extracted/sales.csv
+2026-01-27 17:21:30,169 - INFO - 
 ------------------------------------------------------------
 
-2026-01-27 16:42:56,373 - INFO - 
+2026-01-27 17:21:30,501 - INFO - 
 Informations sur table_products:
-2026-01-27 16:42:56,373 - INFO -    Nombre de lignes: 38
-2026-01-27 16:42:56,385 - INFO -    Colonnes: Product_ID, Product_Name, SubCat_ID, Unit_Price, Unit_Cost
-2026-01-27 16:42:56,387 - INFO -  Extraction de la table: table_products
-2026-01-27 16:42:56,537 - INFO - 38 lignes extraites de table_products
-2026-01-27 16:42:56,537 - INFO - Fichier sauvegardé: data/extracted/products.csv
-2026-01-27 16:42:56,553 - INFO - 
+2026-01-27 17:21:30,514 - INFO -    Nombre de lignes: 38
+2026-01-27 17:21:30,516 - INFO -    Colonnes: Product_ID, Product_Name, SubCat_ID, Unit_Price, Unit_Cost
+2026-01-27 17:21:30,516 - INFO -  Extraction de la table: table_products
+2026-01-27 17:21:30,690 - INFO - 38 lignes extraites de table_products
+2026-01-27 17:21:30,690 - INFO - Fichier sauvegard�: data/extracted/products.csv
+2026-01-27 17:21:30,690 - INFO - 
 ------------------------------------------------------------
 
-2026-01-27 16:42:56,853 - INFO - 
+2026-01-27 17:21:31,015 - INFO - 
 Informations sur table_reviews:
-2026-01-27 16:42:56,853 - INFO -    Nombre de lignes: 3000
-2026-01-27 16:42:56,853 - INFO -    Colonnes: Review_ID, Product_ID, Customer_ID, Rating, Review_Text
-2026-01-27 16:42:56,853 - INFO -  Extraction de la table: table_reviews
-2026-01-27 16:42:57,055 - INFO - 3000 lignes extraites de table_reviews
-2026-01-27 16:42:57,055 - INFO - Fichier sauvegardé: data/extracted/reviews.csv
-2026-01-27 16:42:57,055 - INFO - 
+2026-01-27 17:21:31,030 - INFO -    Nombre de lignes: 3000
+2026-01-27 17:21:31,032 - INFO -    Colonnes: Review_ID, Product_ID, Customer_ID, Rating, Review_Text
+2026-01-27 17:21:31,032 - INFO -  Extraction de la table: table_reviews
+2026-01-27 17:21:31,718 - INFO - 3000 lignes extraites de table_reviews
+2026-01-27 17:21:31,718 - INFO - Fichier sauvegard�: data/extracted/reviews.csv
+2026-01-27 17:21:31,718 - INFO - 
 ------------------------------------------------------------
 
-2026-01-27 16:42:57,408 - INFO - 
+2026-01-27 17:21:32,056 - INFO - 
 Informations sur table_customers:
-2026-01-27 16:42:57,408 - INFO -    Nombre de lignes: 1200
-2026-01-27 16:42:57,408 - INFO -    Colonnes: Customer_ID, Full_Name, City_ID
-2026-01-27 16:42:57,411 - INFO -  Extraction de la table: table_customers
-2026-01-27 16:42:57,586 - INFO - 1200 lignes extraites de table_customers
-2026-01-27 16:42:57,587 - INFO - Fichier sauvegardé: data/extracted/customers.csv
-2026-01-27 16:42:57,589 - INFO - 
+2026-01-27 17:21:32,056 - INFO -    Nombre de lignes: 1200
+2026-01-27 17:21:32,058 - INFO -    Colonnes: Customer_ID, Full_Name, City_ID
+2026-01-27 17:21:32,058 - INFO -  Extraction de la table: table_customers
+2026-01-27 17:21:32,775 - INFO - 1200 lignes extraites de table_customers
+2026-01-27 17:21:32,775 - INFO - Fichier sauvegard�: data/extracted/customers.csv
+2026-01-27 17:21:32,777 - INFO - 
 ------------------------------------------------------------
 
-2026-01-27 16:42:57,842 - INFO - 
+2026-01-27 17:21:33,130 - INFO - 
 Informations sur table_stores:
-2026-01-27 16:42:57,842 - INFO -    Nombre de lignes: 12
-2026-01-27 16:42:57,842 - INFO -    Colonnes: Store_ID, Store_Name, City_ID
-2026-01-27 16:42:57,842 - INFO -  Extraction de la table: table_stores
-2026-01-27 16:42:58,024 - INFO - 12 lignes extraites de table_stores
-2026-01-27 16:42:58,024 - INFO - Fichier sauvegardé: data/extracted/stores.csv
-2026-01-27 16:42:58,024 - INFO - 
+2026-01-27 17:21:33,130 - INFO -    Nombre de lignes: 12
+2026-01-27 17:21:33,130 - INFO -    Colonnes: Store_ID, Store_Name, City_ID
+2026-01-27 17:21:33,130 - INFO -  Extraction de la table: table_stores
+2026-01-27 17:21:33,312 - INFO - 12 lignes extraites de table_stores
+2026-01-27 17:21:33,312 - INFO - Fichier sauvegard�: data/extracted/stores.csv
+2026-01-27 17:21:33,312 - INFO - 
 ------------------------------------------------------------
 
-2026-01-27 16:42:58,321 - INFO - 
+2026-01-27 17:21:33,679 - INFO - 
 Informations sur table_cities:
-2026-01-27 16:42:58,321 - INFO -    Nombre de lignes: 12
-2026-01-27 16:42:58,321 - INFO -    Colonnes: City_ID, City_Name, Region
-2026-01-27 16:42:58,336 - INFO -  Extraction de la table: table_cities
-2026-01-27 16:42:58,480 - INFO - 12 lignes extraites de table_cities
-2026-01-27 16:42:58,485 - INFO - Fichier sauvegardé: data/extracted/cities.csv
-2026-01-27 16:42:58,487 - INFO - 
+2026-01-27 17:21:33,679 - INFO -    Nombre de lignes: 12
+2026-01-27 17:21:33,679 - INFO -    Colonnes: City_ID, City_Name, Region
+2026-01-27 17:21:33,679 - INFO -  Extraction de la table: table_cities
+2026-01-27 17:21:33,856 - INFO - 12 lignes extraites de table_cities
+2026-01-27 17:21:33,856 - INFO - Fichier sauvegard�: data/extracted/cities.csv
+2026-01-27 17:21:33,856 - INFO - 
 ------------------------------------------------------------
 
-2026-01-27 16:42:58,824 - INFO - 
+2026-01-27 17:21:34,179 - INFO - 
 Informations sur table_categories:
-2026-01-27 16:42:58,824 - INFO -    Nombre de lignes: 5
-2026-01-27 16:42:58,824 - INFO -    Colonnes: Category_ID, Category_Name
-2026-01-27 16:42:58,824 - INFO -  Extraction de la table: table_categories
-2026-01-27 16:42:58,991 - INFO - 5 lignes extraites de table_categories
-2026-01-27 16:42:58,991 - INFO - Fichier sauvegardé: data/extracted/categories.csv
-2026-01-27 16:42:58,991 - INFO - 
+2026-01-27 17:21:34,179 - INFO -    Nombre de lignes: 5
+2026-01-27 17:21:34,179 - INFO -    Colonnes: Category_ID, Category_Name
+2026-01-27 17:21:34,179 - INFO -  Extraction de la table: table_categories
+2026-01-27 17:21:34,368 - INFO - 5 lignes extraites de table_categories
+2026-01-27 17:21:34,368 - INFO - Fichier sauvegard�: data/extracted/categories.csv
+2026-01-27 17:21:34,368 - INFO - 
 ------------------------------------------------------------
 
-2026-01-27 16:42:59,290 - INFO - 
+2026-01-27 17:21:34,705 - INFO - 
 Informations sur table_subcategories:
-2026-01-27 16:42:59,290 - INFO -    Nombre de lignes: 15
-2026-01-27 16:42:59,290 - INFO -    Colonnes: SubCat_ID, SubCat_Name, Category_ID
-2026-01-27 16:42:59,290 - INFO -  Extraction de la table: table_subcategories
-2026-01-27 16:42:59,479 - INFO - 15 lignes extraites de table_subcategories
-2026-01-27 16:42:59,481 - INFO - Fichier sauvegardé: data/extracted/subcategories.csv
-2026-01-27 16:42:59,483 - INFO - 
+2026-01-27 17:21:34,705 - INFO -    Nombre de lignes: 15
+2026-01-27 17:21:34,705 - INFO -    Colonnes: SubCat_ID, SubCat_Name, Category_ID
+2026-01-27 17:21:34,705 - INFO -  Extraction de la table: table_subcategories
+2026-01-27 17:21:34,878 - INFO - 15 lignes extraites de table_subcategories
+2026-01-27 17:21:34,880 - INFO - Fichier sauvegard�: data/extracted/subcategories.csv
+2026-01-27 17:21:34,882 - INFO - 
 ------------------------------------------------------------
 
-2026-01-27 16:42:59,484 - INFO - 
+2026-01-27 17:21:34,882 - INFO - 
 ============================================================
-2026-01-27 16:42:59,485 - INFO -  RÉSUMÉ DE L'EXTRACTION
-2026-01-27 16:42:59,486 - INFO - ============================================================
+2026-01-27 17:21:34,882 - INFO -  R�SUM� DE L'EXTRACTION
+2026-01-27 17:21:34,884 - INFO - ============================================================
 
-2026-01-27 16:42:59,488 - INFO - 
+2026-01-27 17:21:34,884 - INFO - 
               Table  Lignes  Colonnes Statut
-        table_sales   25000         7 Succès
-     table_products      38         5 Succès
-      table_reviews    3000         5 Succès
-    table_customers    1200         3 Succès
-       table_stores      12         3 Succès
-       table_cities      12         3 Succès
-   table_categories       5         2 Succès
-table_subcategories      15         3 Succès
+        table_sales   25000         7 Succ�s
+     table_products      38         5 Succ�s
+      table_reviews    3000         5 Succ�s
+    table_customers    1200         3 Succ�s
+       table_stores      12         3 Succ�s
+       table_cities      12         3 Succ�s
+   table_categories       5         2 Succ�s
+table_subcategories      15         3 Succ�s
 
-2026-01-27 16:42:59,568 - INFO - Connexion fermée
-2026-01-27 16:42:59,774 - INFO - ============================================================
-2026-01-27 16:42:59,774 - INFO - Starting web scraping process
-2026-01-27 16:42:59,774 - INFO - ============================================================
-2026-01-27 16:42:59,774 - INFO - Fetching page: https://boughida.com/competitor/
-2026-01-27 16:43:00,277 - INFO - Page successfully retrieved
-2026-01-27 16:43:00,281 - INFO - Found additional pages: 2
-2026-01-27 16:43:00,281 - INFO - 
+2026-01-27 17:21:34,897 - INFO - Extraction personnalis�e: Ventes avec d�tails complets
+2026-01-27 17:21:35,181 - ERROR - Erreur: Execution failed on sql '
+        SELECT 
+            s.Trans_ID,
+            s.Date,
+            s.Quantity,
+            s.Total_Revenue,
+            p.Product_Name,
+            p.Unit_Cost,
+            c.Category_Name,
+            st.Store_Name,
+            cu.Customer_Name
+        FROM table_sales s
+        JOIN table_products p ON s.Product_ID = p.Product_ID
+        JOIN table_categories c ON p.Category_ID = c.Category_ID
+        JOIN table_stores st ON s.Store_ID = st.Store_ID
+        JOIN table_customers cu ON s.Customer_ID = cu.Customer_ID
+        LIMIT 1000
+        ': 1054 (42S22): Unknown column 'cu.Customer_Name' in 'SELECT'
+2026-01-27 17:21:35,289 - INFO - Connexion ferm�e
+2026-01-27 17:21:35,289 - INFO - 
+============================================================
+2026-01-27 17:21:35,289 - INFO - EXTRACTION TERMIN�E AVEC SUCC�S
+2026-01-27 17:21:35,289 - INFO - ============================================================
+2026-01-27 17:33:51,332 - INFO - Connexion r�ussie � techstore_erp
+2026-01-27 17:33:51,332 - INFO - 
+============================================================
+2026-01-27 17:33:51,332 - INFO -  D�BUT DE L'EXTRACTION COMPL�TE
+2026-01-27 17:33:51,332 - INFO - ============================================================
+
+2026-01-27 17:33:52,122 - INFO - 
+Informations sur table_sales:
+2026-01-27 17:33:52,122 - INFO -    Nombre de lignes: 25000
+2026-01-27 17:33:52,122 - INFO -    Colonnes: Trans_ID, Date, Store_ID, Product_ID, Customer_ID, Quantity, Total_Revenue
+2026-01-27 17:33:52,124 - INFO -  Extraction de la table: table_sales
+2026-01-27 17:33:54,694 - INFO - 25000 lignes extraites de table_sales
+2026-01-27 17:33:54,694 - INFO - Fichier sauvegard�: data/extracted/sales.csv
+2026-01-27 17:33:54,694 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:33:55,048 - INFO - 
+Informations sur table_products:
+2026-01-27 17:33:55,049 - INFO -    Nombre de lignes: 38
+2026-01-27 17:33:55,051 - INFO -    Colonnes: Product_ID, Product_Name, SubCat_ID, Unit_Price, Unit_Cost
+2026-01-27 17:33:55,051 - INFO -  Extraction de la table: table_products
+2026-01-27 17:33:55,223 - INFO - 38 lignes extraites de table_products
+2026-01-27 17:33:55,223 - INFO - Fichier sauvegard�: data/extracted/products.csv
+2026-01-27 17:33:55,223 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:33:55,582 - INFO - 
+Informations sur table_reviews:
+2026-01-27 17:33:55,582 - INFO -    Nombre de lignes: 3000
+2026-01-27 17:33:55,587 - INFO -    Colonnes: Review_ID, Product_ID, Customer_ID, Rating, Review_Text
+2026-01-27 17:33:55,587 - INFO -  Extraction de la table: table_reviews
+2026-01-27 17:33:56,236 - INFO - 3000 lignes extraites de table_reviews
+2026-01-27 17:33:56,236 - INFO - Fichier sauvegard�: data/extracted/reviews.csv
+2026-01-27 17:33:56,238 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:33:56,587 - INFO - 
+Informations sur table_customers:
+2026-01-27 17:33:56,587 - INFO -    Nombre de lignes: 1200
+2026-01-27 17:33:56,589 - INFO -    Colonnes: Customer_ID, Full_Name, City_ID
+2026-01-27 17:33:56,589 - INFO -  Extraction de la table: table_customers
+2026-01-27 17:33:57,177 - INFO - 1200 lignes extraites de table_customers
+2026-01-27 17:33:57,177 - INFO - Fichier sauvegard�: data/extracted/customers.csv
+2026-01-27 17:33:57,180 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:33:57,536 - INFO - 
+Informations sur table_stores:
+2026-01-27 17:33:57,536 - INFO -    Nombre de lignes: 12
+2026-01-27 17:33:57,539 - INFO -    Colonnes: Store_ID, Store_Name, City_ID
+2026-01-27 17:33:57,539 - INFO -  Extraction de la table: table_stores
+2026-01-27 17:33:57,720 - INFO - 12 lignes extraites de table_stores
+2026-01-27 17:33:57,720 - INFO - Fichier sauvegard�: data/extracted/stores.csv
+2026-01-27 17:33:57,720 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:33:58,068 - INFO - 
+Informations sur table_cities:
+2026-01-27 17:33:58,068 - INFO -    Nombre de lignes: 12
+2026-01-27 17:33:58,068 - INFO -    Colonnes: City_ID, City_Name, Region
+2026-01-27 17:33:58,068 - INFO -  Extraction de la table: table_cities
+2026-01-27 17:33:58,255 - INFO - 12 lignes extraites de table_cities
+2026-01-27 17:33:58,255 - INFO - Fichier sauvegard�: data/extracted/cities.csv
+2026-01-27 17:33:58,255 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:33:58,608 - INFO - 
+Informations sur table_categories:
+2026-01-27 17:33:58,608 - INFO -    Nombre de lignes: 5
+2026-01-27 17:33:58,610 - INFO -    Colonnes: Category_ID, Category_Name
+2026-01-27 17:33:58,610 - INFO -  Extraction de la table: table_categories
+2026-01-27 17:33:58,779 - INFO - 5 lignes extraites de table_categories
+2026-01-27 17:33:58,779 - INFO - Fichier sauvegard�: data/extracted/categories.csv
+2026-01-27 17:33:58,779 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:33:59,133 - INFO - 
+Informations sur table_subcategories:
+2026-01-27 17:33:59,133 - INFO -    Nombre de lignes: 15
+2026-01-27 17:33:59,133 - INFO -    Colonnes: SubCat_ID, SubCat_Name, Category_ID
+2026-01-27 17:33:59,133 - INFO -  Extraction de la table: table_subcategories
+2026-01-27 17:33:59,323 - INFO - 15 lignes extraites de table_subcategories
+2026-01-27 17:33:59,325 - INFO - Fichier sauvegard�: data/extracted/subcategories.csv
+2026-01-27 17:33:59,325 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:33:59,325 - INFO - 
+============================================================
+2026-01-27 17:33:59,327 - INFO -  R�SUM� DE L'EXTRACTION
+2026-01-27 17:33:59,327 - INFO - ============================================================
+
+2026-01-27 17:33:59,332 - INFO - 
+              Table  Lignes  Colonnes Statut
+        table_sales   25000         7 Succ�s
+     table_products      38         5 Succ�s
+      table_reviews    3000         5 Succ�s
+    table_customers    1200         3 Succ�s
+       table_stores      12         3 Succ�s
+       table_cities      12         3 Succ�s
+   table_categories       5         2 Succ�s
+table_subcategories      15         3 Succ�s
+
+2026-01-27 17:33:59,338 - INFO - Extraction personnalis�e: Ventes avec d�tails complets
+2026-01-27 17:33:59,599 - ERROR - Erreur: Execution failed on sql '
+        SELECT 
+            s.Trans_ID,
+            s.Date,
+            s.Quantity,
+            s.Total_Revenue,
+            p.Product_Name,
+            p.Unit_Cost,
+            c.Category_Name,
+            st.Store_Name,
+            cu.Customer_Name
+        FROM table_sales s
+        JOIN table_products p ON s.Product_ID = p.Product_ID
+        JOIN table_categories c ON p.Category_ID = c.Category_ID
+        JOIN table_stores st ON s.Store_ID = st.Store_ID
+        JOIN table_customers cu ON s.Customer_ID = cu.Customer_ID
+        LIMIT 1000
+        ': 1054 (42S22): Unknown column 'cu.Customer_Name' in 'SELECT'
+2026-01-27 17:33:59,688 - INFO - Connexion ferm�e
+2026-01-27 17:33:59,696 - INFO - 
+============================================================
+2026-01-27 17:33:59,696 - INFO - EXTRACTION TERMIN�E AVEC SUCC�S
+2026-01-27 17:33:59,696 - INFO - ============================================================
+2026-01-27 17:43:39,416 - INFO - Connexion r�ussie � techstore_erp
+2026-01-27 17:43:39,420 - INFO - 
+============================================================
+2026-01-27 17:43:39,421 - INFO -  D�BUT DE L'EXTRACTION COMPL�TE
+2026-01-27 17:43:39,425 - INFO - ============================================================
+
+2026-01-27 17:43:40,726 - INFO - 
+Informations sur table_sales:
+2026-01-27 17:43:40,726 - INFO -    Nombre de lignes: 25000
+2026-01-27 17:43:40,726 - INFO -    Colonnes: Trans_ID, Date, Store_ID, Product_ID, Customer_ID, Quantity, Total_Revenue
+2026-01-27 17:43:40,726 - INFO -  Extraction de la table: table_sales
+2026-01-27 17:43:49,110 - INFO - 25000 lignes extraites de table_sales
+2026-01-27 17:43:49,110 - INFO - Fichier sauvegard�: data/extracted/sales.csv
+2026-01-27 17:43:49,110 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:43:49,687 - INFO - 
+Informations sur table_products:
+2026-01-27 17:43:49,690 - INFO -    Nombre de lignes: 38
+2026-01-27 17:43:49,691 - INFO -    Colonnes: Product_ID, Product_Name, SubCat_ID, Unit_Price, Unit_Cost
+2026-01-27 17:43:49,692 - INFO -  Extraction de la table: table_products
+2026-01-27 17:43:49,976 - INFO - 38 lignes extraites de table_products
+2026-01-27 17:43:49,976 - INFO - Fichier sauvegard�: data/extracted/products.csv
+2026-01-27 17:43:49,981 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:43:50,374 - INFO - 
+Informations sur table_reviews:
+2026-01-27 17:43:50,374 - INFO -    Nombre de lignes: 3000
+2026-01-27 17:43:50,374 - INFO -    Colonnes: Review_ID, Product_ID, Customer_ID, Rating, Review_Text
+2026-01-27 17:43:50,374 - INFO -  Extraction de la table: table_reviews
+2026-01-27 17:43:51,751 - INFO - 3000 lignes extraites de table_reviews
+2026-01-27 17:43:51,753 - INFO - Fichier sauvegard�: data/extracted/reviews.csv
+2026-01-27 17:43:51,753 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:43:52,341 - INFO - 
+Informations sur table_customers:
+2026-01-27 17:43:52,341 - INFO -    Nombre de lignes: 1200
+2026-01-27 17:43:52,341 - INFO -    Colonnes: Customer_ID, Full_Name, City_ID
+2026-01-27 17:43:52,341 - INFO -  Extraction de la table: table_customers
+2026-01-27 17:43:53,253 - INFO - 1200 lignes extraites de table_customers
+2026-01-27 17:43:53,253 - INFO - Fichier sauvegard�: data/extracted/customers.csv
+2026-01-27 17:43:53,253 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:43:53,711 - INFO - 
+Informations sur table_stores:
+2026-01-27 17:43:53,711 - INFO -    Nombre de lignes: 12
+2026-01-27 17:43:53,711 - INFO -    Colonnes: Store_ID, Store_Name, City_ID
+2026-01-27 17:43:53,723 - INFO -  Extraction de la table: table_stores
+2026-01-27 17:43:53,897 - INFO - 12 lignes extraites de table_stores
+2026-01-27 17:43:53,899 - INFO - Fichier sauvegard�: data/extracted/stores.csv
+2026-01-27 17:43:53,899 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:43:54,258 - INFO - 
+Informations sur table_cities:
+2026-01-27 17:43:54,260 - INFO -    Nombre de lignes: 12
+2026-01-27 17:43:54,261 - INFO -    Colonnes: City_ID, City_Name, Region
+2026-01-27 17:43:54,263 - INFO -  Extraction de la table: table_cities
+2026-01-27 17:43:54,428 - INFO - 12 lignes extraites de table_cities
+2026-01-27 17:43:54,436 - INFO - Fichier sauvegard�: data/extracted/cities.csv
+2026-01-27 17:43:54,438 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:43:54,778 - INFO - 
+Informations sur table_categories:
+2026-01-27 17:43:54,778 - INFO -    Nombre de lignes: 5
+2026-01-27 17:43:54,778 - INFO -    Colonnes: Category_ID, Category_Name
+2026-01-27 17:43:54,778 - INFO -  Extraction de la table: table_categories
+2026-01-27 17:43:54,956 - INFO - 5 lignes extraites de table_categories
+2026-01-27 17:43:54,957 - INFO - Fichier sauvegard�: data/extracted/categories.csv
+2026-01-27 17:43:54,959 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:43:56,585 - INFO - 
+Informations sur table_subcategories:
+2026-01-27 17:43:56,588 - INFO -    Nombre de lignes: 15
+2026-01-27 17:43:56,590 - INFO -    Colonnes: SubCat_ID, SubCat_Name, Category_ID
+2026-01-27 17:43:56,592 - INFO -  Extraction de la table: table_subcategories
+2026-01-27 17:43:57,387 - INFO - 15 lignes extraites de table_subcategories
+2026-01-27 17:43:57,387 - INFO - Fichier sauvegard�: data/extracted/subcategories.csv
+2026-01-27 17:43:57,387 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:43:57,387 - INFO - 
+============================================================
+2026-01-27 17:43:57,390 - INFO -  R�SUM� DE L'EXTRACTION
+2026-01-27 17:43:57,390 - INFO - ============================================================
+
+2026-01-27 17:43:57,390 - INFO - 
+              Table  Lignes  Colonnes Statut
+        table_sales   25000         7 Succ�s
+     table_products      38         5 Succ�s
+      table_reviews    3000         5 Succ�s
+    table_customers    1200         3 Succ�s
+       table_stores      12         3 Succ�s
+       table_cities      12         3 Succ�s
+   table_categories       5         2 Succ�s
+table_subcategories      15         3 Succ�s
+
+2026-01-27 17:43:57,943 - INFO - Connexion ferm�e
+2026-01-27 17:43:58,536 - INFO - ============================================================
+2026-01-27 17:43:58,536 - INFO - Starting web scraping process
+2026-01-27 17:43:58,536 - INFO - ============================================================
+2026-01-27 17:43:58,536 - INFO - Fetching page: https://boughida.com/competitor/
+2026-01-27 17:43:59,667 - INFO - Page successfully retrieved
+2026-01-27 17:43:59,672 - INFO - Found additional pages: 2
+2026-01-27 17:43:59,674 - INFO - 
 Page 1/3: https://boughida.com/competitor/
-2026-01-27 16:43:00,282 - INFO - ------------------------------------------------------------
-2026-01-27 16:43:00,283 - INFO - Fetching page: https://boughida.com/competitor/
-2026-01-27 16:43:00,755 - INFO - Page successfully retrieved
-2026-01-27 16:43:00,755 - INFO - Found 13 potential product containers
-2026-01-27 16:43:00,755 - INFO - Extracted: Samsung S23 Ultra: 174800.0 DZD
-2026-01-27 16:43:00,755 - INFO - Extracted: HP LaserJet Pro: 46000.0 DZD
-2026-01-27 16:43:00,755 - INFO - Extracted: Dell 24 Monitor: 24200.0 DZD
-2026-01-27 16:43:00,755 - INFO - Extracted: Canon i-Sensys: 39000.0 DZD
-2026-01-27 16:43:00,768 - INFO - Extracted: Epson EcoTank: 27700.0 DZD
-2026-01-27 16:43:00,768 - INFO - Extracted: Nikon D3500: 69200.0 DZD
-2026-01-27 16:43:00,770 - INFO - Extracted: Xiaomi Redmi Note 12: 36800.0 DZD
-2026-01-27 16:43:00,770 - INFO - Extracted: HP Pavilion Desktop: 83000.0 DZD
-2026-01-27 16:43:00,770 - INFO - Extracted: Redmi Buds 4: 5300.0 DZD
-2026-01-27 16:43:00,770 - INFO - Extracted: DJI Mini 3: 126900.0 DZD
-2026-01-27 16:43:00,770 - INFO - Extracted: Sony SRS-XB13: 11100.0 DZD
-2026-01-27 16:43:00,770 - INFO - Extracted: ASUS ROG STRIX: 290600.0 DZD
-2026-01-27 16:43:00,770 - INFO - Extracted: LG UltraGear: 41700.0 DZD
-2026-01-27 16:43:02,776 - INFO - 
+2026-01-27 17:43:59,674 - INFO - ------------------------------------------------------------
+2026-01-27 17:43:59,674 - INFO - Fetching page: https://boughida.com/competitor/
+2026-01-27 17:44:00,966 - INFO - Page successfully retrieved
+2026-01-27 17:44:00,982 - INFO - Found 13 potential product containers
+2026-01-27 17:44:00,987 - INFO - Extracted: Samsung S23 Ultra: 174800.0 DZD
+2026-01-27 17:44:00,988 - INFO - Extracted: HP LaserJet Pro: 46000.0 DZD
+2026-01-27 17:44:00,990 - INFO - Extracted: Dell 24 Monitor: 24200.0 DZD
+2026-01-27 17:44:00,991 - INFO - Extracted: Canon i-Sensys: 39000.0 DZD
+2026-01-27 17:44:00,999 - INFO - Extracted: Epson EcoTank: 27700.0 DZD
+2026-01-27 17:44:01,003 - INFO - Extracted: Nikon D3500: 69200.0 DZD
+2026-01-27 17:44:01,005 - INFO - Extracted: Xiaomi Redmi Note 12: 36800.0 DZD
+2026-01-27 17:44:01,009 - INFO - Extracted: HP Pavilion Desktop: 83000.0 DZD
+2026-01-27 17:44:01,012 - INFO - Extracted: Redmi Buds 4: 5300.0 DZD
+2026-01-27 17:44:01,014 - INFO - Extracted: DJI Mini 3: 126900.0 DZD
+2026-01-27 17:44:01,017 - INFO - Extracted: Sony SRS-XB13: 11100.0 DZD
+2026-01-27 17:44:01,021 - INFO - Extracted: ASUS ROG STRIX: 290600.0 DZD
+2026-01-27 17:44:01,026 - INFO - Extracted: LG UltraGear: 41700.0 DZD
+2026-01-27 17:44:03,030 - INFO - 
 Page 2/3: https://boughida.com/competitor/competitor_page_2.html
-2026-01-27 16:43:02,776 - INFO - ------------------------------------------------------------
-2026-01-27 16:43:02,776 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_2.html
-2026-01-27 16:43:03,272 - INFO - Page successfully retrieved
-2026-01-27 16:43:03,272 - INFO - Found 13 potential product containers
-2026-01-27 16:43:03,272 - INFO - Extracted: IPHONE CABLE: 3200.0 DZD
-2026-01-27 16:43:03,272 - INFO - Extracted: Lenovo ThinkPad: 94600.0 DZD
-2026-01-27 16:43:03,272 - INFO - Extracted: AirPods Pro: 47400.0 DZD
-2026-01-27 16:43:03,272 - INFO - Extracted: Phone Case Silicon: 1800.0 DZD
-2026-01-27 16:43:03,272 - INFO - Extracted: Sony WH-1000XM5: 65400.0 DZD
-2026-01-27 16:43:03,272 - INFO - Extracted: iPhone 13: 136900.0 DZD
-2026-01-27 16:43:03,272 - INFO - Extracted: Canon 445 Black: 2600.0 DZD
-2026-01-27 16:43:03,272 - INFO - Extracted: DJI Mavic 3: 350400.0 DZD
-2026-01-27 16:43:03,287 - INFO - Extracted: JBL Flip 6: 23500.0 DZD
-2026-01-27 16:43:03,287 - INFO - Extracted: HP VICTUS 15: 119700.0 DZD
-2026-01-27 16:43:03,287 - INFO - Extracted: HP 650 Black: 2900.0 DZD
-2026-01-27 16:43:03,290 - INFO - Extracted: Oppo Reno 8: 60200.0 DZD
-2026-01-27 16:43:03,291 - INFO - Extracted: SAMSUNG CHARGER 25W: 4200.0 DZD
-2026-01-27 16:43:05,292 - INFO - 
+2026-01-27 17:44:03,030 - INFO - ------------------------------------------------------------
+2026-01-27 17:44:03,030 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_2.html
+2026-01-27 17:44:03,564 - INFO - Page successfully retrieved
+2026-01-27 17:44:03,568 - INFO - Found 13 potential product containers
+2026-01-27 17:44:03,569 - INFO - Extracted: IPHONE CABLE: 3200.0 DZD
+2026-01-27 17:44:03,570 - INFO - Extracted: Lenovo ThinkPad: 94600.0 DZD
+2026-01-27 17:44:03,571 - INFO - Extracted: AirPods Pro: 47400.0 DZD
+2026-01-27 17:44:03,574 - INFO - Extracted: Phone Case Silicon: 1800.0 DZD
+2026-01-27 17:44:03,575 - INFO - Extracted: Sony WH-1000XM5: 65400.0 DZD
+2026-01-27 17:44:03,576 - INFO - Extracted: iPhone 13: 136900.0 DZD
+2026-01-27 17:44:03,576 - INFO - Extracted: Canon 445 Black: 2600.0 DZD
+2026-01-27 17:44:03,578 - INFO - Extracted: DJI Mavic 3: 350400.0 DZD
+2026-01-27 17:44:03,580 - INFO - Extracted: JBL Flip 6: 23500.0 DZD
+2026-01-27 17:44:03,584 - INFO - Extracted: HP VICTUS 15: 119700.0 DZD
+2026-01-27 17:44:03,586 - INFO - Extracted: HP 650 Black: 2900.0 DZD
+2026-01-27 17:44:03,587 - INFO - Extracted: Oppo Reno 8: 60200.0 DZD
+2026-01-27 17:44:03,590 - INFO - Extracted: SAMSUNG CHARGER 25W: 4200.0 DZD
+2026-01-27 17:44:05,595 - INFO - 
 Page 3/3: https://boughida.com/competitor/competitor_page_3.html
-2026-01-27 16:43:05,292 - INFO - ------------------------------------------------------------
-2026-01-27 16:43:05,292 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_3.html
-2026-01-27 16:43:05,764 - INFO - Page successfully retrieved
-2026-01-27 16:43:05,764 - INFO - Found 12 potential product containers
-2026-01-27 16:43:05,764 - INFO - Extracted: MacBook Air M2: 190500.0 DZD
-2026-01-27 16:43:05,764 - INFO - Extracted: Canon Pixma: 11600.0 DZD
-2026-01-27 16:43:05,764 - INFO - Extracted: Canon EOS 4000D: 60200.0 DZD
-2026-01-27 16:43:05,764 - INFO - Extracted: JBL Tune 510BT: 11200.0 DZD
-2026-01-27 16:43:05,764 - INFO - Extracted: Screen Protector: 930.0 DZD
-2026-01-27 16:43:05,764 - INFO - Extracted: Custom Gaming PC: 300000.0 DZD
-2026-01-27 16:43:05,764 - INFO - Extracted: Samsung Odyssey G5: 46700.0 DZD
-2026-01-27 16:43:05,764 - INFO - Extracted: Realme GT3: 71700.0 DZD
-2026-01-27 16:43:05,764 - INFO - Extracted: iPhone 14 Pro: 212700.0 DZD
-2026-01-27 16:43:05,779 - INFO - Extracted: IPHONE 15 PRO MAX: 281500.0 DZD
-2026-01-27 16:43:05,779 - INFO - Extracted: Dell XPS 13 5G: 242700.0 DZD
-2026-01-27 16:43:05,779 - INFO - Extracted: Dell OptiPlex: 64400.0 DZD
-2026-01-27 16:43:05,783 - INFO - ============================================================
-2026-01-27 16:43:05,784 - INFO - Scraping completed: 38 total products
-2026-01-27 16:43:05,785 - INFO - ============================================================
-2026-01-27 16:43:05,788 - INFO - 
+2026-01-27 17:44:05,597 - INFO - ------------------------------------------------------------
+2026-01-27 17:44:05,599 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_3.html
+2026-01-27 17:44:06,152 - INFO - Page successfully retrieved
+2026-01-27 17:44:06,152 - INFO - Found 12 potential product containers
+2026-01-27 17:44:06,152 - INFO - Extracted: MacBook Air M2: 190500.0 DZD
+2026-01-27 17:44:06,166 - INFO - Extracted: Canon Pixma: 11600.0 DZD
+2026-01-27 17:44:06,169 - INFO - Extracted: Canon EOS 4000D: 60200.0 DZD
+2026-01-27 17:44:06,172 - INFO - Extracted: JBL Tune 510BT: 11200.0 DZD
+2026-01-27 17:44:06,172 - INFO - Extracted: Screen Protector: 930.0 DZD
+2026-01-27 17:44:06,181 - INFO - Extracted: Custom Gaming PC: 300000.0 DZD
+2026-01-27 17:44:06,186 - INFO - Extracted: Samsung Odyssey G5: 46700.0 DZD
+2026-01-27 17:44:06,190 - INFO - Extracted: Realme GT3: 71700.0 DZD
+2026-01-27 17:44:06,190 - INFO - Extracted: iPhone 14 Pro: 212700.0 DZD
+2026-01-27 17:44:06,198 - INFO - Extracted: IPHONE 15 PRO MAX: 281500.0 DZD
+2026-01-27 17:44:06,202 - INFO - Extracted: Dell XPS 13 5G: 242700.0 DZD
+2026-01-27 17:44:06,208 - INFO - Extracted: Dell OptiPlex: 64400.0 DZD
+2026-01-27 17:44:06,213 - INFO - ============================================================
+2026-01-27 17:44:06,217 - INFO - Scraping completed: 38 total products
+2026-01-27 17:44:06,219 - INFO - ============================================================
+2026-01-27 17:44:06,225 - INFO - 
 Data saved to: data/extracted/competitor_prices.csv
-2026-01-27 16:43:05,788 - INFO - Statistics:
-2026-01-27 16:43:05,788 - INFO -   Total products: 38
-2026-01-27 16:43:05,788 - INFO -   Average price: 89032.37 DZD
-2026-01-27 16:43:05,788 - INFO -   Price range: 930 - 350400 DZD
-2026-01-27 18:07:30,150 - INFO - ✓ Connexion réussie à techstore_erp
-2026-01-27 18:07:30,150 - INFO - 
-======================================================================
-2026-01-27 18:07:30,150 - INFO -  DÉBUT DE L'EXTRACTION COMPLÈTE
-2026-01-27 18:07:30,150 - INFO - ======================================================================
+2026-01-27 17:44:06,225 - INFO - Statistics:
+2026-01-27 17:44:06,225 - INFO -   Total products: 38
+2026-01-27 17:44:06,225 - INFO -   Average price: 89032.37 DZD
+2026-01-27 17:44:06,225 - INFO -   Price range: 930 - 350400 DZD
+2026-01-27 17:46:18,848 - INFO - Connexion r�ussie � techstore_erp
+2026-01-27 17:46:18,848 - INFO - 
+============================================================
+2026-01-27 17:46:18,848 - INFO -  D�BUT DE L'EXTRACTION COMPL�TE
+2026-01-27 17:46:18,848 - INFO - ============================================================
 
-2026-01-27 18:07:30,427 - INFO - 
+2026-01-27 17:46:19,405 - INFO - 
+Informations sur table_sales:
+2026-01-27 17:46:19,411 - INFO -    Nombre de lignes: 25000
+2026-01-27 17:46:19,414 - INFO -    Colonnes: Trans_ID, Date, Store_ID, Product_ID, Customer_ID, Quantity, Total_Revenue
+2026-01-27 17:46:19,414 - INFO -  Extraction de la table: table_sales
+2026-01-27 17:46:26,147 - INFO - 25000 lignes extraites de table_sales
+2026-01-27 17:46:26,147 - INFO - Fichier sauvegard�: data/extracted/sales.csv
+2026-01-27 17:46:26,147 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:46:26,774 - INFO - 
+Informations sur table_products:
+2026-01-27 17:46:26,774 - INFO -    Nombre de lignes: 38
+2026-01-27 17:46:26,774 - INFO -    Colonnes: Product_ID, Product_Name, SubCat_ID, Unit_Price, Unit_Cost
+2026-01-27 17:46:26,774 - INFO -  Extraction de la table: table_products
+2026-01-27 17:46:26,962 - INFO - 38 lignes extraites de table_products
+2026-01-27 17:46:26,962 - INFO - Fichier sauvegard�: data/extracted/products.csv
+2026-01-27 17:46:26,962 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:46:27,326 - INFO - 
+Informations sur table_reviews:
+2026-01-27 17:46:27,328 - INFO -    Nombre de lignes: 3000
+2026-01-27 17:46:27,330 - INFO -    Colonnes: Review_ID, Product_ID, Customer_ID, Rating, Review_Text
+2026-01-27 17:46:27,332 - INFO -  Extraction de la table: table_reviews
+2026-01-27 17:46:28,260 - INFO - 3000 lignes extraites de table_reviews
+2026-01-27 17:46:28,273 - INFO - Fichier sauvegard�: data/extracted/reviews.csv
+2026-01-27 17:46:28,275 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:46:28,630 - INFO - 
+Informations sur table_customers:
+2026-01-27 17:46:28,631 - INFO -    Nombre de lignes: 1200
+2026-01-27 17:46:28,633 - INFO -    Colonnes: Customer_ID, Full_Name, City_ID
+2026-01-27 17:46:28,634 - INFO -  Extraction de la table: table_customers
+2026-01-27 17:46:28,917 - INFO - 1200 lignes extraites de table_customers
+2026-01-27 17:46:28,918 - INFO - Fichier sauvegard�: data/extracted/customers.csv
+2026-01-27 17:46:28,920 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:46:29,278 - INFO - 
+Informations sur table_stores:
+2026-01-27 17:46:29,280 - INFO -    Nombre de lignes: 12
+2026-01-27 17:46:29,281 - INFO -    Colonnes: Store_ID, Store_Name, City_ID
+2026-01-27 17:46:29,283 - INFO -  Extraction de la table: table_stores
+2026-01-27 17:46:29,499 - INFO - 12 lignes extraites de table_stores
+2026-01-27 17:46:29,500 - INFO - Fichier sauvegard�: data/extracted/stores.csv
+2026-01-27 17:46:29,502 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:46:29,857 - INFO - 
+Informations sur table_cities:
+2026-01-27 17:46:29,858 - INFO -    Nombre de lignes: 12
+2026-01-27 17:46:29,860 - INFO -    Colonnes: City_ID, City_Name, Region
+2026-01-27 17:46:29,861 - INFO -  Extraction de la table: table_cities
+2026-01-27 17:46:30,043 - INFO - 12 lignes extraites de table_cities
+2026-01-27 17:46:30,043 - INFO - Fichier sauvegard�: data/extracted/cities.csv
+2026-01-27 17:46:30,043 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:46:30,709 - INFO - 
+Informations sur table_categories:
+2026-01-27 17:46:30,711 - INFO -    Nombre de lignes: 5
+2026-01-27 17:46:30,712 - INFO -    Colonnes: Category_ID, Category_Name
+2026-01-27 17:46:30,714 - INFO -  Extraction de la table: table_categories
+2026-01-27 17:46:30,900 - INFO - 5 lignes extraites de table_categories
+2026-01-27 17:46:30,901 - INFO - Fichier sauvegard�: data/extracted/categories.csv
+2026-01-27 17:46:30,902 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:46:31,258 - INFO - 
+Informations sur table_subcategories:
+2026-01-27 17:46:31,261 - INFO -    Nombre de lignes: 15
+2026-01-27 17:46:31,262 - INFO -    Colonnes: SubCat_ID, SubCat_Name, Category_ID
+2026-01-27 17:46:31,264 - INFO -  Extraction de la table: table_subcategories
+2026-01-27 17:46:31,437 - INFO - 15 lignes extraites de table_subcategories
+2026-01-27 17:46:31,437 - INFO - Fichier sauvegard�: data/extracted/subcategories.csv
+2026-01-27 17:46:31,437 - INFO - 
+------------------------------------------------------------
+
+2026-01-27 17:46:31,453 - INFO - 
+============================================================
+2026-01-27 17:46:31,455 - INFO -  R�SUM� DE L'EXTRACTION
+2026-01-27 17:46:31,457 - INFO - ============================================================
+
+2026-01-27 17:46:31,461 - INFO - 
+              Table  Lignes  Colonnes Statut
+        table_sales   25000         7 Succ�s
+     table_products      38         5 Succ�s
+      table_reviews    3000         5 Succ�s
+    table_customers    1200         3 Succ�s
+       table_stores      12         3 Succ�s
+       table_cities      12         3 Succ�s
+   table_categories       5         2 Succ�s
+table_subcategories      15         3 Succ�s
+
+2026-01-27 17:46:31,554 - INFO - Connexion ferm�e
+2026-01-27 17:46:31,674 - INFO - ============================================================
+2026-01-27 17:46:31,674 - INFO - Starting web scraping process
+2026-01-27 17:46:31,674 - INFO - ============================================================
+2026-01-27 17:46:31,674 - INFO - Fetching page: https://boughida.com/competitor/
+2026-01-27 17:46:32,171 - INFO - Page successfully retrieved
+2026-01-27 17:46:32,171 - INFO - Found additional pages: 2
+2026-01-27 17:46:32,171 - INFO - 
+Page 1/3: https://boughida.com/competitor/
+2026-01-27 17:46:32,171 - INFO - ------------------------------------------------------------
+2026-01-27 17:46:32,171 - INFO - Fetching page: https://boughida.com/competitor/
+2026-01-27 17:46:32,826 - INFO - Page successfully retrieved
+2026-01-27 17:46:32,826 - INFO - Found 13 potential product containers
+2026-01-27 17:46:32,826 - INFO - Extracted: Samsung S23 Ultra: 174800.0 DZD
+2026-01-27 17:46:32,838 - INFO - Extracted: HP LaserJet Pro: 46000.0 DZD
+2026-01-27 17:46:32,839 - INFO - Extracted: Dell 24 Monitor: 24200.0 DZD
+2026-01-27 17:46:32,842 - INFO - Extracted: Canon i-Sensys: 39000.0 DZD
+2026-01-27 17:46:32,842 - INFO - Extracted: Epson EcoTank: 27700.0 DZD
+2026-01-27 17:46:32,842 - INFO - Extracted: Nikon D3500: 69200.0 DZD
+2026-01-27 17:46:32,842 - INFO - Extracted: Xiaomi Redmi Note 12: 36800.0 DZD
+2026-01-27 17:46:32,842 - INFO - Extracted: HP Pavilion Desktop: 83000.0 DZD
+2026-01-27 17:46:32,842 - INFO - Extracted: Redmi Buds 4: 5300.0 DZD
+2026-01-27 17:46:32,855 - INFO - Extracted: DJI Mini 3: 126900.0 DZD
+2026-01-27 17:46:32,859 - INFO - Extracted: Sony SRS-XB13: 11100.0 DZD
+2026-01-27 17:46:32,860 - INFO - Extracted: ASUS ROG STRIX: 290600.0 DZD
+2026-01-27 17:46:32,860 - INFO - Extracted: LG UltraGear: 41700.0 DZD
+2026-01-27 17:46:34,864 - INFO - 
+Page 2/3: https://boughida.com/competitor/competitor_page_2.html
+2026-01-27 17:46:34,864 - INFO - ------------------------------------------------------------
+2026-01-27 17:46:34,864 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_2.html
+2026-01-27 17:46:35,409 - INFO - Page successfully retrieved
+2026-01-27 17:46:35,409 - INFO - Found 13 potential product containers
+2026-01-27 17:46:35,409 - INFO - Extracted: IPHONE CABLE: 3200.0 DZD
+2026-01-27 17:46:35,409 - INFO - Extracted: Lenovo ThinkPad: 94600.0 DZD
+2026-01-27 17:46:35,409 - INFO - Extracted: AirPods Pro: 47400.0 DZD
+2026-01-27 17:46:35,425 - INFO - Extracted: Phone Case Silicon: 1800.0 DZD
+2026-01-27 17:46:35,425 - INFO - Extracted: Sony WH-1000XM5: 65400.0 DZD
+2026-01-27 17:46:35,425 - INFO - Extracted: iPhone 13: 136900.0 DZD
+2026-01-27 17:46:35,436 - INFO - Extracted: Canon 445 Black: 2600.0 DZD
+2026-01-27 17:46:35,439 - INFO - Extracted: DJI Mavic 3: 350400.0 DZD
+2026-01-27 17:46:35,440 - INFO - Extracted: JBL Flip 6: 23500.0 DZD
+2026-01-27 17:46:35,445 - INFO - Extracted: HP VICTUS 15: 119700.0 DZD
+2026-01-27 17:46:35,445 - INFO - Extracted: HP 650 Black: 2900.0 DZD
+2026-01-27 17:46:35,445 - INFO - Extracted: Oppo Reno 8: 60200.0 DZD
+2026-01-27 17:46:35,453 - INFO - Extracted: SAMSUNG CHARGER 25W: 4200.0 DZD
+2026-01-27 17:46:37,456 - INFO - 
+Page 3/3: https://boughida.com/competitor/competitor_page_3.html
+2026-01-27 17:46:37,456 - INFO - ------------------------------------------------------------
+2026-01-27 17:46:37,456 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_3.html
+2026-01-27 17:46:37,979 - INFO - Page successfully retrieved
+2026-01-27 17:46:37,982 - INFO - Found 12 potential product containers
+2026-01-27 17:46:37,983 - INFO - Extracted: MacBook Air M2: 190500.0 DZD
+2026-01-27 17:46:37,985 - INFO - Extracted: Canon Pixma: 11600.0 DZD
+2026-01-27 17:46:37,988 - INFO - Extracted: Canon EOS 4000D: 60200.0 DZD
+2026-01-27 17:46:37,991 - INFO - Extracted: JBL Tune 510BT: 11200.0 DZD
+2026-01-27 17:46:37,991 - INFO - Extracted: Screen Protector: 930.0 DZD
+2026-01-27 17:46:37,991 - INFO - Extracted: Custom Gaming PC: 300000.0 DZD
+2026-01-27 17:46:37,991 - INFO - Extracted: Samsung Odyssey G5: 46700.0 DZD
+2026-01-27 17:46:37,991 - INFO - Extracted: Realme GT3: 71700.0 DZD
+2026-01-27 17:46:38,001 - INFO - Extracted: iPhone 14 Pro: 212700.0 DZD
+2026-01-27 17:46:38,004 - INFO - Extracted: IPHONE 15 PRO MAX: 281500.0 DZD
+2026-01-27 17:46:38,006 - INFO - Extracted: Dell XPS 13 5G: 242700.0 DZD
+2026-01-27 17:46:38,007 - INFO - Extracted: Dell OptiPlex: 64400.0 DZD
+2026-01-27 17:46:38,007 - INFO - ============================================================
+2026-01-27 17:46:38,007 - INFO - Scraping completed: 38 total products
+2026-01-27 17:46:38,007 - INFO - ============================================================
+2026-01-27 17:46:38,018 - INFO - 
+Data saved to: data/extracted/competitor_prices.csv
+2026-01-27 17:46:38,021 - INFO - Statistics:
+2026-01-27 17:46:38,023 - INFO -   Total products: 38
+2026-01-27 17:46:38,024 - INFO -   Average price: 89032.37 DZD
+2026-01-27 17:46:38,025 - INFO -   Price range: 930 - 350400 DZD
+2026-01-27 19:56:30,468 - INFO - ✓ Connexion réussie à techstore_erp
+2026-01-27 19:56:30,475 - INFO - 
+======================================================================
+2026-01-27 19:56:30,475 - INFO -  DÉBUT DE L'EXTRACTION COMPLÈTE
+2026-01-27 19:56:30,475 - INFO - ======================================================================
+
+2026-01-27 19:56:30,917 - INFO - 
 [INFO] table_sales:
-2026-01-27 18:07:30,427 - INFO -   → Lignes: 25000
-2026-01-27 18:07:30,442 - INFO -   → Colonnes: Trans_ID, Date, Store_ID, Product_ID, Customer_ID, Quantity, Total_Revenue
-2026-01-27 18:07:30,442 - INFO - [EXTRACTION] Table: table_sales
-2026-01-27 18:07:31,427 - INFO -   → 25000 lignes extraites
-2026-01-27 18:07:31,427 - INFO -   → Fichier: data/extracted/sales.csv
-2026-01-27 18:07:31,427 - INFO - 
+2026-01-27 19:56:30,917 - INFO -   → Lignes: 25000
+2026-01-27 19:56:30,917 - INFO -   → Colonnes: Trans_ID, Date, Store_ID, Product_ID, Customer_ID, Quantity, Total_Revenue
+2026-01-27 19:56:30,917 - INFO - [EXTRACTION] Table: table_sales
+2026-01-27 19:56:32,064 - INFO -   → 25000 lignes extraites
+2026-01-27 19:56:32,064 - INFO -   → Fichier: data/extracted/sales.csv
+2026-01-27 19:56:32,064 - INFO - 
 ----------------------------------------------------------------------
 
-2026-01-27 18:07:31,700 - INFO - 
+2026-01-27 19:56:32,357 - INFO - 
 [INFO] table_products:
-2026-01-27 18:07:31,700 - INFO -   → Lignes: 38
-2026-01-27 18:07:31,700 - INFO -   → Colonnes: Product_ID, Product_Name, SubCat_ID, Unit_Price, Unit_Cost
-2026-01-27 18:07:31,700 - INFO - [EXTRACTION] Table: table_products
-2026-01-27 18:07:31,826 - INFO -   → 38 lignes extraites
-2026-01-27 18:07:31,826 - INFO -   → Fichier: data/extracted/products.csv
-2026-01-27 18:07:31,826 - INFO - 
+2026-01-27 19:56:32,357 - INFO -   → Lignes: 38
+2026-01-27 19:56:32,357 - INFO -   → Colonnes: Product_ID, Product_Name, SubCat_ID, Unit_Price, Unit_Cost
+2026-01-27 19:56:32,357 - INFO - [EXTRACTION] Table: table_products
+2026-01-27 19:56:32,479 - INFO -   → 38 lignes extraites
+2026-01-27 19:56:32,479 - INFO -   → Fichier: data/extracted/products.csv
+2026-01-27 19:56:32,487 - INFO - 
 ----------------------------------------------------------------------
 
-2026-01-27 18:07:32,099 - INFO - 
+2026-01-27 19:56:32,732 - INFO - 
 [INFO] table_reviews:
-2026-01-27 18:07:32,099 - INFO -   → Lignes: 3000
-2026-01-27 18:07:32,099 - INFO -   → Colonnes: Review_ID, Product_ID, Customer_ID, Rating, Review_Text
-2026-01-27 18:07:32,099 - INFO - [EXTRACTION] Table: table_reviews
-2026-01-27 18:07:32,305 - INFO -   → 3000 lignes extraites
-2026-01-27 18:07:32,305 - INFO -   → Fichier: data/extracted/reviews.csv
-2026-01-27 18:07:32,305 - INFO - 
+2026-01-27 19:56:32,732 - INFO -   → Lignes: 3000
+2026-01-27 19:56:32,734 - INFO -   → Colonnes: Review_ID, Product_ID, Customer_ID, Rating, Review_Text
+2026-01-27 19:56:32,734 - INFO - [EXTRACTION] Table: table_reviews
+2026-01-27 19:56:33,061 - INFO -   → 3000 lignes extraites
+2026-01-27 19:56:33,061 - INFO -   → Fichier: data/extracted/reviews.csv
+2026-01-27 19:56:33,063 - INFO - 
 ----------------------------------------------------------------------
 
-2026-01-27 18:07:32,567 - INFO - 
+2026-01-27 19:56:33,296 - INFO - 
 [INFO] table_customers:
-2026-01-27 18:07:32,567 - INFO -   → Lignes: 1200
-2026-01-27 18:07:32,583 - INFO -   → Colonnes: Customer_ID, Full_Name, City_ID
-2026-01-27 18:07:32,583 - INFO - [EXTRACTION] Table: table_customers
-2026-01-27 18:07:32,725 - INFO -   → 1200 lignes extraites
-2026-01-27 18:07:32,725 - INFO -   → Fichier: data/extracted/customers.csv
-2026-01-27 18:07:32,740 - INFO - 
+2026-01-27 19:56:33,296 - INFO -   → Lignes: 1200
+2026-01-27 19:56:33,296 - INFO -   → Colonnes: Customer_ID, Full_Name, City_ID
+2026-01-27 19:56:33,296 - INFO - [EXTRACTION] Table: table_customers
+2026-01-27 19:56:33,443 - INFO -   → 1200 lignes extraites
+2026-01-27 19:56:33,443 - INFO -   → Fichier: data/extracted/customers.csv
+2026-01-27 19:56:33,443 - INFO - 
 ----------------------------------------------------------------------
 
-2026-01-27 18:07:32,987 - INFO - 
+2026-01-27 19:56:33,738 - INFO - 
 [INFO] table_stores:
-2026-01-27 18:07:32,987 - INFO -   → Lignes: 12
-2026-01-27 18:07:32,987 - INFO -   → Colonnes: Store_ID, Store_Name, City_ID
-2026-01-27 18:07:32,987 - INFO - [EXTRACTION] Table: table_stores
-2026-01-27 18:07:33,126 - INFO -   → 12 lignes extraites
-2026-01-27 18:07:33,126 - INFO -   → Fichier: data/extracted/stores.csv
-2026-01-27 18:07:33,126 - INFO - 
+2026-01-27 19:56:33,738 - INFO -   → Lignes: 12
+2026-01-27 19:56:33,738 - INFO -   → Colonnes: Store_ID, Store_Name, City_ID
+2026-01-27 19:56:33,738 - INFO - [EXTRACTION] Table: table_stores
+2026-01-27 19:56:33,874 - INFO -   → 12 lignes extraites
+2026-01-27 19:56:33,876 - INFO -   → Fichier: data/extracted/stores.csv
+2026-01-27 19:56:33,876 - INFO - 
 ----------------------------------------------------------------------
 
-2026-01-27 18:07:33,401 - INFO - 
+2026-01-27 19:56:34,259 - INFO - 
 [INFO] table_cities:
-2026-01-27 18:07:33,401 - INFO -   → Lignes: 12
-2026-01-27 18:07:33,401 - INFO -   → Colonnes: City_ID, City_Name, Region
-2026-01-27 18:07:33,401 - INFO - [EXTRACTION] Table: table_cities
-2026-01-27 18:07:33,542 - INFO -   → 12 lignes extraites
-2026-01-27 18:07:33,542 - INFO -   → Fichier: data/extracted/cities.csv
-2026-01-27 18:07:33,542 - INFO - 
+2026-01-27 19:56:34,275 - INFO -   → Lignes: 12
+2026-01-27 19:56:34,275 - INFO -   → Colonnes: City_ID, City_Name, Region
+2026-01-27 19:56:34,279 - INFO - [EXTRACTION] Table: table_cities
+2026-01-27 19:56:34,408 - INFO -   → 12 lignes extraites
+2026-01-27 19:56:34,408 - INFO -   → Fichier: data/extracted/cities.csv
+2026-01-27 19:56:34,408 - INFO - 
 ----------------------------------------------------------------------
 
-2026-01-27 18:07:33,811 - INFO - 
+2026-01-27 19:56:34,645 - INFO - 
 [INFO] table_categories:
-2026-01-27 18:07:33,811 - INFO -   → Lignes: 5
-2026-01-27 18:07:33,811 - INFO -   → Colonnes: Category_ID, Category_Name
-2026-01-27 18:07:33,811 - INFO - [EXTRACTION] Table: table_categories
-2026-01-27 18:07:33,944 - INFO -   → 5 lignes extraites
-2026-01-27 18:07:33,944 - INFO -   → Fichier: data/extracted/categories.csv
-2026-01-27 18:07:33,945 - INFO - 
+2026-01-27 19:56:34,645 - INFO -   → Lignes: 5
+2026-01-27 19:56:34,645 - INFO -   → Colonnes: Category_ID, Category_Name
+2026-01-27 19:56:34,645 - INFO - [EXTRACTION] Table: table_categories
+2026-01-27 19:56:34,766 - INFO -   → 5 lignes extraites
+2026-01-27 19:56:34,766 - INFO -   → Fichier: data/extracted/categories.csv
+2026-01-27 19:56:34,766 - INFO - 
 ----------------------------------------------------------------------
 
-2026-01-27 18:07:34,192 - INFO - 
+2026-01-27 19:56:34,989 - INFO - 
 [INFO] table_subcategories:
-2026-01-27 18:07:34,192 - INFO -   → Lignes: 15
-2026-01-27 18:07:34,192 - INFO -   → Colonnes: SubCat_ID, SubCat_Name, Category_ID
-2026-01-27 18:07:34,192 - INFO - [EXTRACTION] Table: table_subcategories
-2026-01-27 18:07:34,341 - INFO -   → 15 lignes extraites
-2026-01-27 18:07:34,341 - INFO -   → Fichier: data/extracted/subcategories.csv
-2026-01-27 18:07:34,341 - INFO - 
+2026-01-27 19:56:34,989 - INFO -   → Lignes: 15
+2026-01-27 19:56:34,989 - INFO -   → Colonnes: SubCat_ID, SubCat_Name, Category_ID
+2026-01-27 19:56:34,989 - INFO - [EXTRACTION] Table: table_subcategories
+2026-01-27 19:56:35,134 - INFO -   → 15 lignes extraites
+2026-01-27 19:56:35,134 - INFO -   → Fichier: data/extracted/subcategories.csv
+2026-01-27 19:56:35,134 - INFO - 
 ----------------------------------------------------------------------
 
-2026-01-27 18:07:34,341 - INFO - 
+2026-01-27 19:56:35,134 - INFO - 
 ======================================================================
-2026-01-27 18:07:34,341 - INFO -  RÉSUMÉ DE L'EXTRACTION
-2026-01-27 18:07:34,341 - INFO - ======================================================================
+2026-01-27 19:56:35,134 - INFO -  RÉSUMÉ DE L'EXTRACTION
+2026-01-27 19:56:35,134 - INFO - ======================================================================
 
-2026-01-27 18:07:34,341 - INFO - 
+2026-01-27 19:56:35,134 - INFO - 
               Table  Lignes  Colonnes   Statut
         table_sales   25000         7 ✓ Succès
      table_products      38         5 ✓ Succès
@@ -1022,6 +1245,7 @@ Data saved to: data/extracted/competitor_prices.csv
    table_categories       5         2 ✓ Succès
 table_subcategories      15         3 ✓ Succès
 
+<<<<<<< HEAD
 2026-01-27 18:07:34,356 - INFO - [REQUÊTE PERSONNALISÉE] Ventes avec détails complets (1000 premières lignes)
 2026-01-27 18:07:34,586 - INFO -   → 1000 lignes extraites
 2026-01-27 18:07:34,586 - INFO -   → Fichier: data/extracted/sales_detailed.csv
@@ -1030,3 +1254,13 @@ table_subcategories      15         3 ✓ Succès
 ======================================================================
 2026-01-27 18:07:34,643 - INFO - ✓ EXTRACTION TERMINÉE AVEC SUCCÈS
 2026-01-27 18:07:34,643 - INFO - ======================================================================
+=======
+2026-01-27 19:56:35,134 - INFO - [REQUÊTE PERSONNALISÉE] Ventes avec détails complets (1000 premières lignes)
+2026-01-27 19:56:35,492 - INFO -   → 1000 lignes extraites
+2026-01-27 19:56:35,493 - INFO -   → Fichier: data/extracted/sales_detailed.csv
+2026-01-27 19:56:35,554 - INFO - ✓ Connexion fermée
+2026-01-27 19:56:35,579 - INFO - 
+======================================================================
+2026-01-27 19:56:35,579 - INFO - ✓ EXTRACTION TERMINÉE AVEC SUCCÈS
+2026-01-27 19:56:35,579 - INFO - ======================================================================
+>>>>>>> 4fd6fb0c70cb0bdab223facc01f05f8f1a8d7eed
