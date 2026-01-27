@@ -1,133 +1,81 @@
 """
-KPI Card Components for Dashboard
-Displays global business metrics
+KPI Cards Component for TechStore Dashboard
+Displays key performance indicators
 """
 
 import streamlit as st
-import pandas as pd
-from typing import Dict, Any
+from typing import Dict
 
-def display_kpi_row(kpi_data: Dict[str, Any]):
+
+def display_kpi_row(kpi_data: Dict[str, float]):
     """
-    Display a row of KPI cards
+    Display a row of 4 KPI cards
     
     Args:
-        kpi_data: Dictionary containing KPI values
-            {
-                'total_revenue': float,
-                'net_profit': float,
-                'target_achievement': float,
-                'avg_sentiment': float
-            }
+        kpi_data: Dictionary containing:
+            - total_revenue: Total revenue in DZD
+            - net_profit: Net profit in DZD
+            - target_achievement: Target achievement percentage
+            - avg_sentiment: Average sentiment score
     """
+    
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        display_revenue_kpi(kpi_data.get('total_revenue', 0))
+        st.metric(
+            label="💰 Total Revenue",
+            value=f"{kpi_data.get('total_revenue', 0):,.2f} DZD",
+            delta=None
+        )
     
     with col2:
-        display_profit_kpi(kpi_data.get('net_profit', 0))
+        profit = kpi_data.get('net_profit', 0)
+        profit_color = "normal" if profit >= 0 else "inverse"
+        st.metric(
+            label="📈 Net Profit",
+            value=f"{profit:,.2f} DZD",
+            delta=None,
+            delta_color=profit_color
+        )
     
     with col3:
-        display_target_kpi(kpi_data.get('target_achievement', 0))
+        achievement = kpi_data.get('target_achievement', 0)
+        delta_text = f"{achievement:.1f}% of target"
+        delta_color = "normal" if achievement >= 100 else "inverse"
+        st.metric(
+            label="🎯 Target Achievement",
+            value=f"{achievement:.1f}%",
+            delta=delta_text,
+            delta_color=delta_color
+        )
     
     with col4:
-        display_sentiment_kpi(kpi_data.get('avg_sentiment', 0))
+        sentiment = kpi_data.get('avg_sentiment', 0)
+        sentiment_emoji = "😊" if sentiment > 0.3 else "😐" if sentiment > 0 else "😞"
+        
+        # Determine sentiment label
+        if sentiment >= 0.5:
+            sentiment_label = "Very Positive"
+        elif sentiment >= 0.2:
+            sentiment_label = "Positive"
+        elif sentiment >= 0:
+            sentiment_label = "Neutral"
+        elif sentiment >= -0.2:
+            sentiment_label = "Negative"
+        else:
+            sentiment_label = "Very Negative"
+        
+        st.metric(
+            label=f"{sentiment_emoji} Avg Sentiment",
+            value=f"{sentiment:.3f}",
+            delta=sentiment_label,
+            help="Average customer sentiment score from product reviews (-1.0 to +1.0)"
+        )
 
 
-def display_revenue_kpi(revenue: float):
-    """Display Total Revenue KPI card"""
-    st.metric(
-        label="💰 Total Revenue",
-        value=f"{revenue:,.0f} DZD",
-        delta=None,
-        help="Total revenue from all sales transactions"
-    )
-
-
-def display_profit_kpi(profit: float):
-    """Display Net Profit KPI card"""
-    st.metric(
-        label="💵 Net Profit",
-        value=f"{profit:,.0f} DZD",
-        delta=None,
-        help="Profit after deducting product costs, shipping, and marketing"
-    )
-
-
-def display_target_kpi(achievement_pct: float):
-    """Display Target Achievement KPI card with color coding"""
-    
-    # Color coding based on achievement
-    if achievement_pct >= 100:
-        color = "green"
-        emoji = "✅"
-    elif achievement_pct >= 90:
-        color = "orange"
-        emoji = "⚠️"
-    else:
-        color = "red"
-        emoji = "❌"
-    
-    st.metric(
-        label=f"{emoji} Target Achievement",
-        value=f"{achievement_pct:.1f}%",
-        delta=f"{achievement_pct - 100:.1f}% vs target" if achievement_pct != 0 else None,
-        help="Actual sales performance compared to annual targets"
-    )
-
-
-def display_sentiment_kpi(sentiment: float):
-    """Display Average Sentiment Score KPI card"""
-    
-    # Determine sentiment emoji
-    if sentiment >= 0.5:
-        emoji = "😄"
-        label_suffix = "Very Positive"
-    elif sentiment >= 0.2:
-        emoji = "🙂"
-        label_suffix = "Positive"
-    elif sentiment >= 0:
-        emoji = "😐"
-        label_suffix = "Neutral"
-    elif sentiment >= -0.2:
-        emoji = "😟"
-        label_suffix = "Negative"
-    else:
-        emoji = "😞"
-        label_suffix = "Very Negative"
-    
-    st.metric(
-        label=f"{emoji} Avg Sentiment",
-        value=f"{sentiment:.3f}",
-        delta=label_suffix,
-        help="Average customer sentiment score from product reviews (-1.0 to +1.0)"
-    )
-
-
-def display_custom_kpi(label: str, value: Any, delta: str = None, 
-                       emoji: str = "📊", help_text: str = None):
+def fetch_global_kpis(db_connector):
     """
-    Display a custom KPI card
-    
-    Args:
-        label: KPI label
-        value: KPI value (will be formatted)
-        delta: Optional delta text
-        emoji: Emoji prefix
-        help_text: Tooltip text
-    """
-    st.metric(
-        label=f"{emoji} {label}",
-        value=value,
-        delta=delta,
-        help=help_text
-    )
-
-
-def fetch_global_kpis(db_connector) -> Dict[str, float]:
-    """
-    Fetch all global KPIs from database
+    Fetch global KPIs from database (without filters)
     
     Args:
         db_connector: DatabaseConnector instance
@@ -138,35 +86,41 @@ def fetch_global_kpis(db_connector) -> Dict[str, float]:
     kpis = {}
     
     # Total Revenue
-    query_revenue = "SELECT ROUND(SUM(Total_Revenue), 2) as Total_Revenue FROM Fact_Sales"
+    query_revenue = """
+    SELECT ROUND(SUM(Total_Revenue), 2) as Total_Revenue 
+    FROM Fact_Sales
+    """
     result = db_connector.execute_query(query_revenue)
-    kpis['total_revenue'] = float(result['Total_Revenue'].iloc[0])
+    kpis['total_revenue'] = float(result['Total_Revenue'].iloc[0]) if result['Total_Revenue'].iloc[0] is not None else 0
     
     # Net Profit
-    query_profit = "SELECT ROUND(SUM(Net_Profit), 2) as Net_Profit FROM Fact_Sales"
+    query_profit = """
+    SELECT ROUND(SUM(Net_Profit), 2) as Net_Profit 
+    FROM Fact_Sales
+    """
     result = db_connector.execute_query(query_profit)
-    kpis['net_profit'] = float(result['Net_Profit'].iloc[0])
+    kpis['net_profit'] = float(result['Net_Profit'].iloc[0]) if result['Net_Profit'].iloc[0] is not None else 0
     
-    # Target Achievement
+    # Target Achievement (using Annual_Target from Dim_Store)
     query_target = """
     SELECT 
         ROUND(SUM(fs.Total_Revenue), 2) as Actual_Sales,
-        ROUND(SUM(ds.Monthly_Target * 12), 2) as Annual_Target,
-        ROUND((SUM(fs.Total_Revenue) * 100.0 / NULLIF(SUM(ds.Monthly_Target * 12), 0)), 2) as Achievement_Percentage
+        ROUND(SUM(ds.Annual_Target), 2) as Annual_Target,
+        ROUND((SUM(fs.Total_Revenue) * 100.0 / NULLIF(SUM(ds.Annual_Target), 0)), 2) as Achievement_Percentage
     FROM Fact_Sales fs
     JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
-    WHERE ds.Monthly_Target IS NOT NULL
+    WHERE ds.Annual_Target IS NOT NULL
     """
     result = db_connector.execute_query(query_target)
-    kpis['target_achievement'] = float(result['Achievement_Percentage'].iloc[0])
+    kpis['target_achievement'] = float(result['Achievement_Percentage'].iloc[0]) if result['Achievement_Percentage'].iloc[0] is not None else 0
     
-    # Average Sentiment
+    # Average Sentiment Score
     query_sentiment = """
     SELECT ROUND(AVG(Sentiment_Score), 3) as Avg_Sentiment
     FROM Dim_Product
     WHERE Sentiment_Score IS NOT NULL
     """
     result = db_connector.execute_query(query_sentiment)
-    kpis['avg_sentiment'] = float(result['Avg_Sentiment'].iloc[0])
+    kpis['avg_sentiment'] = float(result['Avg_Sentiment'].iloc[0]) if result['Avg_Sentiment'].iloc[0] is not None else 0
     
     return kpis

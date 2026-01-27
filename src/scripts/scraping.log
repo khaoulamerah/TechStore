@@ -282,3 +282,165 @@ Data saved to: data/extracted/competitor_prices.csv
 2025-12-29 14:13:26,857 - INFO -   Total products: 38
 2025-12-29 14:13:26,858 - INFO -   Average price: 89032.37 DZD
 2025-12-29 14:13:26,859 - INFO -   Price range: 930 - 350400 DZD
+2026-01-26 11:56:18,945 - INFO - 
+======================================================================
+2026-01-26 11:56:18,947 - INFO - WEB SCRAPING - COMPETITOR PRICES
+2026-01-26 11:56:18,947 - INFO - ======================================================================
+
+2026-01-26 11:56:18,948 - INFO - ============================================================
+2026-01-26 11:56:18,948 - INFO - Starting web scraping process
+2026-01-26 11:56:18,948 - INFO - ============================================================
+2026-01-26 11:56:18,948 - INFO - Fetching page: https://boughida.com/competitor/
+2026-01-26 11:56:19,533 - INFO - Page successfully retrieved
+2026-01-26 11:56:19,533 - INFO - Found additional pages: 2
+2026-01-26 11:56:19,533 - INFO - 
+Page 1/3: https://boughida.com/competitor/
+2026-01-26 11:56:19,533 - INFO - ------------------------------------------------------------
+2026-01-26 11:56:19,533 - INFO - Fetching page: https://boughida.com/competitor/
+2026-01-26 11:56:20,066 - INFO - Page successfully retrieved
+2026-01-26 11:56:20,066 - INFO - Found 13 potential product containers
+2026-01-26 11:56:20,066 - INFO - Extracted: Samsung S23 Ultra: 174800.0 DZD
+2026-01-26 11:56:20,066 - INFO - Extracted: HP LaserJet Pro: 46000.0 DZD
+2026-01-26 11:56:20,066 - INFO - Extracted: Dell 24 Monitor: 24200.0 DZD
+2026-01-26 11:56:20,066 - INFO - Extracted: Canon i-Sensys: 39000.0 DZD
+2026-01-26 11:56:20,066 - INFO - Extracted: Epson EcoTank: 27700.0 DZD
+2026-01-26 11:56:20,066 - INFO - Extracted: Nikon D3500: 69200.0 DZD
+2026-01-26 11:56:20,066 - INFO - Extracted: Xiaomi Redmi Note 12: 36800.0 DZD
+2026-01-26 11:56:20,066 - INFO - Extracted: HP Pavilion Desktop: 83000.0 DZD
+2026-01-26 11:56:20,081 - INFO - Extracted: Redmi Buds 4: 5300.0 DZD
+2026-01-26 11:56:20,081 - INFO - Extracted: DJI Mini 3: 126900.0 DZD
+2026-01-26 11:56:20,082 - INFO - Extracted: Sony SRS-XB13: 11100.0 DZD
+2026-01-26 11:56:20,082 - INFO - Extracted: ASUS ROG STRIX: 290600.0 DZD
+2026-01-26 11:56:20,083 - INFO - Extracted: LG UltraGear: 41700.0 DZD
+2026-01-26 11:56:22,084 - INFO - 
+Page 2/3: https://boughida.com/competitor/competitor_page_2.html
+2026-01-26 11:56:22,084 - INFO - ------------------------------------------------------------
+2026-01-26 11:56:22,084 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_2.html
+2026-01-26 11:56:22,633 - INFO - Page successfully retrieved
+2026-01-26 11:56:22,633 - INFO - Found 13 potential product containers
+2026-01-26 11:56:22,633 - INFO - Extracted: IPHONE CABLE: 3200.0 DZD
+2026-01-26 11:56:22,633 - INFO - Extracted: Lenovo ThinkPad: 94600.0 DZD
+2026-01-26 11:56:22,633 - INFO - Extracted: AirPods Pro: 47400.0 DZD
+2026-01-26 11:56:22,633 - INFO - Extracted: Phone Case Silicon: 1800.0 DZD
+2026-01-26 11:56:22,633 - INFO - Extracted: Sony WH-1000XM5: 65400.0 DZD
+2026-01-26 11:56:22,633 - INFO - Extracted: iPhone 13: 136900.0 DZD
+2026-01-26 11:56:22,633 - INFO - Extracted: Canon 445 Black: 2600.0 DZD
+2026-01-26 11:56:22,647 - INFO - Extracted: DJI Mavic 3: 350400.0 DZD
+2026-01-26 11:56:22,648 - INFO - Extracted: JBL Flip 6: 23500.0 DZD
+2026-01-26 11:56:22,648 - INFO - Extracted: HP VICTUS 15: 119700.0 DZD
+2026-01-26 11:56:22,649 - INFO - Extracted: HP 650 Black: 2900.0 DZD
+2026-01-26 11:56:22,649 - INFO - Extracted: Oppo Reno 8: 60200.0 DZD
+2026-01-26 11:56:22,650 - INFO - Extracted: SAMSUNG CHARGER 25W: 4200.0 DZD
+2026-01-26 11:56:24,651 - INFO - 
+Page 3/3: https://boughida.com/competitor/competitor_page_3.html
+2026-01-26 11:56:24,652 - INFO - ------------------------------------------------------------
+2026-01-26 11:56:24,652 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_3.html
+2026-01-26 11:56:25,199 - INFO - Page successfully retrieved
+2026-01-26 11:56:25,199 - INFO - Found 12 potential product containers
+2026-01-26 11:56:25,199 - INFO - Extracted: MacBook Air M2: 190500.0 DZD
+2026-01-26 11:56:25,199 - INFO - Extracted: Canon Pixma: 11600.0 DZD
+2026-01-26 11:56:25,199 - INFO - Extracted: Canon EOS 4000D: 60200.0 DZD
+2026-01-26 11:56:25,199 - INFO - Extracted: JBL Tune 510BT: 11200.0 DZD
+2026-01-26 11:56:25,199 - INFO - Extracted: Screen Protector: 930.0 DZD
+2026-01-26 11:56:25,199 - INFO - Extracted: Custom Gaming PC: 300000.0 DZD
+2026-01-26 11:56:25,199 - INFO - Extracted: Samsung Odyssey G5: 46700.0 DZD
+2026-01-26 11:56:25,199 - INFO - Extracted: Realme GT3: 71700.0 DZD
+2026-01-26 11:56:25,209 - INFO - Extracted: iPhone 14 Pro: 212700.0 DZD
+2026-01-26 11:56:25,209 - INFO - Extracted: IPHONE 15 PRO MAX: 281500.0 DZD
+2026-01-26 11:56:25,209 - INFO - Extracted: Dell XPS 13 5G: 242700.0 DZD
+2026-01-26 11:56:25,210 - INFO - Extracted: Dell OptiPlex: 64400.0 DZD
+2026-01-26 11:56:25,210 - INFO - ============================================================
+2026-01-26 11:56:25,210 - INFO - Scraping completed: 38 total products
+2026-01-26 11:56:25,210 - INFO - ============================================================
+2026-01-26 11:56:25,216 - INFO - 
+Data saved to: data/extracted/competitor_prices.csv
+2026-01-26 11:56:25,217 - INFO - Statistics:
+2026-01-26 11:56:25,217 - INFO -   Total products: 38
+2026-01-26 11:56:25,218 - INFO -   Average price: 89032.37 DZD
+2026-01-26 11:56:25,218 - INFO -   Price range: 930 - 350400 DZD
+2026-01-26 11:56:25,218 - INFO - 
+======================================================================
+2026-01-26 11:56:25,219 - INFO - COMPETITOR PRICE EXTRACTION COMPLETED
+2026-01-26 11:56:25,219 - INFO - 38 products available for analysis
+2026-01-26 11:56:25,219 - INFO - ======================================================================
+2026-01-27 16:42:32,342 - INFO - 
+======================================================================
+2026-01-27 16:42:32,343 - INFO - WEB SCRAPING - COMPETITOR PRICES
+2026-01-27 16:42:32,343 - INFO - ======================================================================
+
+2026-01-27 16:42:32,343 - INFO - ============================================================
+2026-01-27 16:42:32,344 - INFO - Starting web scraping process
+2026-01-27 16:42:32,344 - INFO - ============================================================
+2026-01-27 16:42:32,344 - INFO - Fetching page: https://boughida.com/competitor/
+2026-01-27 16:42:32,839 - INFO - Page successfully retrieved
+2026-01-27 16:42:32,839 - INFO - Found additional pages: 2
+2026-01-27 16:42:32,839 - INFO - 
+Page 1/3: https://boughida.com/competitor/
+2026-01-27 16:42:32,855 - INFO - ------------------------------------------------------------
+2026-01-27 16:42:32,855 - INFO - Fetching page: https://boughida.com/competitor/
+2026-01-27 16:42:33,337 - INFO - Page successfully retrieved
+2026-01-27 16:42:33,337 - INFO - Found 13 potential product containers
+2026-01-27 16:42:33,337 - INFO - Extracted: Samsung S23 Ultra: 174800.0 DZD
+2026-01-27 16:42:33,337 - INFO - Extracted: HP LaserJet Pro: 46000.0 DZD
+2026-01-27 16:42:33,337 - INFO - Extracted: Dell 24 Monitor: 24200.0 DZD
+2026-01-27 16:42:33,337 - INFO - Extracted: Canon i-Sensys: 39000.0 DZD
+2026-01-27 16:42:33,337 - INFO - Extracted: Epson EcoTank: 27700.0 DZD
+2026-01-27 16:42:33,337 - INFO - Extracted: Nikon D3500: 69200.0 DZD
+2026-01-27 16:42:33,352 - INFO - Extracted: Xiaomi Redmi Note 12: 36800.0 DZD
+2026-01-27 16:42:33,352 - INFO - Extracted: HP Pavilion Desktop: 83000.0 DZD
+2026-01-27 16:42:33,353 - INFO - Extracted: Redmi Buds 4: 5300.0 DZD
+2026-01-27 16:42:33,353 - INFO - Extracted: DJI Mini 3: 126900.0 DZD
+2026-01-27 16:42:33,354 - INFO - Extracted: Sony SRS-XB13: 11100.0 DZD
+2026-01-27 16:42:33,355 - INFO - Extracted: ASUS ROG STRIX: 290600.0 DZD
+2026-01-27 16:42:33,355 - INFO - Extracted: LG UltraGear: 41700.0 DZD
+2026-01-27 16:42:35,356 - INFO - 
+Page 2/3: https://boughida.com/competitor/competitor_page_2.html
+2026-01-27 16:42:35,356 - INFO - ------------------------------------------------------------
+2026-01-27 16:42:35,356 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_2.html
+2026-01-27 16:42:35,866 - INFO - Page successfully retrieved
+2026-01-27 16:42:35,866 - INFO - Found 13 potential product containers
+2026-01-27 16:42:35,866 - INFO - Extracted: IPHONE CABLE: 3200.0 DZD
+2026-01-27 16:42:35,866 - INFO - Extracted: Lenovo ThinkPad: 94600.0 DZD
+2026-01-27 16:42:35,866 - INFO - Extracted: AirPods Pro: 47400.0 DZD
+2026-01-27 16:42:35,866 - INFO - Extracted: Phone Case Silicon: 1800.0 DZD
+2026-01-27 16:42:35,866 - INFO - Extracted: Sony WH-1000XM5: 65400.0 DZD
+2026-01-27 16:42:35,866 - INFO - Extracted: iPhone 13: 136900.0 DZD
+2026-01-27 16:42:35,866 - INFO - Extracted: Canon 445 Black: 2600.0 DZD
+2026-01-27 16:42:35,866 - INFO - Extracted: DJI Mavic 3: 350400.0 DZD
+2026-01-27 16:42:35,880 - INFO - Extracted: JBL Flip 6: 23500.0 DZD
+2026-01-27 16:42:35,880 - INFO - Extracted: HP VICTUS 15: 119700.0 DZD
+2026-01-27 16:42:35,881 - INFO - Extracted: HP 650 Black: 2900.0 DZD
+2026-01-27 16:42:35,881 - INFO - Extracted: Oppo Reno 8: 60200.0 DZD
+2026-01-27 16:42:35,883 - INFO - Extracted: SAMSUNG CHARGER 25W: 4200.0 DZD
+2026-01-27 16:42:37,883 - INFO - 
+Page 3/3: https://boughida.com/competitor/competitor_page_3.html
+2026-01-27 16:42:37,883 - INFO - ------------------------------------------------------------
+2026-01-27 16:42:37,883 - INFO - Fetching page: https://boughida.com/competitor/competitor_page_3.html
+2026-01-27 16:42:38,374 - INFO - Page successfully retrieved
+2026-01-27 16:42:38,374 - INFO - Found 12 potential product containers
+2026-01-27 16:42:38,374 - INFO - Extracted: MacBook Air M2: 190500.0 DZD
+2026-01-27 16:42:38,374 - INFO - Extracted: Canon Pixma: 11600.0 DZD
+2026-01-27 16:42:38,374 - INFO - Extracted: Canon EOS 4000D: 60200.0 DZD
+2026-01-27 16:42:38,374 - INFO - Extracted: JBL Tune 510BT: 11200.0 DZD
+2026-01-27 16:42:38,374 - INFO - Extracted: Screen Protector: 930.0 DZD
+2026-01-27 16:42:38,374 - INFO - Extracted: Custom Gaming PC: 300000.0 DZD
+2026-01-27 16:42:38,374 - INFO - Extracted: Samsung Odyssey G5: 46700.0 DZD
+2026-01-27 16:42:38,374 - INFO - Extracted: Realme GT3: 71700.0 DZD
+2026-01-27 16:42:38,390 - INFO - Extracted: iPhone 14 Pro: 212700.0 DZD
+2026-01-27 16:42:38,390 - INFO - Extracted: IPHONE 15 PRO MAX: 281500.0 DZD
+2026-01-27 16:42:38,390 - INFO - Extracted: Dell XPS 13 5G: 242700.0 DZD
+2026-01-27 16:42:38,391 - INFO - Extracted: Dell OptiPlex: 64400.0 DZD
+2026-01-27 16:42:38,391 - INFO - ============================================================
+2026-01-27 16:42:38,392 - INFO - Scraping completed: 38 total products
+2026-01-27 16:42:38,392 - INFO - ============================================================
+2026-01-27 16:42:38,394 - INFO - 
+Data saved to: data/extracted/competitor_prices.csv
+2026-01-27 16:42:38,394 - INFO - Statistics:
+2026-01-27 16:42:38,394 - INFO -   Total products: 38
+2026-01-27 16:42:38,394 - INFO -   Average price: 89032.37 DZD
+2026-01-27 16:42:38,394 - INFO -   Price range: 930 - 350400 DZD
+2026-01-27 16:42:38,394 - INFO - 
+======================================================================
+2026-01-27 16:42:38,394 - INFO - COMPETITOR PRICE EXTRACTION COMPLETED
+2026-01-27 16:42:38,394 - INFO - 38 products available for analysis
+2026-01-27 16:42:38,394 - INFO - ======================================================================

@@ -1,12 +1,9 @@
-# ====================================================================
-# DÉPENDANCES PYTHON - PROJET TECHSTORE BI
-# ====================================================================
 
 # Data manipulation et analyse
 pandas>=2.0.0
 numpy>=1.26.2
 
-# Connexion bases de données
+# Connexion bases de donnees
 mysql-connector-python==8.2.0
 
 # Web scraping
@@ -19,7 +16,6 @@ pytesseract==0.3.10
 Pillow==10.1.0
 opencv-python==4.8.1.78
 
-
 # Sentiment Analysis
 vaderSentiment==3.3.2
 
@@ -31,10 +27,9 @@ plotly==5.18.0
 openpyxl==3.1.2
 python-dateutil==2.8.2
 
-# Développement et debugging (optionnel)
+# Developpement et debugging (optionnel)
 jupyter==1.0.0
 ipykernel==6.27.1
-
 
 fuzzywuzzy>=0.18.0
 python-Levenshtein>=0.21.0
