@@ -1,6 +1,6 @@
 Source_File,Date,Order_Reference,Customer_ID,Customer_Name,Product_Name,Quantity,Unit_Price,Total_Revenue
 order_001.jpg,2022-09-22,ORD-5073,C1001,Sami Oukil,HP Victus 15,2,125000.0,250000.0
-order_002.jpg,2022-02-20,,C1003,Meriem Bouzid,MacBook Alr M2,1,195000.0,195000.0
+order_002.jpg,2022-01-20,ORD-5421,C1003,Meriem Bouzid,MacBook Air M2,1,195000.0,195000.0
 order_003.jpg,2022-06-01,ORD-8447,C1004,Amine Rahmani,Samsung S23 Ultra,3,185000.0,555000.0
 order_004.jpg,2022-10-27,ORD-7940,C1025,Houda Mekki,iPhone 14 Pro,3,230000.0,690000.0
 order_005.jpg,2022-02-27,ORD-3931,C1002,Sofiane Khelifa,Dell XPS 13,2,260000.0,520000.0
