@@ -1,7 +1,3 @@
-"""
-Database Connector for TechStore Data Warehouse
-Handles SQLite connections and query execution
-"""
 
 import sqlite3
 import pandas as pd
@@ -10,7 +6,6 @@ from typing import Optional, Tuple, List, Any
 
 
 class DatabaseConnector:
-    """Thread-safe database connector for TechStore Data Warehouse"""
     
     def __init__(self, db_path: Optional[str] = None):
         """
@@ -20,7 +15,6 @@ class DatabaseConnector:
             db_path: Path to SQLite database file. If None, uses default path.
         """
         if db_path is None:
-            # Default path: src/database/techstore_dw.db
             base_dir = Path(__file__).parent.parent.parent
             db_path = base_dir / 'database' / 'techstore_dw.db'
         
@@ -28,8 +22,6 @@ class DatabaseConnector:
         
         if not self.db_path.exists():
             raise FileNotFoundError(f"Database not found at: {self.db_path}")
-        
-        # Test connection
         self._test_connection()
     
     def _test_connection(self):
@@ -55,7 +47,7 @@ class DatabaseConnector:
             sqlite3.Connection object
         """
         conn = sqlite3.connect(str(self.db_path), check_same_thread=False)
-        conn.row_factory = sqlite3.Row  # Enable column access by name
+        conn.row_factory = sqlite3.Row 
         return conn
     
     def execute_query(self, query: str, params: Optional[Tuple] = None) -> pd.DataFrame:

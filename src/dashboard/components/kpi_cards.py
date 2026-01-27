@@ -1,10 +1,15 @@
-"""
-KPI Cards Component for TechStore Dashboard
-Displays key performance indicators
-"""
-
 import streamlit as st
 from typing import Dict
+from pathlib import Path
+import sys
+
+sys.path.append(str(Path(__file__).parent.parent.parent / 'scripts'))
+from sql_queries import (
+    QUERY_TOTAL_REVENUE,
+    QUERY_NET_PROFIT,
+    get_target_achievement_query,
+    get_avg_sentiment_global_query
+)
 
 
 def display_kpi_row(kpi_data: Dict[str, float]):
@@ -23,7 +28,7 @@ def display_kpi_row(kpi_data: Dict[str, float]):
     
     with col1:
         st.metric(
-            label="💰 Total Revenue",
+            label=" Total Revenue",
             value=f"{kpi_data.get('total_revenue', 0):,.2f} DZD",
             delta=None
         )
@@ -32,7 +37,7 @@ def display_kpi_row(kpi_data: Dict[str, float]):
         profit = kpi_data.get('net_profit', 0)
         profit_color = "normal" if profit >= 0 else "inverse"
         st.metric(
-            label="📈 Net Profit",
+            label=" Net Profit",
             value=f"{profit:,.2f} DZD",
             delta=None,
             delta_color=profit_color
@@ -43,7 +48,7 @@ def display_kpi_row(kpi_data: Dict[str, float]):
         delta_text = f"{achievement:.1f}% of target"
         delta_color = "normal" if achievement >= 100 else "inverse"
         st.metric(
-            label="🎯 Target Achievement",
+            label=" Target Achievement",
             value=f"{achievement:.1f}%",
             delta=delta_text,
             delta_color=delta_color
@@ -53,7 +58,6 @@ def display_kpi_row(kpi_data: Dict[str, float]):
         sentiment = kpi_data.get('avg_sentiment', 0)
         sentiment_emoji = "😊" if sentiment > 0.3 else "😐" if sentiment > 0 else "😞"
         
-        # Determine sentiment label
         if sentiment >= 0.5:
             sentiment_label = "Very Positive"
         elif sentiment >= 0.2:
@@ -75,7 +79,7 @@ def display_kpi_row(kpi_data: Dict[str, float]):
 
 def fetch_global_kpis(db_connector):
     """
-    Fetch global KPIs from database (without filters)
+    Fetch global KPIs from database (without filters) - USES sql_queries.py
     
     Args:
         db_connector: DatabaseConnector instance
@@ -84,43 +88,13 @@ def fetch_global_kpis(db_connector):
         Dictionary with KPI values
     """
     kpis = {}
-    
-    # Total Revenue
-    query_revenue = """
-    SELECT ROUND(SUM(Total_Revenue), 2) as Total_Revenue 
-    FROM Fact_Sales
-    """
-    result = db_connector.execute_query(query_revenue)
+    result = db_connector.execute_query(QUERY_TOTAL_REVENUE)
     kpis['total_revenue'] = float(result['Total_Revenue'].iloc[0]) if result['Total_Revenue'].iloc[0] is not None else 0
-    
-    # Net Profit
-    query_profit = """
-    SELECT ROUND(SUM(Net_Profit), 2) as Net_Profit 
-    FROM Fact_Sales
-    """
-    result = db_connector.execute_query(query_profit)
+    result = db_connector.execute_query(QUERY_NET_PROFIT)
     kpis['net_profit'] = float(result['Net_Profit'].iloc[0]) if result['Net_Profit'].iloc[0] is not None else 0
-    
-    # Target Achievement (using Annual_Target from Dim_Store)
-    query_target = """
-    SELECT 
-        ROUND(SUM(fs.Total_Revenue), 2) as Actual_Sales,
-        ROUND(SUM(ds.Annual_Target), 2) as Annual_Target,
-        ROUND((SUM(fs.Total_Revenue) * 100.0 / NULLIF(SUM(ds.Annual_Target), 0)), 2) as Achievement_Percentage
-    FROM Fact_Sales fs
-    JOIN Dim_Store ds ON fs.Store_ID = ds.Store_ID
-    WHERE ds.Annual_Target IS NOT NULL
-    """
-    result = db_connector.execute_query(query_target)
+    result = db_connector.execute_query(get_target_achievement_query())
     kpis['target_achievement'] = float(result['Achievement_Percentage'].iloc[0]) if result['Achievement_Percentage'].iloc[0] is not None else 0
-    
-    # Average Sentiment Score
-    query_sentiment = """
-    SELECT ROUND(AVG(Sentiment_Score), 3) as Avg_Sentiment
-    FROM Dim_Product
-    WHERE Sentiment_Score IS NOT NULL
-    """
-    result = db_connector.execute_query(query_sentiment)
+    result = db_connector.execute_query(get_avg_sentiment_global_query())
     kpis['avg_sentiment'] = float(result['Avg_Sentiment'].iloc[0]) if result['Avg_Sentiment'].iloc[0] is not None else 0
     
     return kpis

@@ -12,7 +12,7 @@ from datetime import datetime
 from pathlib import Path
 
 class InvoiceOCRProcessor:
-    """Enhanced OCR processor with precise invoice structure parsing"""
+    
     
     def __init__(self, invoices_directory='Data/legacy_invoices', debug=False):
         """
@@ -26,24 +26,17 @@ class InvoiceOCRProcessor:
         self.extracted_data = []
         self.debug = debug
         
-        # Setup logging with proper encoding
         self._setup_logging()
-        
-        # Configure Tesseract path - AUTO DETECT
         self._configure_tesseract()
     
     def _configure_tesseract(self):
-        """Configure Tesseract OCR path for cross-platform compatibility"""
         try:
-            # First, try to auto-detect Tesseract (most reliable)
             tesseract_path = shutil.which('tesseract')
             
             if tesseract_path:
-                # Found in PATH
                 pytesseract.pytesseract.tesseract_cmd = tesseract_path
                 logging.info(f"Tesseract found in PATH: {tesseract_path}")
             else:
-                # Try common installation paths
                 common_paths = []
                 
                 # Windows paths
@@ -61,42 +54,29 @@ class InvoiceOCRProcessor:
                         '/usr/local/bin/tesseract',
                         '/opt/homebrew/bin/tesseract',
                     ]
-                
-                # Try each path
                 for path in common_paths:
                     if os.path.exists(path):
                         pytesseract.pytesseract.tesseract_cmd = path
                         logging.info(f"Tesseract found at: {path}")
                         return
-                
-                # If still not found, try environment variable
                 env_path = os.environ.get('TESSERACT_PATH')
                 if env_path and os.path.exists(env_path):
                     pytesseract.pytesseract.tesseract_cmd = env_path
                     logging.info(f"Tesseract found via TESSERACT_PATH: {env_path}")
                     return
-                
-                # Final fallback: use without explicit path
+
                 logging.warning("Tesseract not found in common locations. Will try without explicit path.")
                 
         except Exception as e:
             logging.warning(f"Could not configure Tesseract: {e}. Will try without explicit path.")
     
     def _setup_logging(self):
-        """Setup logging with UTF-8 encoding support"""
-        # Remove any existing handlers
         for handler in logging.root.handlers[:]:
             logging.root.removeHandler(handler)
-        
-        # Create console handler
         console_handler = logging.StreamHandler(sys.stdout)
         console_handler.setLevel(logging.INFO)
-        
-        # Use simple formatter
         formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
         console_handler.setFormatter(formatter)
-        
-        # Configure root logger
         logging.basicConfig(
             level=logging.INFO,
             handlers=[console_handler]
@@ -213,8 +193,6 @@ class InvoiceOCRProcessor:
                 'Unit_Price': None,
                 'Total_Revenue': None
             }
-            
-            # Process line by line
             for i, line in enumerate(lines):
                 
                 # Extract Date
@@ -363,8 +341,6 @@ class InvoiceOCRProcessor:
         logging.info("="*70)
         logging.info("STARTING OCR INVOICE PROCESSING")
         logging.info("="*70)
-        
-        # Convert to absolute path
         invoices_dir = os.path.abspath(self.invoices_directory)
         
         if not os.path.exists(invoices_dir):
@@ -414,12 +390,9 @@ class InvoiceOCRProcessor:
         return df
     
     def save_to_csv(self, df, output_file='Data/extracted/legacy_sales.csv'):
-        """Save extracted data to CSV with proper encoding"""
         if df.empty:
             logging.warning("No data to save")
             return
-        
-        # Use absolute path
         output_path = Path(os.path.abspath(output_file))
         output_path.parent.mkdir(parents=True, exist_ok=True)
         
@@ -445,8 +418,6 @@ class InvoiceOCRProcessor:
         
         logging.info(f"\n[SUCCESS] Data saved to: {output_path}")
         logging.info("="*70)
-        
-        # Print preview
         print("\n" + "="*70)
         print("EXTRACTED DATA PREVIEW")
         print("="*70)
@@ -470,12 +441,10 @@ def main():
     print("\n" + "="*70)
     print("TECHSTORE LEGACY INVOICE OCR EXTRACTION")
     print("="*70 + "\n")
-    
-    # Set debug=True to see raw OCR output
+
     debug_mode = False
     
     try:
-        # Check if directory exists
         invoices_dir = 'Data/legacy_invoices'
         if not os.path.exists(invoices_dir):
             print(f"Directory '{invoices_dir}' not found.")

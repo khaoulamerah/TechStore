@@ -12,7 +12,7 @@ from pathlib import Path
 
 print("="*70)
 print("TECHSTORE DATA WAREHOUSE - DATABASE LOADING")
-print("Star Schema: 1 Fact Table + 4 Dimension Tables + Marketing ROI")
+print("Star Schema: 1 Fact Table + 4 Dimension Tables")
 print("="*70)
 
 # ============================================
@@ -40,18 +40,11 @@ db_path = database_dir / 'techstore_dw.db'
 print("\n[1/4] Loading transformed Star Schema files...")
 
 try:
-    dim_customer_raw = pd.read_csv(transformed_dir / 'Dim_Customer.csv')  # Capital D and C
+    dim_customer_raw = pd.read_csv(transformed_dir / 'Dim_Customer.csv')
     dim_date_raw = pd.read_csv(transformed_dir / 'Dim_Date.csv')
     dim_product_raw = pd.read_csv(transformed_dir / 'Dim_Product.csv')
     dim_store_raw = pd.read_csv(transformed_dir / 'Dim_Store.csv')
     fact_sales_raw = pd.read_csv(transformed_dir / 'Fact_Sales.csv')
-
-    marketing_roi_raw = None
-    try:
-        marketing_roi_raw = pd.read_csv(transformed_dir / 'marketing_roi.csv')
-        print(f"  Marketing_ROI: {len(marketing_roi_raw):,} rows loaded")
-    except FileNotFoundError:
-        print("  Marketing_ROI.csv not found (optional - skipping)")
     
     print(f"  Dim_Customer: {len(dim_customer_raw):,} rows loaded")
     print(f"  Dim_Date: {len(dim_date_raw):,} rows loaded")
@@ -79,8 +72,6 @@ dim_date_raw = standardize_columns(dim_date_raw)
 dim_product_raw = standardize_columns(dim_product_raw)
 dim_store_raw = standardize_columns(dim_store_raw)
 fact_sales_raw = standardize_columns(fact_sales_raw)
-if marketing_roi_raw is not None:
-    marketing_roi_raw = standardize_columns(marketing_roi_raw)
 
 # Map CSV columns to database schema
 Dim_Customer = dim_customer_raw.rename(columns={
@@ -152,18 +143,6 @@ Fact_Sales = fact_sales_raw.rename(columns={
     'Quantity', 'Total_Revenue', 'Product_Cost', 'Shipping_Cost',
     'Marketing_Cost', 'Net_Profit'
 ]]
-
-Marketing_ROI = None
-if marketing_roi_raw is not None:
-    Marketing_ROI = marketing_roi_raw.rename(columns={
-        'category': 'Category',
-        'month': 'Month',
-        'total_revenue': 'Total_Revenue',
-        'marketing_cost': 'Marketing_Cost',
-        'roi_percent': 'ROI_Percent'
-    })[[
-        'Category', 'Month', 'Total_Revenue', 'Marketing_Cost', 'ROI_Percent'
-    ]]
 
 print("  Column mapping completed")
 
@@ -254,19 +233,6 @@ CREATE TABLE Fact_Sales (
 ''')
 print("    Fact_Sales created")
 
-cursor.execute('''
-CREATE TABLE Marketing_ROI (
-    ROI_ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    Category TEXT NOT NULL,
-    Month TEXT NOT NULL,
-    Total_Revenue REAL,
-    Marketing_Cost REAL,
-    ROI_Percent REAL,
-    UNIQUE(Category, Month)
-)
-''')
-print("    Marketing_ROI created")
-
 conn.commit()
 
 # ============================================
@@ -291,11 +257,6 @@ print("  Loading fact table...")
 Fact_Sales.to_sql('Fact_Sales', conn, if_exists='append', index=False)
 print(f"    Fact_Sales: {len(Fact_Sales):,} rows inserted")
 
-if Marketing_ROI is not None:
-    print("  Loading Marketing_ROI analytical table...")
-    Marketing_ROI.to_sql('Marketing_ROI', conn, if_exists='append', index=False)
-    print(f"    Marketing_ROI: {len(Marketing_ROI):,} rows inserted")
-
 conn.commit()
 print("\n  All data loaded successfully!")
 
@@ -307,8 +268,6 @@ print("\n[Verification] Checking database integrity...")
 print("\n  Table Row Counts:")
 print("  " + "-"*60)
 all_tables = ['Dim_Date', 'Dim_Product', 'Dim_Store', 'Dim_Customer', 'Fact_Sales']
-if Marketing_ROI is not None:
-    all_tables.append('Marketing_ROI')
 
 for table in all_tables:
     count = pd.read_sql(f"SELECT COUNT(*) as cnt FROM {table}", conn)['cnt'][0]
@@ -388,16 +347,12 @@ print(f"Products: {summary['Unique_Products'][0]}")
 print(f"Customers: {summary['Unique_Customers'][0]}")
 print(f"Transactions: {summary['Total_Transactions'][0]:,}")
 
-if Marketing_ROI is not None:
-    roi_count = pd.read_sql("SELECT COUNT(*) as cnt FROM Marketing_ROI", 
-                           sqlite3.connect(db_path))['cnt'][0]
-    print(f"Marketing ROI Records: {roi_count:,}")
-
 print("\n" + "="*70)
-print("NEXT STEPS")
+print("STAR SCHEMA TABLES (5)")
 print("="*70)
-print("1. Database is ready for dashboard development (Member 4)")
-print("2. Test your SQL queries: python test_queries.py")
-print("3. Take screenshots for your report")
-print("4. Share techstore_dw.db with your Dashboard Developer")
+print("1. Fact_Sales (Fact Table)")
+print("2. Dim_Date (Time Dimension)")
+print("3. Dim_Product (Product Dimension)")
+print("4. Dim_Store (Store Dimension)")
+print("5. Dim_Customer (Customer Dimension)")
 print("="*70)
